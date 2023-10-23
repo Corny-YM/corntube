@@ -33,7 +33,15 @@ button {
 a {
   text-decoration: none !important;
   outline: none;
-  color: initial;
+  color: inherit;
+}
+
+.video-description {
+  font-weight: 500;
+  & a {
+    color: #1677ff;
+    font-weight: normal;
+  }
 }
 
 p {

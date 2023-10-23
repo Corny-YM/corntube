@@ -1,37 +1,51 @@
 <script setup lang="ts">
-defineProps<{ detail?: boolean; playlist?: boolean }>()
+import { ITrending } from '@/api/model/piped'
+import { formatViews, formatDuration } from '@/utils'
+
+const props = defineProps<{
+  video: ITrending
+  detail?: boolean
+  playlist?: boolean
+}>()
+
+const videoViews = computed(() => formatViews(props.video.views))
+const duration = computed(() => formatDuration(props.video.duration))
 </script>
 
 <template>
-  <div class="w-fit center flex-col mx-2 mb-7 rounded-xl cursor-pointer">
+  <a
+    :href="video.url"
+    class="w-full flex flex-col px-2 mb-7 rounded-xl cursor-pointer"
+  >
     <!-- IMG -->
-    <div class="flex justify-center rounded-xl overflow-hidden">
-      <a-image
-        :preview="false"
-        src="https://i.ytimg.com/vi/iCKWkULdBRI/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBdm8eRQ0GXuORLGNoTLIq9qKit9Q"
-      />
+    <div class="relative flex justify-center rounded-xl overflow-hidden">
+      <img :src="video.thumbnail" class="w-full h-full" loading="lazy" />
+      <a-tag class="absolute bg-slate-300 font-medium bottom-2 right-0">
+        {{ duration }}
+      </a-tag>
     </div>
 
     <!-- INFO -->
     <div class="flex items-center mt-3">
       <div v-if="detail" class="h-full mr-3">
-        <a-avatar
-          class="center w-9 h-9"
-          src="https://i.pravatar.cc/150?img=3"
-        />
+        <a-avatar class="center w-9 h-9" :src="video.uploaderAvatar" />
       </div>
       <div class="flex flex-col">
         <!-- title content -->
         <div class="title-video">
-          Future Mcdonald's Employee?!?! BUT WE FEEDING THIS UDYR! - Trick2g
+          <a-tooltip :title="video.title">
+            {{ video.title }}
+          </a-tooltip>
         </div>
         <!-- channel -->
-        <div v-if="detail">Spider-Menace</div>
+        <div v-if="detail" class="text-sm">{{ video.uploaderName }}</div>
         <!-- detail -->
-        <div class="">537 N lượt xem • 11 tháng trước</div>
+        <div class="text-sm">
+          {{ videoViews }} lượt xem • {{ video.uploadedDate }}
+        </div>
       </div>
     </div>
-  </div>
+  </a>
 </template>
 
 <style lang="scss" scoped></style>

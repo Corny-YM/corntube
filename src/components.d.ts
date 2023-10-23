@@ -17,6 +17,7 @@ declare module 'vue' {
     AComment: typeof import('ant-design-vue/es')['Comment']
     ADivider: typeof import('ant-design-vue/es')['Divider']
     ADropdown: typeof import('ant-design-vue/es')['Dropdown']
+    AEmpty: typeof import('ant-design-vue/es')['Empty']
     AImage: typeof import('ant-design-vue/es')['Image']
     AInput: typeof import('ant-design-vue/es')['Input']
     AInputSearch: typeof import('ant-design-vue/es')['InputSearch']
@@ -28,6 +29,7 @@ declare module 'vue' {
     AMenu: typeof import('ant-design-vue/es')['Menu']
     AMenuDivider: typeof import('ant-design-vue/es')['MenuDivider']
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
+    ASpin: typeof import('ant-design-vue/es')['Spin']
     ASwitch: typeof import('ant-design-vue/es')['Switch']
     ATabPane: typeof import('ant-design-vue/es')['TabPane']
     ATabs: typeof import('ant-design-vue/es')['Tabs']
@@ -60,5 +62,6 @@ declare module 'vue' {
     Video: typeof import('./components/Videos/Video.vue')['default']
     VideoItem: typeof import('./components/Videos/VideoItem.vue')['default']
     VideoList: typeof import('./components/Videos/VideoList.vue')['default']
+    Watch: typeof import('./components/Watch/index.vue')['default']
   }
 }
