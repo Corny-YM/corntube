@@ -15,7 +15,6 @@ const { isLoading } = useQuery({
   queryFn: () => getStreams(unref(videoId)),
   select(data) {
     streamsData.value = data
-    console.log(data)
   },
 })
 </script>

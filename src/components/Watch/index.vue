@@ -72,9 +72,7 @@ const videoSteams = computed(() => {
         </div>
 
         <div class="heading-comment">Comments</div>
-        <div>
-          <Comments />
-        </div>
+        <Comments />
       </div>
     </div>
 

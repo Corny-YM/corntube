@@ -15,6 +15,29 @@ export interface ITrending {
   isShort: boolean
 }
 
+export interface IComments {
+  comments: IComment[]
+  nextpage: string
+  disabled: boolean
+  commentCount: number
+}
+export interface IComment {
+  author: string
+  thumbnail: string
+  commentId: string
+  commentText: string
+  commentedTime: string
+  commentorUrl: string
+  repliesPage: null | string
+  likeCount: number
+  replyCount: number
+  hearted: boolean
+  pinned: boolean
+  verified: boolean
+  creatorReplied: boolean
+  channelOwner: boolean
+}
+
 export interface IStreams {
   title: string
   description: string
