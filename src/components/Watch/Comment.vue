@@ -17,22 +17,27 @@ defineProps<{
 }>()
 
 const refComment = ref<HTMLDivElement | null>(null)
+const repliesPage = ref('')
 const isFull = ref(false)
 </script>
 
 <template>
   <a-comment class="w-full">
-    <slot name="reply"></slot>
-    <a-button
-      v-if="!isChildren && content.replyCount > 0"
-      type="text"
-      shape="round"
-    >
-      <div class="center gap-2">
-        <CaretRightOutlined />
-        {{ formatViews(content.replyCount) }} phản hồi
-      </div>
-    </a-button>
+    <div class="flex flex-col">
+      <a-button
+        v-if="!isChildren && content.replyCount > 0"
+        type="text"
+        shape="round"
+        class="w-fit"
+        @click="repliesPage = content.repliesPage!"
+      >
+        <div class="center gap-2">
+          <CaretRightOutlined />
+          {{ formatViews(content.replyCount) }} phản hồi
+        </div>
+      </a-button>
+      <slot name="reply"> <CommentReplies /> </slot>
+    </div>
 
     <!-- Like & Dislike -->
     <template #actions>
@@ -82,14 +87,15 @@ const isFull = ref(false)
 
     <!-- Date -->
     <template #datetime>
-      <div class="h-full center text-darkTitle">4 weeks ago</div>
+      <div class="h-full center text-darkTitle">
+        {{ content.commentedTime }}
+      </div>
     </template>
   </a-comment>
 </template>
 
 <style scoped lang="scss">
 .comment-content {
-  max-height: 160px;
   display: -webkit-inline-box;
   -webkit-box-orient: vertical;
   overflow: hidden;

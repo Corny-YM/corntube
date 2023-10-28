@@ -41,6 +41,7 @@ declare module 'vue' {
     Avatar: typeof import('./components/Avatar.vue')['default']
     Channel: typeof import('./components/Channel/index.vue')['default']
     Comment: typeof import('./components/Watch/Comment.vue')['default']
+    CommentReplies: typeof import('./components/Watch/CommentReplies.vue')['default']
     Comments: typeof import('./components/Watch/Comments.vue')['default']
     copy: typeof import('./components/Channel/Tabs/TabShorts copy.vue')['default']
     Detail: typeof import('./components/Watch/Detail.vue')['default']

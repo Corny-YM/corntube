@@ -11,3 +11,16 @@ export const getStreams = (id: any): Promise<IStreams> =>
 
 export const getComments = (id: any): Promise<IComments> =>
   pipedAxios.get(`/comments/${id}`)
+
+export const getMoreComments = ({
+  id,
+  nextpage,
+}: {
+  id: any
+  nextpage: string
+}): Promise<IComments> =>
+  pipedAxios.get(`/nextpage/comments/${id}`, {
+    params: {
+      nextpage,
+    },
+  })
