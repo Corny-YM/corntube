@@ -25,7 +25,6 @@ const { mutate, isPending } = useMutation({
   mutationKey: ['nextpage', 'comments'],
   mutationFn: getMoreComments,
   onSuccess(data) {
-    console.log(data)
     dataComment.value = [...unref(dataComment), ...data.comments]
     dataNextPage.value = data.nextpage
   },

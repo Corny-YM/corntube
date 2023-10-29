@@ -3,22 +3,33 @@ import dayjs from 'dayjs'
 import {
   LikeOutlined,
   DislikeOutlined,
-  CaretRightOutlined,
+  CaretDownOutlined,
 } from '@ant-design/icons-vue'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { formatViews } from '@/utils'
 import { IComment } from '@/api/model/piped'
+import { message } from 'ant-design-vue'
 
 dayjs.extend(relativeTime)
 
-defineProps<{
+const props = defineProps<{
   content: IComment
   isChildren?: boolean
 }>()
 
+const isFull = ref(false)
 const refComment = ref<HTMLDivElement | null>(null)
 const repliesPage = ref('')
-const isFull = ref(false)
+const isOpen = ref(false)
+
+const handleClick = () => {
+  if (!unref(repliesPage)) repliesPage.value = props.content.repliesPage!
+  isOpen.value = !unref(isOpen)
+}
+
+const handleLike = () => {
+  message.info('This feature is being update (*￣3￣)╭')
+}
 </script>
 
 <template>
@@ -29,30 +40,39 @@ const isFull = ref(false)
         type="text"
         shape="round"
         class="w-fit"
-        @click="repliesPage = content.repliesPage!"
+        @click="handleClick"
       >
         <div class="center gap-2">
-          <CaretRightOutlined />
+          <CaretDownOutlined
+            class="icon-caret-down"
+            :class="isOpen ? '-rotate-180' : ''"
+          />
           {{ formatViews(content.replyCount) }} phản hồi
         </div>
       </a-button>
-      <slot name="reply"> <CommentReplies /> </slot>
+      <slot name="reply">
+        <div class="reply-content" :class="isOpen ? 'show' : 'close'">
+          <CommentReplies :repliesPage="repliesPage" />
+        </div>
+      </slot>
     </div>
 
     <!-- Like & Dislike -->
     <template #actions>
-      <span key="comment-basic-like">
+      <span key="comment-basic-like" @click="handleLike">
         <a-tooltip title="Like">
           <LikeOutlined />
         </a-tooltip>
         {{ formatViews(content.likeCount) }}
       </span>
-      <span key="comment-basic-dislike">
+      <span key="comment-basic-dislike" @click="handleLike">
         <a-tooltip title="Dislike">
           <DislikeOutlined />
         </a-tooltip>
       </span>
-      <span v-if="!isChildren" key="comment-basic-reply-to">Reply to</span>
+      <span v-if="!isChildren" key="comment-basic-reply-to" @click="handleLike">
+        Reply to
+      </span>
     </template>
 
     <!-- Author -->
@@ -103,6 +123,23 @@ const isFull = ref(false)
 
   &.showing {
     -webkit-line-clamp: unset;
+  }
+}
+
+.icon-caret-down {
+  transition: all 100ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reply-content {
+  transition: all 250ms ease-in-out;
+  overflow-y: hidden;
+  height: 100%;
+
+  &.show {
+    height: fit-content;
+  }
+  &.close {
+    height: 0px !important;
   }
 }
 </style>
