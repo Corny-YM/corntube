@@ -33,7 +33,7 @@ const handleLike = () => {
 </script>
 
 <template>
-  <a-comment class="w-full">
+  <a-comment v-if="!!content.author" class="w-full">
     <div class="flex flex-col">
       <a-button
         v-if="!isChildren && content.replyCount > 0"

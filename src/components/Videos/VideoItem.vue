@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ITrending } from '@/api/model/piped'
-import { formatViews, formatDuration } from '@/utils'
+import { formatViews, formatDuration, formatTimeAgoToVietnamese } from '@/utils'
 
 const props = defineProps<{
   video: ITrending
@@ -8,8 +8,11 @@ const props = defineProps<{
   playlist?: boolean
 }>()
 
-const videoViews = computed(() => formatViews(props.video.views))
-const duration = computed(() => formatDuration(props.video.duration))
+const duration = computed(() => formatDuration(props.video.duration!))
+const views = computed(() => formatViews(+props.video.views!))
+const date = computed(() =>
+  formatTimeAgoToVietnamese(props.video.uploadedDate!)
+)
 </script>
 
 <template>
@@ -40,9 +43,7 @@ const duration = computed(() => formatDuration(props.video.duration))
         <!-- channel -->
         <div v-if="detail" class="text-sm">{{ video.uploaderName }}</div>
         <!-- detail -->
-        <div class="text-sm">
-          {{ videoViews }} lượt xem • {{ video.uploadedDate }}
-        </div>
+        <div class="text-sm">{{ views }} lượt xem • {{ date }}</div>
       </div>
     </div>
   </a>

@@ -24,6 +24,26 @@ export const formatDuration = (duration: number) => {
   return `${HH}:${MM}:${SS}`
 }
 
+export const formatTimeAgoToVietnamese = (text: string) => {
+  const timeUnits: Record<string, string> = {
+    year: 'năm',
+    month: 'tháng',
+    week: 'tuần',
+    day: 'ngày',
+    hour: 'giờ',
+    minute: 'phút',
+    second: 'giây',
+  }
+  const regex = /(\d+)\s*(year|month|week|day|hour|minute|second)s?/g
+  const time = text
+    ?.replace(regex, (match, value, unit) => {
+      return `${value} ${timeUnits[unit]} trước`
+    })
+    .replace('ago', '')
+    .trim()
+  return time
+}
+
 export function formatDate(date: Date, format: string) {
   const hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
   const minutes =

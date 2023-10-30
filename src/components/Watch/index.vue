@@ -78,7 +78,7 @@ const videoSteams = computed(() => {
 
     <!-- List Videos -->
     <div class="w-[402px] min-w-[300px] pr-6">
-      <ListVideos />
+      <ListVideos :relatedStreams="data.relatedStreams" />
     </div>
   </div>
 </template>

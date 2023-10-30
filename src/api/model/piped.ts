@@ -60,17 +60,17 @@ export interface IStreams {
   likes: number
   dislikes: number
   uploaderSubscriberCount: number
-  audioStreams: OStream[]
-  videoStreams: OStream[]
-  relatedStreams: RelatedStream[]
-  subtitles: Subtitle[]
+  audioStreams: IOStream[]
+  videoStreams: IOStream[]
+  relatedStreams: IRelatedStream[]
+  subtitles: ISubtitle[]
   livestream: boolean
   proxyUrl: string
   chapters: any[]
-  previewFrames: PreviewFrame[]
+  previewFrames: IPreviewFrame[]
 }
 
-export interface OStream {
+export interface IOStream {
   url: string
   format: Format
   quality: string
@@ -109,7 +109,7 @@ export enum MIMEType {
   VideoWebm = 'video/webm',
 }
 
-export interface PreviewFrame {
+export interface IPreviewFrame {
   urls: string[]
   frameWidth: number
   frameHeight: number
@@ -119,7 +119,7 @@ export interface PreviewFrame {
   framesPerPageY: number
 }
 
-export interface RelatedStream {
+export interface IRelatedStream {
   url: string
   type: Type
   title?: string
@@ -144,7 +144,7 @@ export enum Type {
   Stream = 'stream',
 }
 
-export interface Subtitle {
+export interface ISubtitle {
   url: string
   mimeType: string
   name: string

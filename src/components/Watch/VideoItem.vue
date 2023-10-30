@@ -1,18 +1,30 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { IRelatedStream, Type } from '@/api/model/piped'
+import { formatDuration, formatViews, formatTimeAgoToVietnamese } from '@/utils'
+
+const props = defineProps<{
+  video: IRelatedStream
+}>()
+
+const duration = computed(() => formatDuration(props.video.duration!))
+const views = computed(() => formatViews(+props.video.views!))
+const date = computed(() =>
+  formatTimeAgoToVietnamese(props.video.uploadedDate!)
+)
+</script>
 
 <template>
-  <a
-    href="https://www.youtube.com/watch?v=xrucyTvoe3k&ab_channel=Trick2G"
-    class="video-item"
-  >
+  <a v-if="video.type !== Type.Playlist" :href="video.url" class="video-item">
     <!-- IMG -->
-    <div class="flex justify-center rounded-xl overflow-hidden mr-2">
-      <a-image
-        :preview="false"
-        width="320px"
-        height="94px"
-        src="https://i.ytimg.com/vi/iCKWkULdBRI/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBdm8eRQ0GXuORLGNoTLIq9qKit9Q"
-      />
+    <div
+      class="relative flex justify-center rounded-xl overflow-hidden min-w-[168px] h-24 mr-2"
+    >
+      <img :src="video.thumbnail" class="w-full h-full" loading="lazy" />
+      <a-tag
+        class="absolute rounded-md bg-slate-300 font-medium bottom-1 -right-1"
+      >
+        {{ duration }}
+      </a-tag>
     </div>
 
     <!-- INFO -->
@@ -20,12 +32,15 @@
       <div class="flex flex-col">
         <!-- title content -->
         <div class="title-video">
-          Future Mcdonald's Employee?!?! BUT WE FEEDING THIS UDYR! - Trick2g
+          {{ video.title }}
         </div>
         <!-- channel -->
-        <div class="mb-1 text-xs">Spider-Menace</div>
+        <div class="mb-1 text-xs">{{ video.uploaderName }}</div>
         <!-- detail -->
-        <div class="text-xs">537 N lượt xem • 11 tháng trước</div>
+        <div class="text-xs">
+          {{ views }} lượt xem •
+          {{ date }}
+        </div>
       </div>
     </div>
   </a>
