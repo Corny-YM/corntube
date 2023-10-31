@@ -12,6 +12,7 @@ const { isLoading } = useQuery({
     getTrending({
       region: 'VN',
     }),
+  refetchOnWindowFocus: false,
   select(data) {
     trendingData.value = data
   },

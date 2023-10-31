@@ -50,3 +50,4 @@ const date = computed(() =>
 </template>
 
 <style lang="scss" scoped></style>
+@/utils/format

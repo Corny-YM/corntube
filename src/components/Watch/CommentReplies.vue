@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { IComment } from '@/api/model/piped'
 import { getMoreComments } from '@/api/piped'
+import { messagePopup } from '@/utils'
 import { useMutation, useQuery } from '@tanstack/vue-query'
-import { message } from 'ant-design-vue'
 
 const props = defineProps<{
   repliesPage: string
@@ -19,6 +19,7 @@ const dataNextPage = ref('')
 const { isLoading } = useQuery({
   enabled: enabled,
   queryKey: ['replies', videoId, replies],
+  refetchOnWindowFocus: false,
   queryFn: () =>
     getMoreComments({
       id: unref(videoId),
@@ -38,7 +39,7 @@ const { mutate, isPending } = useMutation({
     dataNextPage.value = data.nextpage
   },
   onError() {
-    message.error('Something went wrong. Sorry about that (～￣▽￣)～')
+    messagePopup({ type: 'error' })
   },
 })
 

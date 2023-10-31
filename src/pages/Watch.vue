@@ -13,6 +13,7 @@ const streamsData = ref<IStreams | null>(null)
 const { isLoading } = useQuery({
   queryKey: ['streams', videoId],
   queryFn: () => getStreams(unref(videoId)),
+  refetchOnWindowFocus: false,
   select(data) {
     streamsData.value = data
   },

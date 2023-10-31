@@ -6,9 +6,8 @@ import {
   CaretDownOutlined,
 } from '@ant-design/icons-vue'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { formatViews } from '@/utils'
+import { formatViews, messagePopup } from '@/utils'
 import { IComment } from '@/api/model/piped'
-import { message } from 'ant-design-vue'
 
 dayjs.extend(relativeTime)
 
@@ -28,7 +27,7 @@ const handleClick = () => {
 }
 
 const handleLike = () => {
-  message.info('This feature is being update (*￣3￣)╭')
+  messagePopup({ type: 'info' })
 }
 </script>
 
@@ -143,3 +142,4 @@ const handleLike = () => {
   }
 }
 </style>
+@/utils/format

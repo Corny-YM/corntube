@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { message } from 'ant-design-vue'
+import { messagePopup } from '@/utils'
 
 export const pipedAxios = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -13,7 +14,7 @@ pipedAxios.interceptors.response.use(
   (err) => {
     if (!err.response) throw err
     // const { status } = err.respons
-    message.error('Something went wrong with the API')
+    messagePopup({ title: 'Something went wrong with the API', type: 'error' })
     throw err
   }
 )
