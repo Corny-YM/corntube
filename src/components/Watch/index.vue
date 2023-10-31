@@ -21,9 +21,9 @@ const videoSteams = computed(() => {
   <div class="px-9 flex w-full h-full pt-6 justify-center overflow-auto">
     <!-- Content -->
     <div class="w-3/5 pr-6 mb-3">
-      <div class="center overflow-hidden rounded-xl mb-3">
+      <div class="center overflow-hidden rounded-xl mb-3 aspect-video bg-black">
         <video
-          class="w-full"
+          class="w-full h-full"
           ref="videoRef"
           :src="videoSteams.url"
           type="video/*"
@@ -33,7 +33,7 @@ const videoSteams = computed(() => {
 
       <!-- detail -->
       <div class="flex flex-col justify-center">
-        <div class="title mb-2">{{ data.title }}</div>
+        <div class="title mb-4">{{ data.title }}</div>
 
         <div class="flex justify-between items-center">
           <div class="center">
@@ -82,4 +82,10 @@ const videoSteams = computed(() => {
     </div>
   </div>
 </template>
-@/utils/format
+
+<style lang="scss" scoped>
+.title {
+  @apply text-sm sm:text-base md:text-lg;
+  @apply font-medium;
+}
+</style>
