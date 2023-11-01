@@ -18,7 +18,7 @@ const date = computed(() =>
 <template>
   <a
     :href="video.url"
-    class="w-full flex flex-col px-2 mb-7 rounded-xl cursor-pointer"
+    class="h-auto w-full flex flex-col px-2 mb-7 rounded-xl cursor-pointer"
   >
     <!-- IMG -->
     <div class="relative flex justify-center rounded-xl overflow-hidden">
@@ -31,9 +31,11 @@ const date = computed(() =>
     <!-- INFO -->
     <div class="flex items-center mt-3">
       <div v-if="detail" class="h-full mr-3">
-        <a-avatar class="center w-9 h-9" :src="video.uploaderAvatar" />
+        <router-link :to="`${video.uploaderUrl}`">
+          <a-avatar class="center w-9 h-9" :src="video.uploaderAvatar" />
+        </router-link>
       </div>
-      <div class="flex flex-col">
+      <div class="w-full flex flex-col justify-between">
         <!-- title content -->
         <div class="title-video">
           <a-tooltip :title="video.title">

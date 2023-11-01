@@ -1,9 +1,13 @@
 import axios from 'axios'
-import { message } from 'ant-design-vue'
 import { messagePopup } from '@/utils'
 
 export const pipedAxios = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
+})
+
+// Request
+pipedAxios.interceptors.request.use((config) => {
+  return config
 })
 
 // Response

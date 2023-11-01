@@ -18,7 +18,7 @@ const dataNextPage = ref('')
 
 const { isLoading } = useQuery({
   enabled: enabled,
-  queryKey: ['replies', videoId, replies],
+  queryKey: ['replies', unref(videoId), unref(replies)],
   refetchOnWindowFocus: false,
   queryFn: () =>
     getMoreComments({

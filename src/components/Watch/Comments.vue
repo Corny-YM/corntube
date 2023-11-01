@@ -14,7 +14,7 @@ const dataComment = ref<IComment[]>([])
 const dataNextPage = ref('')
 
 const { isLoading } = useQuery({
-  queryKey: ['comment', videoId],
+  queryKey: ['comment', unref(videoId)],
   queryFn: () => getComments(unref(videoId)),
   refetchOnWindowFocus: false,
   select(data) {

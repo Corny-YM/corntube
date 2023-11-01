@@ -7,12 +7,14 @@ import Watch from '@/components/Watch/index.vue'
 const route = useRoute()
 
 const videoId = computed(() => route.query.v)
+const enabled = computed(() => !!route.query.v)
 
 const streamsData = ref<IStreams | null>(null)
 
 const { isLoading } = useQuery({
-  queryKey: ['streams', videoId],
+  queryKey: ['streams', unref(videoId)],
   queryFn: () => getStreams(unref(videoId)),
+  enabled: !!unref(enabled),
   refetchOnWindowFocus: false,
   select(data) {
     streamsData.value = data

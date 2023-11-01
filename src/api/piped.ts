@@ -24,3 +24,6 @@ export const getMoreComments = ({
       nextpage,
     },
   })
+
+export const getChannel = (id: number | string): Promise<any> =>
+  pipedAxios.get(`/channel/${id}`)

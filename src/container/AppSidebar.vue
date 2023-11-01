@@ -142,7 +142,7 @@ const handleCloseSidebar = () => {
             </p>
 
             <!-- List subscribed -->
-            <div class="w-full h-fit flex flex-col gap-1">
+            <div class="w-full h-fit flex flex-col gap-1 mt-2">
               <div
                 v-for="subscribed in subscribedItem"
                 :key="subscribed.id"
@@ -203,12 +203,12 @@ const handleCloseSidebar = () => {
       :class="!isShowSidebar ? 'active' : ''"
     >
       <!-- MenuItem -->
-      <div class="flex flex-col px-2 py-3 w-full">
+      <div class="flex flex-col px-1 py-3 w-full">
         <router-link
           v-for="item in menuItem"
           :to="item.path"
           :key="item.path"
-          class="flex flex-col justify-center items-center gap-1 py-2 rounded-lg cursor-pointer hover:bg-lightHover"
+          class="flex flex-col justify-center items-center gap-1 p-2 rounded-lg cursor-pointer hover:bg-lightHover"
         >
           <div class="flex justify-center items-center">
             <component :is="item.icon" class="center w-6 h-6 text-2xl" />
