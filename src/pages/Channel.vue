@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query'
 import { getChannel } from '@/api/piped'
+import type { IChannel } from '@/api/model/piped'
 import ChannelHeader from '@/components/Channel/Header.vue'
 import ChannelTabs from '@/components/Channel/Tabs/index.vue'
 
 const route = useRoute()
 
 const channelId = computed(() => route.params.id.toString())
-const channelData = ref([])
+const channelData = ref<IChannel | null>(null)
 
 const { isLoading } = useQuery({
   queryKey: ['channel', unref(channelId)],
@@ -15,7 +16,6 @@ const { isLoading } = useQuery({
   enabled: !!unref(channelId),
   refetchOnWindowFocus: false,
   select(data) {
-    // TODO: handle data res & UI
     console.log(data)
     channelData.value = data
   },
@@ -26,23 +26,49 @@ const { isLoading } = useQuery({
   <div v-if="isLoading" class="w-full h-full center">
     <a-spin size="large" />
   </div>
-  <div v-else-if="!channelData || !channelData.length" class="h-full center">
+  <div
+    v-else-if="!channelData || !Object.keys(channelData).length"
+    class="h-full center"
+  >
     <a-empty description="Không tìm thấy dữ liệu" />
   </div>
-  <div class="w-full h-full overflow-y-auto">
+  <div v-else class="h-full flex flex-col items-center overflow-y-auto">
     <!-- Banner Picture -->
-    <div class="center">
-      <a-image
-        width="100%"
-        src="https://pipedproxy.kavin.rocks/v_1RuJiuBNSsxeunJJH8_X4GWCHjz13yxpizS4qgjajmrwQtvGaBKfpHZQjOrrU-VWP9Fa38Q5Q=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rw?host=yt3.googleusercontent.com"
-        :preview="false"
-      />
+    <div class="w-full center">
+      <a-image width="100%" :src="channelData.bannerUrl" :preview="false" />
     </div>
 
-    <!-- Channel Header -->
-    <ChannelHeader />
+    <div class="channel-content">
+      <!-- Channel Header -->
+      <ChannelHeader
+        :name="channelData.name"
+        :subscriber-count="channelData.subscriberCount"
+        :avatar="channelData.avatarUrl"
+        :verified="channelData.verified"
+      />
 
-    <!-- Tabs -->
-    <ChannelTabs />
+      <!-- Tabs -->
+      <ChannelTabs
+        :tabs="channelData.tabs"
+        :relatedStreams="channelData.relatedStreams"
+      />
+    </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.channel-content {
+  width: 100%;
+  padding: 0 16px;
+
+  @media (min-width: 860px) {
+    width: 91.666667%;
+    padding: 0;
+  }
+
+  @media (min-width: 1024px) {
+    width: 83.333333%;
+    padding: 0;
+  }
+}
+</style>

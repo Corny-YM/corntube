@@ -1,18 +1,18 @@
 export interface ITrending {
-  url: string
-  type: string
-  title: string
+  duration: number
+  isShort: boolean
+  shortDescription: string
   thumbnail: string
+  title: string
+  type: Type
+  uploaded: number
+  uploadedDate: string
+  uploaderAvatar: string
   uploaderName: string
   uploaderUrl: string
-  uploaderAvatar: string
-  uploadedDate: string
-  shortDescription: string
-  duration: number
-  views: number
-  uploaded: number
   uploaderVerified: boolean
-  isShort: boolean
+  url: string
+  views: number
 }
 
 export interface IComments {
@@ -70,6 +70,23 @@ export interface IStreams {
   previewFrames: IPreviewFrame[]
 }
 
+export interface IChannel {
+  id: string
+  name: string
+  avatarUrl: string
+  bannerUrl: string
+  description: string
+  nextpage: string
+  subscriberCount: number
+  verified: boolean
+  relatedStreams: ITrending[]
+  tabs: {
+    name: string
+    data: string
+  }[]
+}
+
+// Related IStreams====================================
 export interface IOStream {
   url: string
   format: Format
@@ -120,20 +137,20 @@ export interface IPreviewFrame {
 }
 
 export interface IRelatedStream {
-  url: string
-  type: Type
-  title?: string
+  duration?: number
+  isShort?: boolean
+  shortDescription?: null | string
   thumbnail: string
+  title?: string
+  type: Type
+  uploaded?: number
+  uploadedDate?: string
+  uploaderAvatar?: string
   uploaderName: string
   uploaderUrl: null | string
-  uploaderAvatar?: string
-  uploadedDate?: string
-  shortDescription?: null | string
-  duration?: number
-  views?: number
-  uploaded?: number
   uploaderVerified: boolean
-  isShort?: boolean
+  url: string
+  views?: number
   name?: string
   playlistType?: string
   videos?: number

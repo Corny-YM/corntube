@@ -30,7 +30,6 @@ const { mutate, isPending } = useMutation({
 
 const handleLoadMoreRelatedStream = () => {
   const selectedItem = randomItem(unref(dataRelatedStream))
-  // TODO random to take one video
   if (!selectedItem.url) return messagePopup({ type: 'error' })
   const videoId = selectedItem.url.split('=')[1]
   mutate(videoId)

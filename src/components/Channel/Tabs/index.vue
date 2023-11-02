@@ -1,38 +1,76 @@
 <script setup lang="ts">
+import { TabsProps } from 'ant-design-vue'
+import { ITrending } from '@/api/model/piped'
 import TabVideos from './TabVideos.vue'
 import TabShorts from './TabShorts.vue'
 import TabPlaylist from './TabPlaylist.vue'
 import TabChannel from './TabChannel.vue'
 import TabAbout from './TabAbout.vue'
 
-const activeTabKey = ref('video')
+defineProps<{
+  tabs: {
+    name: string
+    data: string
+  }[]
+  relatedStreams: ITrending[]
+}>()
+
+const mode = ref<TabsProps['tabPosition']>('top')
+
+const callback: TabsProps['onTabScroll'] = (val) => {
+  console.log(val)
+}
+
+const tabName = (name: string) => {
+  if (name === 'shorts') return 'Shorts'
+  if (name === 'playlists') return 'Danh sách phát'
+  if (name === 'channels') return 'Kênh'
+}
+
+const activeTabKey = ref('videos')
 </script>
 
 <template>
-  <div class="w-full px-24">
-    <a-tabs v-model:activeKey="activeTabKey" class="w-full" @tabScroll="">
-      <a-tab-pane key="video" class="font-medium">
-        <template #tab><div class="px-8 font-medium">Videos</div></template>
-        <TabVideos />
+  <div class="custom-tabs">
+    <a-tabs
+      v-model:activeKey="activeTabKey"
+      :tab-position="mode"
+      @tabScroll="callback"
+    >
+      <a-tab-pane key="videos" class="font-medium">
+        <template #tab><div class="tab-item font-medium">Videos</div></template>
+        <div
+          v-if="!relatedStreams || !relatedStreams.length"
+          class="w-full center"
+        >
+          <a-empty description="Kênh này chưa có video nào" />
+        </div>
+        <TabVideos v-else :videos="relatedStreams" />
       </a-tab-pane>
-      <a-tab-pane key="short" class="font-medium">
-        <template #tab><div class="px-8 font-medium">Shorts</div></template>
-        <TabShorts />
-      </a-tab-pane>
-      <a-tab-pane key="playlist" class="font-medium">
+
+      <!-- Generated Tab -->
+      <a-tab-pane v-for="tab in tabs" :key="tab.name">
         <template #tab>
-          <div class="px-8 font-medium">Danh sách phát</div>
+          <div class="tab-item font-medium">{{ tabName(tab.name) }}</div>
         </template>
-        <TabPlaylist />
+        <!-- TODO: calling api for tab -->
+        <TabShorts v-if="tab.name === 'shorts'" :data="tab.data" />
+        <TabPlaylist v-if="tab.name === 'playlists'" :data="tab.data" />
+        <TabChannel v-if="tab.name === 'channels'" :data="tab.data" />
       </a-tab-pane>
-      <a-tab-pane key="channel" class="font-medium">
-        <template #tab><div class="px-8 font-medium">Kênh</div></template>
-        <TabChannel />
-      </a-tab-pane>
+
       <a-tab-pane key="about" class="font-medium">
-        <template #tab><div class="px-8 font-medium">Giới thiệu</div></template>
+        <template #tab
+          ><div class="tab-item font-medium">Giới thiệu</div></template
+        >
         <TabAbout />
       </a-tab-pane>
     </a-tabs>
   </div>
 </template>
+
+<style scoped lang="scss">
+.tab-item {
+  @apply md:px-4 lg:px-8;
+}
+</style>

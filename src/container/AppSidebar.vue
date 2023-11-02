@@ -199,7 +199,7 @@ const handleCloseSidebar = () => {
 
     <div
       v-if="sidebar"
-      class="sidebar-collapse"
+      class="sidebar-collapse hidden md:block"
       :class="!isShowSidebar ? 'active' : ''"
     >
       <!-- MenuItem -->
@@ -208,7 +208,7 @@ const handleCloseSidebar = () => {
           v-for="item in menuItem"
           :to="item.path"
           :key="item.path"
-          class="flex flex-col justify-center items-center gap-1 p-2 rounded-lg cursor-pointer hover:bg-lightHover"
+          class="min-w-[76px] flex flex-col justify-center items-center gap-1 p-2 rounded-lg cursor-pointer hover:bg-lightHover"
         >
           <div class="flex justify-center items-center">
             <component :is="item.icon" class="center w-6 h-6 text-2xl" />

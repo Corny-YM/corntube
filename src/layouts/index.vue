@@ -23,7 +23,7 @@ onMounted(() => {
     <AppHeader v-model:is-show="isShow" />
     <div class="content flex h-full">
       <AppSidebar :sidebar="sidebar" v-model:is-show="isShow" />
-      <div class="flex-1" :class="sidebar ? 'pl-4' : ''">
+      <div class="flex-1" :class="sidebar ? 'xl:pl-4' : ''">
         <router-view></router-view>
       </div>
     </div>

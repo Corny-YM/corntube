@@ -16,10 +16,7 @@ const date = computed(() =>
 </script>
 
 <template>
-  <a
-    :href="video.url"
-    class="h-auto w-full flex flex-col px-2 mb-7 rounded-xl cursor-pointer"
-  >
+  <a :href="video.url" class="video-item">
     <!-- IMG -->
     <div class="relative flex justify-center rounded-xl overflow-hidden">
       <img :src="video.thumbnail" class="w-full h-full" loading="lazy" />
@@ -37,7 +34,7 @@ const date = computed(() =>
       </div>
       <div class="w-full flex flex-col justify-between">
         <!-- title content -->
-        <div class="title-video">
+        <div class="title-video" :class="!detail ? 'max-h-10' : 'max-h-11'">
           <a-tooltip :title="video.title">
             {{ video.title }}
           </a-tooltip>
@@ -45,11 +42,17 @@ const date = computed(() =>
         <!-- channel -->
         <div v-if="detail" class="text-sm">{{ video.uploaderName }}</div>
         <!-- detail -->
-        <div class="text-sm">{{ views }} lượt xem • {{ date }}</div>
+        <div class="font-normal" :class="!detail ? 'text-xs' : 'text-sm'">
+          {{ views }} lượt xem • {{ date }}
+        </div>
       </div>
     </div>
   </a>
 </template>
 
-<style lang="scss" scoped></style>
-@/utils/format
+<style lang="scss" scoped>
+.video-item {
+  @apply h-auto w-full flex flex-col px-2 mb-7 rounded-xl cursor-pointer;
+  color: initial;
+}
+</style>
