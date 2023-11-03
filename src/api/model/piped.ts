@@ -86,6 +86,13 @@ export interface IChannel {
   }[]
 }
 
+export interface ITabShort {
+  nextpage: string
+  content: IShort[]
+}
+
+export interface IShort extends ITrending {}
+
 // Related IStreams====================================
 export interface IOStream {
   url: string

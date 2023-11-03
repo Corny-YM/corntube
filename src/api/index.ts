@@ -16,9 +16,8 @@ pipedAxios.interceptors.response.use(
     return res.data
   },
   (err) => {
-    if (!err.response) throw err
-    // const { status } = err.respons
     messagePopup({ title: 'Something went wrong with the API', type: 'error' })
+    if (!err.response) throw err
     throw err
   }
 )

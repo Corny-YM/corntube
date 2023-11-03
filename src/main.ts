@@ -1,4 +1,4 @@
-import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
+import { VueQueryPlugin, QueryClient } from '@tanstack/vue-query'
 import { createPinia } from 'pinia'
 import Antd from 'ant-design-vue'
 
@@ -19,8 +19,8 @@ app.use(VueQueryPlugin, {
   queryClient: new QueryClient({
     defaultOptions: {
       queries: {
-        refetchOnWindowFocus: false,
         retry: false,
+        refetchOnWindowFocus: false,
       },
     },
   }),

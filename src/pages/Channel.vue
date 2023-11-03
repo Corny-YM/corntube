@@ -16,7 +16,6 @@ const { isLoading } = useQuery({
   enabled: !!unref(channelId),
   refetchOnWindowFocus: false,
   select(data) {
-    console.log(data)
     channelData.value = data
   },
 })
@@ -49,6 +48,7 @@ const { isLoading } = useQuery({
 
       <!-- Tabs -->
       <ChannelTabs
+        :channelId="channelData.id"
         :tabs="channelData.tabs"
         :relatedStreams="channelData.relatedStreams"
       />

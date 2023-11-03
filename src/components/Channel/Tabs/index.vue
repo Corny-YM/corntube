@@ -8,6 +8,7 @@ import TabChannel from './TabChannel.vue'
 import TabAbout from './TabAbout.vue'
 
 defineProps<{
+  channelId: string
   tabs: {
     name: string
     data: string
@@ -53,7 +54,6 @@ const activeTabKey = ref('videos')
         <template #tab>
           <div class="tab-item font-medium">{{ tabName(tab.name) }}</div>
         </template>
-        <!-- TODO: calling api for tab -->
         <TabShorts v-if="tab.name === 'shorts'" :data="tab.data" />
         <TabPlaylist v-if="tab.name === 'playlists'" :data="tab.data" />
         <TabChannel v-if="tab.name === 'channels'" :data="tab.data" />

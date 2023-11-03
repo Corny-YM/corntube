@@ -1,5 +1,11 @@
 import { pipedAxios } from './index'
-import { IChannel, IComments, IStreams, ITrending } from './model/piped'
+import {
+  IChannel,
+  IComments,
+  IStreams,
+  ITabShort,
+  ITrending,
+} from './model/piped'
 
 export const getTrending = (params?: any): Promise<ITrending[]> =>
   pipedAxios.get('/trending', {
@@ -25,5 +31,17 @@ export const getMoreComments = ({
     },
   })
 
-export const getChannel = (id: number | string): Promise<IChannel> =>
-  pipedAxios.get(`/channel/${id}`)
+export const getChannel = (
+  id: number | string,
+  params?: any
+): Promise<IChannel> =>
+  pipedAxios.get(`/channel/${id}`, {
+    params,
+  })
+
+export const getTabsData = (data: string): Promise<ITabShort> =>
+  pipedAxios.get('/channels/tabs', {
+    params: {
+      data,
+    },
+  })
