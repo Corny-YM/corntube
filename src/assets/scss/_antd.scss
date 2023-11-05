@@ -2,3 +2,26 @@
   padding-top: 16px !important;
   padding-bottom: 8px !important;
 }
+
+// Modal
+.ant-modal.tab-short-modal {
+  max-width: 380px;
+  display: inline-flex !important;
+  justify-content: center;
+  align-items: center;
+  height: 100% !important;
+  &.ant-modal .ant-modal-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content !important;
+    height: 95% !important;
+    padding: 0 !important;
+    overflow: hidden;
+
+    & .ant-modal-body {
+      width: fit-content;
+      height: 100%;
+    }
+  }
+}

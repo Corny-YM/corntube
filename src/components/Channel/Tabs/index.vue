@@ -18,14 +18,11 @@ defineProps<{
 
 const mode = ref<TabsProps['tabPosition']>('top')
 
-const callback: TabsProps['onTabScroll'] = (val) => {
-  console.log(val)
-}
-
 const tabName = (name: string) => {
   if (name === 'shorts') return 'Shorts'
   if (name === 'playlists') return 'Danh sách phát'
   if (name === 'channels') return 'Kênh'
+  if (name === 'livestreams') return 'Live streams'
 }
 
 const activeTabKey = ref('videos')
@@ -33,11 +30,7 @@ const activeTabKey = ref('videos')
 
 <template>
   <div class="custom-tabs">
-    <a-tabs
-      v-model:activeKey="activeTabKey"
-      :tab-position="mode"
-      @tabScroll="callback"
-    >
+    <a-tabs v-model:activeKey="activeTabKey" :tab-position="mode">
       <a-tab-pane key="videos" class="font-medium">
         <template #tab><div class="tab-item font-medium">Videos</div></template>
         <div
@@ -57,6 +50,7 @@ const activeTabKey = ref('videos')
         <TabShorts v-if="tab.name === 'shorts'" :data="tab.data" />
         <TabPlaylist v-if="tab.name === 'playlists'" :data="tab.data" />
         <TabChannel v-if="tab.name === 'channels'" :data="tab.data" />
+        <TabChannel v-if="tab.name === 'livestreams'" :data="tab.data" />
       </a-tab-pane>
 
       <a-tab-pane key="about" class="font-medium">

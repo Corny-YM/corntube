@@ -3,7 +3,6 @@ import { IShort } from '@/api/model/piped'
 
 const props = defineProps<{
   short: IShort
-  detail?: boolean
 }>()
 
 const emits = defineEmits<{
@@ -27,8 +26,6 @@ const handleClick = () => {
       <div class="flex flex-col">
         <!-- title content -->
         <div class="title-video">{{ short.title }}</div>
-        <!-- detail -->
-        <div v-if="detail" class="">738 N lượt xem</div>
       </div>
     </div>
   </div>

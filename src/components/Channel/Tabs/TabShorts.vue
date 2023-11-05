@@ -50,5 +50,10 @@ const openModal = (url: string) => {
       />
     </template>
   </VideoList>
+  <div v-if="dataNextPage" class="w-full center mb-4">
+    <a-button :type="true ? 'primary' : undefined" shape="round">
+      Tải thêm
+    </a-button>
+  </div>
   <TabShortsModal :key="shortUrl" v-model:open="open" :url="shortUrl" />
 </template>

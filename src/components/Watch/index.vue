@@ -11,9 +11,11 @@ import { formatViews, formatDate } from '@/utils'
 const props = defineProps<{
   data: IStreams
 }>()
-
-const videoSteams = computed(() => {
-  return props.data.videoStreams[0]
+const videoSrc = computed(() => {
+  const arrVideos = props.data?.videoStreams.filter((video) => !video.videoOnly)
+  const selectedVideo =
+    arrVideos?.sort((a, b) => parseInt(b.quality) - parseInt(a.quality)) || []
+  return selectedVideo[0]?.url
 })
 </script>
 
@@ -25,7 +27,7 @@ const videoSteams = computed(() => {
         <video
           class="w-full h-full"
           ref="videoRef"
-          :src="videoSteams.url"
+          :src="videoSrc"
           type="video/*"
           controls
         ></video>

@@ -15,7 +15,12 @@ defineProps<{
     <div class="flex pt-6 pb-1">
       <!-- avatar -->
       <div class="center mr-6">
-        <a-image class="rounded-full" :width="128" :src="avatar" />
+        <a-image
+          class="rounded-full"
+          :width="128"
+          :src="avatar"
+          :preview="false"
+        />
       </div>
       <div
         class="w-full flex flex-col sm:flex-row justify-center items-start sm:items-center"
