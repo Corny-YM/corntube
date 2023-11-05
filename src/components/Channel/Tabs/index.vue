@@ -13,8 +13,12 @@ defineProps<{
     name: string
     data: string
   }[]
+  nextpage: string
+  loading: boolean
   relatedStreams: ITrending[]
 }>()
+
+const emits = defineEmits(['click'])
 
 const mode = ref<TabsProps['tabPosition']>('top')
 
@@ -40,6 +44,16 @@ const activeTabKey = ref('videos')
           <a-empty description="Kênh này chưa có video nào" />
         </div>
         <TabVideos v-else :videos="relatedStreams" />
+        <div v-if="nextpage" class="w-full center mb-4">
+          <a-button
+            :loading="loading"
+            type="dashed"
+            shape="round"
+            @click="emits('click')"
+          >
+            Tải thêm
+          </a-button>
+        </div>
       </a-tab-pane>
 
       <!-- Generated Tab -->

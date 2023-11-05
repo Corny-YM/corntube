@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { useQuery } from '@tanstack/vue-query'
-import { getChannel } from '@/api/piped'
-import type { IChannel } from '@/api/model/piped'
+import { useMutation, useQuery } from '@tanstack/vue-query'
+import { getChannel, getNextDataChannel } from '@/api/piped'
+import type { IChannel, ITrending } from '@/api/model/piped'
 import ChannelHeader from '@/components/Channel/Header.vue'
 import ChannelTabs from '@/components/Channel/Tabs/index.vue'
+import { messagePopup } from '@/utils'
 
 const route = useRoute()
 
 const channelId = computed(() => route.params.id.toString())
 const channelData = ref<IChannel | null>(null)
+const relatedStreams = ref<ITrending[]>([])
+const nextPageData = ref('')
 
 const { isLoading } = useQuery({
   queryKey: ['channel', unref(channelId)],
@@ -17,8 +20,32 @@ const { isLoading } = useQuery({
   refetchOnWindowFocus: false,
   select(data) {
     channelData.value = data
+    relatedStreams.value = data.relatedStreams
+    nextPageData.value = data.nextpage
   },
 })
+
+const { mutate, isPending } = useMutation({
+  mutationKey: ['channel', 'nextpage'],
+  mutationFn: getNextDataChannel,
+  onSuccess(data) {
+    console.log(data)
+    relatedStreams.value = [...relatedStreams.value, ...data.relatedStreams]
+  },
+  onError(err) {
+    console.log(err)
+    messagePopup({ type: 'error' })
+  },
+})
+
+const handleNextDataChannel = () => {
+  if (unref(nextPageData)) {
+    mutate({
+      id: unref(channelId),
+      nextpage: unref(nextPageData),
+    })
+  }
+}
 </script>
 
 <template>
@@ -50,7 +77,10 @@ const { isLoading } = useQuery({
       <ChannelTabs
         :channelId="channelData.id"
         :tabs="channelData.tabs"
-        :relatedStreams="channelData.relatedStreams"
+        :relatedStreams="relatedStreams"
+        :nextpage="nextPageData"
+        :loading="isPending"
+        @click="handleNextDataChannel"
       />
     </div>
   </div>

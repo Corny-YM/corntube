@@ -39,6 +39,7 @@ defineProps({
   row-gap: 1.25rem;
   &.channel {
     grid-template-columns: repeat(5, minmax(0, 1fr));
+    padding-bottom: 0px;
   }
   &.short-list {
     grid-template-columns: repeat(5, minmax(0, 1fr));

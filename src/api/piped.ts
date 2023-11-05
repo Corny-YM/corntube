@@ -18,7 +18,7 @@ export const getStreams = (id: any): Promise<IStreams> =>
 export const getComments = (id: any): Promise<IComments> =>
   pipedAxios.get(`/comments/${id}`)
 
-export const getMoreComments = ({
+export const getNextDataComments = ({
   id,
   nextpage,
 }: {
@@ -37,6 +37,19 @@ export const getChannel = (
 ): Promise<IChannel> =>
   pipedAxios.get(`/channel/${id}`, {
     params,
+  })
+
+export const getNextDataChannel = ({
+  id,
+  nextpage,
+}: {
+  id: any
+  nextpage: string
+}): Promise<IChannel> =>
+  pipedAxios.get(`/nextpage/channel/${id}`, {
+    params: {
+      nextpage,
+    },
   })
 
 export const getTabsData = (data: string): Promise<ITabShort> =>

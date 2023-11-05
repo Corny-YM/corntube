@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Empty } from 'ant-design-vue'
 import { useMutation, useQuery } from '@tanstack/vue-query'
-import { getComments, getMoreComments } from '@/api/piped'
+import { getComments, getNextDataComments } from '@/api/piped'
 import { IComment } from '@/api/model/piped'
 import { messagePopup } from '@/utils'
 
@@ -25,7 +25,7 @@ const { isLoading } = useQuery({
 
 const { mutate, isPending } = useMutation({
   mutationKey: ['nextpage', 'comments'],
-  mutationFn: getMoreComments,
+  mutationFn: getNextDataComments,
   onSuccess(data) {
     dataComment.value = [...unref(dataComment), ...data.comments]
     dataNextPage.value = data.nextpage

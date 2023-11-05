@@ -51,7 +51,7 @@ const openModal = (url: string) => {
     </template>
   </VideoList>
   <div v-if="dataNextPage" class="w-full center mb-4">
-    <a-button :type="true ? 'primary' : undefined" shape="round">
+    <a-button type="dashed" shape="round">
       Tải thêm
     </a-button>
   </div>

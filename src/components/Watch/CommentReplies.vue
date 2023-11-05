@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { IComment } from '@/api/model/piped'
-import { getMoreComments } from '@/api/piped'
+import { getNextDataComments } from '@/api/piped'
 import { messagePopup } from '@/utils'
 import { useMutation, useQuery } from '@tanstack/vue-query'
 
@@ -21,7 +21,7 @@ const { isLoading } = useQuery({
   queryKey: ['replies', unref(videoId), unref(replies)],
   refetchOnWindowFocus: false,
   queryFn: () =>
-    getMoreComments({
+    getNextDataComments({
       id: unref(videoId),
       nextpage: unref(replies),
     }),
@@ -33,7 +33,7 @@ const { isLoading } = useQuery({
 
 const { mutate, isPending } = useMutation({
   mutationKey: ['nextpage', 'comments'],
-  mutationFn: getMoreComments,
+  mutationFn: getNextDataComments,
   onSuccess(data) {
     dataReplies.value = [...unref(dataReplies), ...data.comments]
     dataNextPage.value = data.nextpage
