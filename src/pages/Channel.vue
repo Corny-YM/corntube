@@ -5,6 +5,7 @@ import type { IChannel, ITrending } from '@/api/model/piped'
 import ChannelHeader from '@/components/Channel/Header.vue'
 import ChannelTabs from '@/components/Channel/Tabs/index.vue'
 import { messagePopup } from '@/utils'
+import NoAvatar from '@/assets/imgs/NoAvatar.png'
 
 const route = useRoute()
 
@@ -61,7 +62,12 @@ const handleNextDataChannel = () => {
   <div v-else class="h-full flex flex-col items-center overflow-y-auto">
     <!-- Banner Picture -->
     <div class="w-full center">
-      <a-image width="100%" :src="channelData.bannerUrl" :preview="false" />
+      <a-image
+        width="100%"
+        :src="channelData.bannerUrl"
+        :preview="false"
+        :fallback="NoAvatar"
+      />
     </div>
 
     <div class="channel-content">

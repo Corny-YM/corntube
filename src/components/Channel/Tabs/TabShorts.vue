@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getTabsData } from '@/api/piped'
-import type { IShort } from '@/api/model/piped'
+import type { IShort, ITabShort } from '@/api/model/piped'
 import { useQuery } from '@tanstack/vue-query'
 
 const props = defineProps<{
@@ -18,7 +18,7 @@ const shortUrl = ref('')
 const { isLoading } = useQuery({
   enabled: !!unref(channelId) && !!props.data,
   queryKey: ['shorts', unref(channelId), props.data],
-  queryFn: () => getTabsData(props.data),
+  queryFn: () => getTabsData<ITabShort>(props.data),
   select(data) {
     shortsData.value = data.content
     dataNextPage.value = data.nextpage

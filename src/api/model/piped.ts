@@ -91,6 +91,15 @@ export interface ITabShort {
   content: IShort[]
 }
 
+export interface ITabPlaylist {
+  nextpage: string
+  content: IPlaylist[]
+}
+
+export interface IPlaylist extends IDefaultStream {
+  videos: number
+}
+
 export interface IShort extends ITrending {}
 
 // Related IStreams====================================
@@ -143,24 +152,27 @@ export interface IPreviewFrame {
   framesPerPageY: number
 }
 
+interface IDefaultStream {
+  name: string
+  playlistType: string
+  thumbnail: string
+  type: Type
+  uploaderName: string
+  uploaderVerified: boolean
+  url: string
+}
+
 export interface IRelatedStream {
   duration?: number
   isShort?: boolean
   shortDescription?: null | string
   thumbnail: string
   title?: string
-  type: Type
   uploaded?: number
   uploadedDate?: string
   uploaderAvatar?: string
-  uploaderName: string
   uploaderUrl: null | string
-  uploaderVerified: boolean
-  url: string
   views?: number
-  name?: string
-  playlistType?: string
-  videos?: number
 }
 
 export enum Type {

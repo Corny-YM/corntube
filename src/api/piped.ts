@@ -52,9 +52,12 @@ export const getNextDataChannel = ({
     },
   })
 
-export const getTabsData = (data: string): Promise<ITabShort> =>
+export const getTabsData = <T>(data: string): Promise<T> =>
   pipedAxios.get('/channels/tabs', {
     params: {
       data,
     },
   })
+
+export const getPlaylistData = (id: string): Promise<any> =>
+  pipedAxios.get(`/playlists/${id}`)

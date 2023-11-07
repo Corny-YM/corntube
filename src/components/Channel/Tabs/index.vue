@@ -64,7 +64,7 @@ const activeTabKey = ref('videos')
         <TabShorts v-if="tab.name === 'shorts'" :data="tab.data" />
         <TabPlaylist v-if="tab.name === 'playlists'" :data="tab.data" />
         <TabChannel v-if="tab.name === 'channels'" :data="tab.data" />
-        <TabChannel v-if="tab.name === 'livestreams'" :data="tab.data" />
+        <TabLiveStreams v-if="tab.name === 'livestreams'" :data="tab.data" />
       </a-tab-pane>
 
       <a-tab-pane key="about" class="font-medium">

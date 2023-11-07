@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { formatViews } from '@/utils'
 import { CheckCircleFilled } from '@ant-design/icons-vue'
+import NoAvatar from '@/assets/imgs/NoAvatar.png'
 
 defineProps<{
   avatar: string
@@ -19,6 +20,7 @@ defineProps<{
           class="rounded-full"
           :width="128"
           :src="avatar"
+          :fallback="NoAvatar"
           :preview="false"
         />
       </div>
