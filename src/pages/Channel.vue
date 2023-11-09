@@ -84,6 +84,7 @@ const handleNextDataChannel = () => {
         :channelId="channelData.id"
         :tabs="channelData.tabs"
         :relatedStreams="relatedStreams"
+        :description="channelData.description"
         :nextpage="nextPageData"
         :loading="isPending"
         @click="handleNextDataChannel"

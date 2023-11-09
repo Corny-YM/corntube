@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { TabsProps } from 'ant-design-vue'
+import { htmlRender } from '@/utils/index'
 import { ITrending } from '@/api/model/piped'
 import TabVideos from './TabVideos.vue'
 import TabShorts from './TabShorts.vue'
 import TabPlaylist from './TabPlaylist.vue'
 import TabChannel from './TabChannel.vue'
-import TabAbout from './TabAbout.vue'
 
 defineProps<{
   channelId: string
@@ -13,9 +13,10 @@ defineProps<{
     name: string
     data: string
   }[]
+  relatedStreams: ITrending[]
+  description: string
   nextpage: string
   loading: boolean
-  relatedStreams: ITrending[]
 }>()
 
 const emits = defineEmits(['click'])
@@ -68,10 +69,10 @@ const activeTabKey = ref('videos')
       </a-tab-pane>
 
       <a-tab-pane key="about" class="font-medium">
-        <template #tab
-          ><div class="tab-item font-medium">Giới thiệu</div></template
-        >
-        <TabAbout />
+        <template #tab>
+          <div class="tab-item font-medium">Giới thiệu</div>
+        </template>
+        <span v-html="htmlRender(description)"></span>
       </a-tab-pane>
     </a-tabs>
   </div>

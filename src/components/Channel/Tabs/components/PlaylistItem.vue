@@ -14,7 +14,7 @@ const props = defineProps<{
     <div class="relative flex justify-center rounded-xl overflow-hidden">
       <a-image :preview="false" :src="playlist.thumbnail" />
       <div class="overlay-playlist">
-        <div class="text-slate-100 mb-1">
+        <div class="text-slate-100 mb-1 font-semibold">
           {{ formatViews(playlist.videos) }}
         </div>
         <UnorderedListOutlined class="text-xl text-slate-100" />

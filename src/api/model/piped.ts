@@ -90,17 +90,29 @@ export interface ITabShort {
   nextpage: string
   content: IShort[]
 }
-
 export interface ITabPlaylist {
   nextpage: string
   content: IPlaylist[]
+}
+export interface ITabChannel {
+  nextpage: string
+  content: IChannelContent[]
 }
 
 export interface IPlaylist extends IDefaultStream {
   videos: number
 }
-
 export interface IShort extends ITrending {}
+export interface IChannelContent {
+  description: string
+  name: string
+  subscribers: number
+  thumbnail: string
+  type: Type
+  url: string
+  verified: boolean
+  videos: 3250
+}
 
 // Related IStreams====================================
 export interface IOStream {

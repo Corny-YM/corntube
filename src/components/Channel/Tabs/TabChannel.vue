@@ -1,16 +1,64 @@
+<script setup lang="ts">
+import { useQuery } from '@tanstack/vue-query'
+import { getTabsData } from '@/api/piped'
+import type { ITabChannel, IChannelContent } from '@/api/model/piped'
+import NoAvatar from '@/assets/imgs/NoAvatar.png'
+import { formatViews } from '@/utils'
+
+const props = defineProps<{
+  data: string
+}>()
+const route = useRoute()
+const channelId = computed(() => route.params.id.toString())
+const channelData = ref<IChannelContent[]>([])
+const dataNextPage = ref('')
+
+const { isLoading } = useQuery({
+  enabled: !!unref(channelId) && !!props.data,
+  queryKey: ['shorts', unref(channelId), props.data],
+  queryFn: () => getTabsData<ITabChannel>(props.data),
+  select(data) {
+    channelData.value = data.content
+    dataNextPage.value = data.nextpage
+  },
+})
+</script>
+
 <template>
-  <div class="w-full flex flex-wrap justify-evenly items-center">
-    <div v-for="n in 10" :key="n" class="w-52 center flex-col mb-4">
+  <div v-if="isLoading" class="w-full h-full center">
+    <a-spin size="large" />
+  </div>
+  <div v-else-if="!channelData || !channelData.length" class="h-full center">
+    <a-empty description="Kênh này chưa có bất kỳ kênh nào khác" />
+  </div>
+  <div class="channel-list">
+    <div
+      v-for="channel in channelData"
+      :key="channel.url"
+      class="center flex-col mb-4"
+    >
       <a-image
         class="rounded-full"
         :width="103"
-        src="https://yt3.googleusercontent.com/CZiQg0rRX-GmjzH8Pbp8ah2QfDDfMhnbHan3ThbyKk7pGqsdHAtFyZJQWjRb-f5zizIpcpaH-Q=s176-c-k-c0x00ffffff-no-rj-mo"
         :preview="false"
+        :src="channel.thumbnail"
+        :fallback="NoAvatar"
       />
-      <div class="font-medium my-1">Long Áo Đen</div>
-      <div class="text-xs text-lightTitle">64 N người đăng ký</div>
+      <a :href="channel.url" class="font-medium my-1">{{ channel.name }}</a>
+      <div class="text-xs text-lightTitle">
+        {{ formatViews(channel.subscribers, 0) }} người đăng ký
+      </div>
 
-      <a-button shape="round" class="mt-4 text-xs">Đăng ký</a-button>
+      <a-button type="primary" shape="round" class="mt-4 text-xs">
+        Đăng ký
+      </a-button>
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.channel-list {
+  @apply w-full grid gap-y-2;
+  @apply grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5;
+}
+</style>
