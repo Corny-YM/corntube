@@ -98,11 +98,16 @@ export interface ITabChannel {
   nextpage: string
   content: IChannelContent[]
 }
+export interface ITabLiveStream {
+  nextpage: string
+  content: ILiveStream[]
+}
 
 export interface IPlaylist extends IDefaultStream {
   videos: number
 }
 export interface IShort extends ITrending {}
+export interface ILiveStream extends ITrending {}
 export interface IChannelContent {
   description: string
   name: string
@@ -111,7 +116,7 @@ export interface IChannelContent {
   type: Type
   url: string
   verified: boolean
-  videos: 3250
+  videos: number
 }
 
 // Related IStreams====================================

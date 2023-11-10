@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getTabsData } from '@/api/piped'
 import type { IShort, ITabShort } from '@/api/model/piped'
-import { useQuery } from '@tanstack/vue-query'
+import { useMutation, useQuery } from '@tanstack/vue-query'
 
 const props = defineProps<{
   data: string
@@ -24,6 +24,23 @@ const { isLoading } = useQuery({
     dataNextPage.value = data.nextpage
   },
 })
+
+const { mutate, isPending } = useMutation({
+  mutationKey: ['nextpage', dataNextPage.value],
+  mutationFn: (params: { data: string; nextpage: string }) =>
+    getTabsData<ITabShort>(params.data, params.nextpage),
+  onSuccess(data) {
+    shortsData.value = [...shortsData.value, ...data.content]
+  },
+})
+
+const handleLoadNextPage = () => {
+  if (!unref(dataNextPage)) return
+  mutate({
+    data: props.data,
+    nextpage: dataNextPage.value,
+  })
+}
 
 const openModal = (url: string) => {
   if (url) {
@@ -51,7 +68,12 @@ const openModal = (url: string) => {
     </template>
   </VideoList>
   <div v-if="dataNextPage" class="w-full center mb-4">
-    <a-button type="dashed" shape="round">
+    <a-button
+      type="dashed"
+      shape="round"
+      :loading="isPending"
+      @click="handleLoadNextPage"
+    >
       Tải thêm
     </a-button>
   </div>

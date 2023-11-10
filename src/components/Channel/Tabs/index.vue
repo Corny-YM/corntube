@@ -68,11 +68,11 @@ const activeTabKey = ref('videos')
         <TabLiveStreams v-if="tab.name === 'livestreams'" :data="tab.data" />
       </a-tab-pane>
 
-      <a-tab-pane key="about" class="font-medium">
+      <a-tab-pane key="about">
         <template #tab>
           <div class="tab-item font-medium">Giới thiệu</div>
         </template>
-        <span v-html="htmlRender(description)"></span>
+        <span v-html="htmlRender(description)" class="pb-8"></span>
       </a-tab-pane>
     </a-tabs>
   </div>

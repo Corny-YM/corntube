@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useQuery } from '@tanstack/vue-query'
+import { useMutation, useQuery } from '@tanstack/vue-query'
 import { getTabsData } from '@/api/piped'
 import type { ITabPlaylist, IPlaylist } from '@/api/model/piped'
 
@@ -22,8 +22,24 @@ const { isLoading } = useQuery({
   },
 })
 
-// TODO get url playlist and navigate
+const { mutate, isPending } = useMutation({
+  mutationKey: ['nextpage', dataNextPage.value],
+  mutationFn: (params: { data: string; nextpage: string }) =>
+    getTabsData<ITabPlaylist>(params.data, params.nextpage),
+  onSuccess(data) {
+    playlistData.value = [...playlistData.value, ...data.content]
+  },
+})
 
+const handleLoadNextPage = () => {
+  if (!unref(dataNextPage)) return
+  mutate({
+    data: props.data,
+    nextpage: dataNextPage.value,
+  })
+}
+
+// TODO get url playlist and navigate
 </script>
 
 <template>
@@ -43,7 +59,14 @@ const { isLoading } = useQuery({
     </template>
   </VideoList>
   <div v-if="dataNextPage" class="w-full center mb-4">
-    <a-button type="dashed" shape="round"> Tải thêm </a-button>
+    <a-button
+      type="dashed"
+      shape="round"
+      :loading="isPending"
+      @click="handleLoadNextPage"
+    >
+      Tải thêm
+    </a-button>
   </div>
 </template>
 

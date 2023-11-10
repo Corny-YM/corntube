@@ -37,11 +37,8 @@ defineProps({
   column-gap: normal;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   row-gap: 1.25rem;
-  &.channel {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    padding-bottom: 0px;
-  }
-  &.short-list {
+
+  &.short-list, &.channel, &.livestream {
     grid-template-columns: repeat(5, minmax(0, 1fr));
     padding-bottom: 0px;
   }

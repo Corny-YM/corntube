@@ -11,7 +11,7 @@ export const htmlRender = (des: string) => {
   str = str.replace(
     linkRegex,
     (link) =>
-      `<a class="text-blueAntd" style="text-decoration: none" href="${link}" target="_blank" ref="noopener">${link}</a>`
+      `<a class="text-blueAntd font-semibold" style="text-decoration: none" href="${link}" target="_blank" ref="noopener">${link}</a>`
   )
 
   return str

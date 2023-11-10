@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useQuery } from '@tanstack/vue-query'
+import { useMutation, useQuery } from '@tanstack/vue-query'
 import { getTabsData } from '@/api/piped'
 import type { ITabChannel, IChannelContent } from '@/api/model/piped'
 import NoAvatar from '@/assets/imgs/NoAvatar.png'
@@ -22,6 +22,23 @@ const { isLoading } = useQuery({
     dataNextPage.value = data.nextpage
   },
 })
+
+const { mutate, isPending } = useMutation({
+  mutationKey: ['nextpage', dataNextPage.value],
+  mutationFn: (params: { data: string; nextpage: string }) =>
+    getTabsData<ITabChannel>(params.data, params.nextpage),
+  onSuccess(data) {
+    channelData.value = [...channelData.value, ...data.content]
+  },
+})
+
+const handleLoadNextPage = () => {
+  if (!unref(dataNextPage)) return
+  mutate({
+    data: props.data,
+    nextpage: dataNextPage.value,
+  })
+}
 </script>
 
 <template>
@@ -31,7 +48,7 @@ const { isLoading } = useQuery({
   <div v-else-if="!channelData || !channelData.length" class="h-full center">
     <a-empty description="Kênh này chưa có bất kỳ kênh nào khác" />
   </div>
-  <div class="channel-list">
+  <div class="channel-list mb-2">
     <div
       v-for="channel in channelData"
       :key="channel.url"
@@ -44,7 +61,9 @@ const { isLoading } = useQuery({
         :src="channel.thumbnail"
         :fallback="NoAvatar"
       />
-      <a :href="channel.url" class="font-medium my-1">{{ channel.name }}</a>
+      <a :href="channel.url" class="text-center font-medium my-1">{{
+        channel.name
+      }}</a>
       <div class="text-xs text-lightTitle">
         {{ formatViews(channel.subscribers, 0) }} người đăng ký
       </div>
@@ -53,6 +72,16 @@ const { isLoading } = useQuery({
         Đăng ký
       </a-button>
     </div>
+  </div>
+  <div v-if="dataNextPage" class="w-full center mb-4">
+    <a-button
+      type="dashed"
+      shape="round"
+      :loading="isPending"
+      @click="handleLoadNextPage"
+    >
+      Tải thêm
+    </a-button>
   </div>
 </template>
 
