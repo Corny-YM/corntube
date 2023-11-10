@@ -18,6 +18,11 @@ const router = createRouter({
           name: 'channel',
           path: 'channel/:id',
         },
+        {
+          component: () => import('@/pages/Playlist.vue'),
+          name: 'playlist',
+          path: 'playlist',
+        },
       ],
     },
     {

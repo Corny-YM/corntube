@@ -3,7 +3,7 @@ import { UnorderedListOutlined } from '@ant-design/icons-vue'
 import { IPlaylist } from '@/api/model/piped'
 import { formatViews } from '@/utils'
 
-const props = defineProps<{
+defineProps<{
   playlist: IPlaylist
 }>()
 </script>
@@ -27,7 +27,12 @@ const props = defineProps<{
         <!-- title content -->
         <div class="title-video">{{ playlist.name }}</div>
         <!-- detail -->
-        <div class="">Xem toàn bộ danh sách</div>
+        <a
+          :href="`${playlist.url}`"
+          class="text-[#858585] hover:text-black font-medium"
+        >
+          Xem toàn bộ danh sách
+        </a>
       </div>
     </div>
   </a>
