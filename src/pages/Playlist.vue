@@ -1,9 +1,16 @@
 <script setup lang="ts"></script>
 
 <template>
-    <!-- TODO build UI for playlist -->
-</template>
+  <div class="w-full h-full flex justify-between items-center py-6">
+    <!-- Info -->
+    <PlaylistInfo />
 
-<style scoped lang="scss">
-// linear-gradient(to bottom, rgba(67,87,89,0.800) 0%, rgba(67,87,89,0.298) 33%, rgba(15,15,15,1.000) 100%)
-</style>
+    <!-- playlist -->
+    <div
+      class="w-full h-full flex flex-col justify-start items-start mr-6 overflow-auto"
+    >
+      <!-- List Videos -->
+      <PlaylistVideoItem v-for="n in 8" :key="n" :index="n" />
+    </div>
+  </div>
+</template>
