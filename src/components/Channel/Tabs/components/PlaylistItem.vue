@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { UnorderedListOutlined } from '@ant-design/icons-vue'
-import { IPlaylist } from '@/api/model/piped'
+import { IPlaylistContent } from '@/api/model/piped'
 import { formatViews } from '@/utils'
 
 defineProps<{
-  playlist: IPlaylist
+  playlist: IPlaylistContent
 }>()
 </script>
 

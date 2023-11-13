@@ -2,6 +2,7 @@ import { pipedAxios } from './index'
 import {
   IChannel,
   IComments,
+  IPlaylist,
   IStreams,
   ITabShort,
   ITrending,
@@ -60,5 +61,5 @@ export const getTabsData = <T>(data: string, nextpage?: string): Promise<T> =>
     },
   })
 
-export const getPlaylistData = (id: string): Promise<any> =>
+export const getPlaylist = (id: any): Promise<IPlaylist> =>
   pipedAxios.get(`/playlists/${id}`)

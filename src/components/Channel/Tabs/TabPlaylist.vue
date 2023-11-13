@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import { getTabsData } from '@/api/piped'
-import type { ITabPlaylist, IPlaylist } from '@/api/model/piped'
+import type { ITabPlaylist, IPlaylistContent } from '@/api/model/piped'
 
 const props = defineProps<{
   data: string
 }>()
 const route = useRoute()
 const channelId = computed(() => route.params.id.toString())
-const playlistData = ref<IPlaylist[]>([])
+const playlistData = ref<IPlaylistContent[]>([])
 const dataNextPage = ref('')
 
 const { isLoading } = useQuery({

@@ -5,7 +5,7 @@ import type { IChannel, ITrending } from '@/api/model/piped'
 import ChannelHeader from '@/components/Channel/Header.vue'
 import ChannelTabs from '@/components/Channel/Tabs/index.vue'
 import { messagePopup } from '@/utils'
-import NoAvatar from '@/assets/imgs/NoAvatar.png'
+import NoBackground from '@/assets/imgs/NoBackground.jpg'
 
 const route = useRoute()
 
@@ -65,8 +65,9 @@ const handleNextDataChannel = () => {
       <a-image
         width="100%"
         :src="channelData.bannerUrl"
-        :preview="false"
-        :fallback="NoAvatar"
+        :preview="true"
+        :fallback="NoBackground"
+        class="max-h-40 object-cover"
       />
     </div>
 

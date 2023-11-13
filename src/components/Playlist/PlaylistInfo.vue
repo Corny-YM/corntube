@@ -5,26 +5,37 @@ import {
   DownloadOutlined,
   ShareAltOutlined,
 } from '@ant-design/icons-vue'
+import { formatViews } from '@/utils'
+
+const props = defineProps<{
+  thumbnail: string
+  title: string
+  uploader: string
+  uploaderUrl: string
+  videos: number
+  views: number
+  url: string
+}>()
+const emits = defineEmits(['click'])
+
+const details = computed(
+  () => `${props.videos} video ${formatViews(props.views, 0)} lượt xem`
+)
 </script>
 
 <template>
   <div class="playlist-info text-white">
-    <a class="playlist-info--img">
-      <a-image
-        :preview="false"
-        src="https://i.ytimg.com/vi/5891KdSrQeo/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLB7CUFUW2LCQxNHHy-itzGbVJ9CtQ"
-      ></a-image>
+    <a :href="url" class="playlist-info--img">
+      <a-image :preview="false" :src="thumbnail"></a-image>
       <div class="img-overlay">
         <CaretRightOutlined class="center mr-1 text-xl" />
         <div class="uppercase font-medium">Phát tất cả</div>
       </div>
     </a>
-    <div class="text-2xl font-bold my-4">Study with me</div>
-    <div class="font-medium mb-1">Ashleyngusi</div>
+    <div class="text-2xl font-bold my-4">{{ title }}</div>
+    <a :href="uploaderUrl" class="w-fit font-medium mb-1">{{ uploader }}</a>
     <div class="text-xs text-[#FFFFFFB3] text-ellipsis line-clamp-1">
-      9 video 12.299 lượt xem Cập nhật lần cuối vào 10 thang 10, 2023 9 video
-      12.299 lượt xem Cập nhật lần cuối vào 10 thang 10, 2023 9 video 12.299
-      lượt xem Cập nhật lần cuối vào 10 thang 10, 2023
+      {{ details }}
     </div>
     <div class="mt-4 flex justify-start items-start">
       <a-tooltip title="Chia sẻ">
@@ -53,6 +64,7 @@ import {
         size="large"
         :icon="h(CaretRightOutlined)"
         class="flex-1 mr-2 font-semibold"
+        :href="url"
       >
         Phát tất cả
       </a-button>
@@ -61,6 +73,7 @@ import {
         shape="round"
         size="large"
         class="flex-1 font-semibold"
+        @click="emits('click')"
       >
         Trộn bài
       </a-button>

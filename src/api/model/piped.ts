@@ -70,6 +70,19 @@ export interface IStreams {
   previewFrames: IPreviewFrame[]
 }
 
+export interface IPlaylist {
+  bannerUrl: string | null
+  description: string
+  name: string
+  nextpage: string | null
+  relatedStreams: ITrending[]
+  thumbnailUrl: string
+  uploader: string
+  uploaderAvatar: string
+  uploaderUrl: string
+  videos: number
+}
+
 export interface IChannel {
   id: string
   name: string
@@ -92,7 +105,7 @@ export interface ITabShort {
 }
 export interface ITabPlaylist {
   nextpage: string
-  content: IPlaylist[]
+  content: IPlaylistContent[]
 }
 export interface ITabChannel {
   nextpage: string
@@ -103,7 +116,7 @@ export interface ITabLiveStream {
   content: ILiveStream[]
 }
 
-export interface IPlaylist extends IDefaultStream {
+export interface IPlaylistContent extends IDefaultStream {
   videos: number
 }
 export interface IShort extends ITrending {}
