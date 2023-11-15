@@ -192,7 +192,7 @@ interface IDefaultStream {
   url: string
 }
 
-export interface IRelatedStream {
+export interface IRelatedStream extends IDefaultStream {
   duration?: number
   isShort?: boolean
   shortDescription?: null | string

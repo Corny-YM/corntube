@@ -8,6 +8,9 @@ const props = defineProps<{
 
 const router = useRouter()
 const route = useRoute()
+
+const hiddenVideos = ref(0)
+
 const playlistId = computed(() => route.query.list)
 const totalViews = computed(() =>
   props.data.relatedStreams.reduce((total, cur) => {
@@ -34,6 +37,16 @@ const handleRandomUrl = () => {
     },
   })
 }
+
+const hiddenVisible = computed(() => {
+  const length = props.data.relatedStreams.length
+  const quantity = props.data.videos
+  if (length < quantity) {
+    hiddenVideos.value = quantity - length
+    return true
+  }
+  return false
+})
 </script>
 
 <template>
@@ -54,8 +67,25 @@ const handleRandomUrl = () => {
     <div
       class="w-full h-full flex flex-col justify-start items-start mr-6 overflow-auto"
     >
+      <div v-if="hiddenVisible" class="banner-hidden-video">
+        Đã ẩn {{ hiddenVideos }} video không xem được
+      </div>
       <!-- List Videos -->
-      <PlaylistVideoItem v-for="n in 8" :key="n" :index="n" />
+      <PlaylistVideoItem
+        v-for="(video, index) in data.relatedStreams"
+        :key="video.url"
+        :video="video"
+        :index="index + 1"
+      />
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.banner-hidden-video {
+  @apply flex justify-center items-center;
+  @apply flex-1 min-h-[56px];
+  @apply ml-9 mb-2 self-stretch;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+</style>

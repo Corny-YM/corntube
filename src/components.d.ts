@@ -70,6 +70,7 @@ declare module 'vue' {
     Video: typeof import('./components/Videos/Video.vue')['default']
     VideoItem: typeof import('./components/Videos/VideoItem.vue')['default']
     VideoList: typeof import('./components/Videos/VideoList.vue')['default']
+    VideosPlaylist: typeof import('./components/Watch/VideosPlaylist.vue')['default']
     Watch: typeof import('./components/Watch/index.vue')['default']
   }
 }

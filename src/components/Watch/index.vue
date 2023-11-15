@@ -5,17 +5,34 @@ import {
   DownloadOutlined,
   LikeOutlined,
 } from '@ant-design/icons-vue'
-import { IStreams } from '@/api/model/piped'
+import { useQuery } from '@tanstack/vue-query'
 import { formatViews, formatDate } from '@/utils'
+import { getPlaylist } from '@/api/piped'
+import { IPlaylist, IStreams } from '@/api/model/piped'
 
 const props = defineProps<{
   data: IStreams
 }>()
+
+const route = useRoute()
+
+const playlistData = ref<IPlaylist | null>(null)
+
+const listId = computed(() => route.query.list!)
 const videoSrc = computed(() => {
   const arrVideos = props.data?.videoStreams.filter((video) => !video.videoOnly)
   const selectedVideo =
     arrVideos?.sort((a, b) => parseInt(b.quality) - parseInt(a.quality)) || []
   return selectedVideo[0]?.url
+})
+
+const { isLoading } = useQuery({
+  enabled: !!unref(listId),
+  queryKey: ['playlist', unref(listId)?.toString()],
+  queryFn: () => getPlaylist(unref(listId)),
+  select(data) {
+    playlistData.value = data
+  },
 })
 </script>
 
@@ -78,9 +95,19 @@ const videoSrc = computed(() => {
       </div>
     </div>
 
-    <!-- List Videos -->
-    <div class="w-[402px] min-w-[300px] pr-6">
-      <ListVideos :relatedStreams="data.relatedStreams" />
+    <div class="flex flex-col">
+      <div v-if="isLoading" class="w-full center mt-1 mb-6">
+        <a-spin size="large" />
+      </div>
+      <VideosPlaylist
+        v-else-if="!!playlistData && !!Object.keys(playlistData).length"
+        :listId="listId?.toString()"
+        :data="playlistData"
+      />
+      <!-- List Videos -->
+      <div class="w-[402px] min-w-[300px] pr-6">
+        <ListVideos :relatedStreams="data.relatedStreams" />
+      </div>
     </div>
   </div>
 </template>
