@@ -18,6 +18,7 @@ const route = useRoute()
 
 const playlistData = ref<IPlaylist | null>(null)
 
+const videoId = computed(() => route.query.v!)
 const listId = computed(() => route.query.list!)
 const videoSrc = computed(() => {
   const arrVideos = props.data?.videoStreams.filter((video) => !video.videoOnly)
@@ -91,7 +92,7 @@ const { isLoading } = useQuery({
         </div>
 
         <div class="heading-comment">Comments</div>
-        <Comments />
+        <Comments :key="videoId.toString()" />
       </div>
     </div>
 
@@ -106,7 +107,10 @@ const { isLoading } = useQuery({
       />
       <!-- List Videos -->
       <div class="w-[402px] min-w-[300px] pr-6">
-        <ListVideos :relatedStreams="data.relatedStreams" />
+        <ListVideos
+          :key="videoId.toString()"
+          :relatedStreams="data.relatedStreams"
+        />
       </div>
     </div>
   </div>

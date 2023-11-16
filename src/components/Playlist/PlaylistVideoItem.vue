@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ITrending } from '@/api/model/piped'
-import { formatTimeAgoToVietnamese, formatViews } from '@/utils'
+import { formatDuration, formatTimeAgoToVietnamese, formatViews } from '@/utils'
 
 const props = defineProps<{
   video: ITrending
@@ -18,8 +18,11 @@ const url = computed(() => {
 <template>
   <a :href="url" class="playlist-video--item">
     <div class="w-9 font-medium text-center">{{ index }}</div>
-    <div class="center w-40 rounded-2xl overflow-hidden aspect-video mr-2">
+    <div class="relative center w-40 rounded-2xl overflow-hidden aspect-video mr-2">
       <a-image :preview="false" :src="video.thumbnail"></a-image>
+      <a-tag class="playlist-video--duration">
+        {{ formatDuration(video.duration) }}
+      </a-tag>
     </div>
     <div class="flex-1 flex flex-col">
       <div class="max-h-[44px] text-base line-clamp-2 font-medium mb-2">
@@ -42,5 +45,11 @@ const url = computed(() => {
   &:hover {
     background-color: rgba(0, 0, 0, 0.05);
   }
+}
+
+.playlist-video--duration {
+  @apply absolute bottom-1 -right-1;
+  @apply rounded-[4px] bg-slate-300 font-medium leading-3;
+  @apply px-1 py-[3px];
 }
 </style>

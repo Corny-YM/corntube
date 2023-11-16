@@ -21,6 +21,7 @@ export const formatDuration = (duration: number) => {
   const MM = minutes.toString().padStart(2, '0')
   const SS = seconds.toString().padStart(2, '0')
 
+  if (HH === '00') return `${MM}:${SS}`
   return `${HH}:${MM}:${SS}`
 }
 

@@ -11,7 +11,7 @@ const enabled = computed(() => !!route.query.v)
 
 const streamsData = ref<IStreams | null>(null)
 
-const { isLoading } = useQuery({
+const { isLoading, refetch } = useQuery({
   queryKey: ['streams', unref(videoId)],
   queryFn: () => getStreams(unref(videoId)),
   enabled: !!unref(enabled),
@@ -20,6 +20,13 @@ const { isLoading } = useQuery({
     streamsData.value = data
   },
 })
+
+watch(
+  () => unref(videoId),
+  () => {
+    refetch()
+  }
+)
 </script>
 
 <template>

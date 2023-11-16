@@ -48,14 +48,7 @@ const date = computed(() =>
 
 <style lang="scss" scoped>
 .video-item {
-  width: fit-content;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 8px;
-  border-radius: 12px;
-  cursor: pointer;
-  margin-bottom: 8px;
+  @apply w-fit flex justify-center items-center;
+  @apply mr-2 mb-2 rounded-xl cursor-pointer;
 }
 </style>
-@/utils/format
