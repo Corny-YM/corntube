@@ -24,7 +24,7 @@ const { isLoading, refetch } = useQuery({
 watch(
   () => unref(videoId),
   () => {
-    refetch()
+    if (!!unref(videoId)) refetch()
   }
 )
 </script>

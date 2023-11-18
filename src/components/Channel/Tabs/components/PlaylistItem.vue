@@ -6,10 +6,18 @@ import { formatViews } from '@/utils'
 defineProps<{
   playlist: IPlaylistContent
 }>()
+
+const emits = defineEmits<{
+  (e: 'click', value: string): void
+}>()
 </script>
 
 <template>
-  <a :key="playlist.url" class="playlist-item">
+  <div
+    :key="playlist.url"
+    class="playlist-item bg-red-300"
+    @click="emits('click', playlist.url)"
+  >
     <!-- IMG -->
     <div class="relative flex justify-center rounded-xl overflow-hidden">
       <a-image :preview="false" :src="playlist.thumbnail" />
@@ -30,12 +38,13 @@ defineProps<{
         <a
           :href="`${playlist.url}`"
           class="text-[#858585] hover:text-black font-medium"
+          @click.stop=""
         >
           Xem toàn bộ danh sách
         </a>
       </div>
     </div>
-  </a>
+  </div>
 </template>
 
 <style scoped lang="scss">

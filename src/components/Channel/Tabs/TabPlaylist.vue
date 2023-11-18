@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { useMutation, useQuery } from '@tanstack/vue-query'
-import { getTabsData } from '@/api/piped'
+import { getPlaylist, getTabsData } from '@/api/piped'
 import type { ITabPlaylist, IPlaylistContent } from '@/api/model/piped'
 
 const props = defineProps<{
   data: string
 }>()
+
+const router = useRouter()
 const route = useRoute()
-const channelId = computed(() => route.params.id.toString())
+
 const playlistData = ref<IPlaylistContent[]>([])
 const dataNextPage = ref('')
+
+const channelId = computed(() => route.params.id.toString())
 
 const { isLoading } = useQuery({
   enabled: !!unref(channelId) && !!props.data,
@@ -31,6 +35,16 @@ const { mutate, isPending } = useMutation({
   },
 })
 
+const { mutate: mutatePlaylist } = useMutation({
+  mutationKey: ['playlist', 'get'],
+  mutationFn: (value: string) => getPlaylist(value),
+  onSuccess(data, variable) {
+    const relatedStreams = data.relatedStreams
+    const videoId = relatedStreams[0].url!
+    router.push(`${videoId}&list=${variable}`)
+  },
+})
+
 const handleLoadNextPage = () => {
   if (!unref(dataNextPage)) return
   mutate({
@@ -40,6 +54,10 @@ const handleLoadNextPage = () => {
 }
 
 // TODO get url playlist and navigate
+const handleClickItem = (url: string) => {
+  const id = url.split('=')[1]
+  mutatePlaylist(id)
+}
 </script>
 
 <template>
@@ -55,6 +73,7 @@ const handleLoadNextPage = () => {
         v-for="playlist in playlistData"
         :key="playlist.url"
         :playlist="playlist"
+        @click="handleClickItem"
       />
     </template>
   </VideoList>
