@@ -1,5 +1,6 @@
 export const formatViews = (viewCount: number, fixed: number = 1) => {
   let result = ''
+  if (viewCount <= 0) return 0
   if (viewCount < 1000) {
     result = viewCount.toString()
   } else if (viewCount < 1000000) {
@@ -41,6 +42,7 @@ export const formatTimeAgoToVietnamese = (text: string) => {
       return `${value} ${timeUnits[unit]} trước`
     })
     .replace('ago', '')
+    .replace('edited', 'đã chỉnh sửa')
     .trim()
   return time
 }

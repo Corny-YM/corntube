@@ -41,6 +41,7 @@ declare module 'vue' {
     ATypographyTitle: typeof import('ant-design-vue/es')['TypographyTitle']
     Avatar: typeof import('./components/Avatar.vue')['default']
     Channel: typeof import('./components/Channel/index.vue')['default']
+    Chapters: typeof import('./components/Watch/Chapters.vue')['default']
     Comment: typeof import('./components/Watch/Comment.vue')['default']
     CommentReplies: typeof import('./components/Watch/CommentReplies.vue')['default']
     Comments: typeof import('./components/Watch/Comments.vue')['default']

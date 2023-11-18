@@ -64,7 +64,7 @@ const handleNextDataChannel = () => {
     <div class="w-full center">
       <a-image
         width="100%"
-        :src="channelData.bannerUrl"
+        :src="channelData.bannerUrl || ''"
         :preview="true"
         :fallback="NoBackground"
         class="max-h-40 object-cover"

@@ -11,7 +11,9 @@ const props = defineProps<{
 const router = useRouter()
 const route = useRoute()
 
+const refVideos = ref<HTMLDivElement[]>([])
 const hiddenVideos = ref(0)
+const activePlaylist = ref(true)
 
 const currentVideoId = computed(() => route.query.v!)
 const playlistUrl = computed(() => `/playlist?list=${props.listId}`)
@@ -40,6 +42,18 @@ const handleClickVideo = (url: string) => {
     },
   })
 }
+
+onMounted(() => {
+  const arrList = unref(refVideos)
+  arrList.forEach((element) => {
+    if (!element.className.includes('active')) return
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'nearest',
+    })
+  })
+})
 </script>
 
 <template>
@@ -54,12 +68,17 @@ const handleClickVideo = (url: string) => {
           data.uploader
         }}</a>
       </div>
-      <div class="icon"><CaretRightOutlined /></div>
+      <CaretRightOutlined
+        class="icon"
+        :class="activePlaylist ? 'active' : ''"
+        @click.stop.prevent="activePlaylist = !activePlaylist"
+      />
     </div>
 
-    <div class="list">
+    <div class="list" :class="activePlaylist ? 'active' : ''">
       <a
         v-for="(video, index) in data.relatedStreams"
+        ref="refVideos"
         class="video-item"
         :class="isActive(video.url) ? 'active' : ''"
         :href="`${video.url}&list=${listId}`"
@@ -102,8 +121,13 @@ const handleClickVideo = (url: string) => {
   border: 1px solid rgba(0, 0, 0, 0.1);
 
   .list {
-    @apply flex flex-col items-center;
+    @apply hidden flex-col items-center;
     @apply w-full max-h-72 xl:max-h-96 overflow-auto mt-4;
+    transition: all 150ms ease-in-out;
+
+    &.active {
+      @apply flex;
+    }
   }
   .title,
   .author {
@@ -118,6 +142,11 @@ const handleClickVideo = (url: string) => {
   .icon {
     @apply flex justify-center items-center h-fit p-2 text-2xl;
     @apply cursor-pointer select-none rounded-full hover:bg-lightHover;
+    transition: all 150ms linear;
+
+    &.active {
+      transform: rotate(90deg);
+    }
   }
 }
 

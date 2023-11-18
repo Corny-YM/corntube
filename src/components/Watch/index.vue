@@ -20,6 +20,7 @@ const playlistData = ref<IPlaylist | null>(null)
 
 const videoId = computed(() => route.query.v!)
 const listId = computed(() => route.query.list!)
+const channelUrl = computed(() => props.data.uploaderUrl)
 const videoSrc = computed(() => {
   const arrVideos = props.data?.videoStreams.filter((video) => !video.videoOnly)
   const selectedVideo =
@@ -57,10 +58,17 @@ const { isLoading } = useQuery({
 
         <div class="flex justify-between items-center">
           <div class="center">
-            <a-avatar :src="data.uploaderAvatar" class="w-10 h-10" />
+            <a :href="channelUrl" class="w-10 h-10 rounded-full">
+              <a-avatar
+                :src="data.uploaderAvatar"
+                class="w-full h-full object-cover"
+              />
+            </a>
             <div class="ml-3">
-              <div class="mb-1 font-medium">{{ data.uploader }}</div>
-              <div class="text-sm">
+              <a :href="channelUrl" class="font-medium">
+                {{ data.uploader }}
+              </a>
+              <div v-if="data.uploaderSubscriberCount > 0" class="text-sm mt-1">
                 {{ formatViews(data.uploaderSubscriberCount) }} người đăng ký
               </div>
             </div>
@@ -97,6 +105,7 @@ const { isLoading } = useQuery({
     </div>
 
     <div class="flex flex-col">
+      <!-- Playslist -->
       <div v-if="isLoading" class="w-full center mt-1 mb-6">
         <a-spin size="large" />
       </div>
@@ -105,6 +114,13 @@ const { isLoading } = useQuery({
         :listId="listId?.toString()"
         :data="playlistData"
       />
+
+      <!-- Chapters -->
+      <Chapters
+        v-if="!!data.chapters.length && !playlistData"
+        :chapters="data.chapters"
+      />
+
       <!-- List Videos -->
       <div class="w-[402px] min-w-[300px] pr-6">
         <ListVideos

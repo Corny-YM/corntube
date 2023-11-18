@@ -35,7 +35,7 @@ defineProps<{
               <CheckCircleFilled class="center text-sm" />
             </div>
           </div>
-          <div class="flex text-sm">
+          <div v-if="subscriberCount > 0" class="flex text-sm">
             {{ formatViews(subscriberCount) }} người đăng ký
           </div>
         </div>

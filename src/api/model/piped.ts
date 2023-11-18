@@ -66,8 +66,14 @@ export interface IStreams {
   subtitles: ISubtitle[]
   livestream: boolean
   proxyUrl: string
-  chapters: any[]
+  chapters: IChapter[]
   previewFrames: IPreviewFrame[]
+}
+
+export interface IChapter {
+  image: string
+  start: number
+  title: string
 }
 
 export interface IPlaylist {
@@ -87,7 +93,7 @@ export interface IChannel {
   id: string
   name: string
   avatarUrl: string
-  bannerUrl: string
+  bannerUrl: string | null
   description: string
   nextpage: string
   subscriberCount: number
@@ -132,7 +138,6 @@ export interface IChannelContent {
   videos: number
 }
 
-// Related IStreams====================================
 export interface IOStream {
   url: string
   format: Format

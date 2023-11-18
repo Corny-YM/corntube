@@ -6,7 +6,7 @@ import {
   CaretDownOutlined,
 } from '@ant-design/icons-vue'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { formatViews, messagePopup } from '@/utils'
+import { formatTimeAgoToVietnamese, formatViews, messagePopup } from '@/utils'
 import { IComment } from '@/api/model/piped'
 
 dayjs.extend(relativeTime)
@@ -20,6 +20,8 @@ const isFull = ref(false)
 const refComment = ref<HTMLDivElement | null>(null)
 const repliesPage = ref('')
 const isOpen = ref(false)
+
+const channelUrl = computed(() => props.content.commentorUrl)
 
 const handleClick = () => {
   if (!unref(repliesPage)) repliesPage.value = props.content.repliesPage!
@@ -77,6 +79,7 @@ const handleLike = () => {
     <!-- Author -->
     <template #author>
       <a
+        :href="channelUrl"
         class="center font-medium text-sm !text-black cursor-pointer"
         :class="
           content.channelOwner ? 'px-2 py-[2px] rounded-xl bg-[#eee]' : ''
@@ -88,7 +91,9 @@ const handleLike = () => {
 
     <!-- Avatar -->
     <template #avatar>
-      <a-avatar :src="content.thumbnail" :alt="content.author" />
+      <a :href="channelUrl" class="rounded-full">
+        <a-avatar :src="content.thumbnail" :alt="content.author" />
+      </a>
     </template>
 
     <!-- Content -->
@@ -107,7 +112,7 @@ const handleLike = () => {
     <!-- Date -->
     <template #datetime>
       <div class="h-full center text-darkTitle">
-        {{ content.commentedTime }}
+        {{ formatTimeAgoToVietnamese(content.commentedTime) }}
       </div>
     </template>
   </a-comment>
