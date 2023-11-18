@@ -53,7 +53,6 @@ const handleLoadNextPage = () => {
   })
 }
 
-// TODO get url playlist and navigate
 const handleClickItem = (url: string) => {
   const id = url.split('=')[1]
   mutatePlaylist(id)

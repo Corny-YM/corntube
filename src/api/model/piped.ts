@@ -89,6 +89,11 @@ export interface IPlaylist {
   videos: number
 }
 
+export interface ISearch {
+  corrected: boolean
+  items: any[]
+}
+
 export interface IChannel {
   id: string
   name: string
@@ -122,9 +127,6 @@ export interface ITabLiveStream {
   content: ILiveStream[]
 }
 
-export interface IPlaylistContent extends IDefaultStream {
-  videos: number
-}
 export interface IShort extends ITrending {}
 export interface ILiveStream extends ITrending {}
 export interface IChannelContent {
@@ -193,6 +195,7 @@ interface IDefaultStream {
   thumbnail: string
   type: Type
   uploaderName: string
+  uploaderUrl: string | null
   uploaderVerified: boolean
   url: string
 }
@@ -206,8 +209,11 @@ export interface IRelatedStream extends IDefaultStream {
   uploaded?: number
   uploadedDate?: string
   uploaderAvatar?: string
-  uploaderUrl: null | string
   views?: number
+}
+
+export interface IPlaylistContent extends IDefaultStream {
+  videos: number
 }
 
 export enum Type {

@@ -4,7 +4,6 @@ import {
   IComments,
   IPlaylist,
   IStreams,
-  ITabShort,
   ITrending,
 } from './model/piped'
 
@@ -63,3 +62,16 @@ export const getTabsData = <T>(data: string, nextpage?: string): Promise<T> =>
 
 export const getPlaylist = (id: any): Promise<IPlaylist> =>
   pipedAxios.get(`/playlists/${id}`)
+
+export const getSuggestions = (query: string): Promise<string[]> =>
+  pipedAxios.get('/suggestions', {
+    params: { query },
+  })
+
+export const getSearchData = (params: {
+  q: string
+  filter: 'all' | 'videos' | 'channels' | 'playlists'
+}): Promise<any> =>
+  pipedAxios.get('/search', {
+    params,
+  })

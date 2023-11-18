@@ -23,6 +23,11 @@ const router = createRouter({
           name: 'playlist',
           path: 'playlist',
         },
+        {
+          component: () => import('@/pages/Search.vue'),
+          name: 'search',
+          path: 'search',
+        },
       ],
     },
     {

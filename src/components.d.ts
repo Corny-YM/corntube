@@ -56,6 +56,7 @@ declare module 'vue' {
     PlaylistVideoItem: typeof import('./components/Playlist/PlaylistVideoItem.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Search: typeof import('./components/Search/index.vue')['default']
     SearchBar: typeof import('./components/SearchBar.vue')['default']
     ShortVideo: typeof import('./components/Videos/ShortVideo.vue')['default']
     Tab: typeof import('./components/Channel/Tab.vue')['default']
@@ -72,8 +73,8 @@ declare module 'vue' {
     VideoItem: typeof import('./components/Videos/VideoItem.vue')['default']
     VideoList: typeof import('./components/Videos/VideoList.vue')['default']
     VideosPlaylist: typeof import('./components/Watch/VideosPlaylist.vue')['default']
-    VolumeMuted: typeof import('./components/icons/VolumeMuted.vue')['default']
-    VolumeUp: typeof import('./components/icons/VolumeUp.vue')['default']
+    VolumeMuted: typeof import('./components/Icons/VolumeMuted.vue')['default']
+    VolumeUp: typeof import('./components/Icons/VolumeUp.vue')['default']
     Watch: typeof import('./components/Watch/index.vue')['default']
   }
 }

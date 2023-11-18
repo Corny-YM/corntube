@@ -1,66 +1,79 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { useMutation } from '@tanstack/vue-query'
+import { useDebounce } from '@/utils'
+import { getSuggestions } from '@/api/piped'
+
 interface Option {
   query: string
   category: string
   value: string
   count: number
 }
+
+const router = useRouter()
+
 const value = ref('')
 const dataSource = ref<Option[]>([])
-const onSelect = (value: any) => {
-  console.log('onSelect', value)
-}
 
-const getRandomInt = (max: number, min = 0) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
-const searchResult = (query: string): Option[] => {
-  return new Array(getRandomInt(5))
-    .join('.')
-    .split('.')
-    .map((_item, idx) => ({
-      query,
-      category: `${query}${idx}`,
-      value: `${query}${idx}`,
-      count: getRandomInt(200, 100),
+const { mutate, isPending } = useMutation({
+  mutationKey: ['suggestions', 'get'],
+  mutationFn: getSuggestions,
+  onSuccess(data) {
+    dataSource.value = data.map((suggestion) => ({
+      query: suggestion,
+      category: suggestion,
+      value: suggestion,
+      count: 0,
     }))
+  },
+})
+
+const handleSelect = (value: any) => {
+  if (!value) return
+  router.push({
+    path: '/search',
+    query: {
+      q: value,
+    },
+  })
 }
-const handleSearch = (val: string) => {
-  dataSource.value = val ? searchResult(val) : []
-}
+const handleMutateSearch = useDebounce(() => {
+  const inputValue = unref(value)
+  mutate(inputValue)
+}, 500)
+
+watch(
+  () => unref(value),
+  () => {
+    if (!unref(value).trim()) {
+      dataSource.value = []
+      return
+    }
+    handleMutateSearch()
+  }
+)
 </script>
 
 <template>
   <div>
     <a-auto-complete
       v-model:value="value"
+      class="max-w-xs w-80 border-0"
       :dropdown-match-select-width="252"
       :options="dataSource"
-      class="max-w-xs w-80 border-0"
-      @select="onSelect"
-      @search="handleSearch"
+      @select="handleSelect"
     >
       <template #option="item">
-        <div style="display: flex; justify-content: space-between">
-          <span>
-            Found {{ item.query }} on
-            <a
-              :href="`https://s.taobao.com/search?q=${item.query}`"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {{ item.category }}
-            </a>
-          </span>
-          <span>{{ item.count }} results</span>
+        <div class="flex justify-between">
+          <span class="font-medium">{{ item.category }}</span>
         </div>
       </template>
       <a-input-search
         size="large"
         placeholder="Tìm kiếm"
         enter-button
+        :loading="isPending"
+        @search="handleSelect"
       ></a-input-search>
     </a-auto-complete>
   </div>
