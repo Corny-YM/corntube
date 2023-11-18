@@ -72,6 +72,8 @@ declare module 'vue' {
     VideoItem: typeof import('./components/Videos/VideoItem.vue')['default']
     VideoList: typeof import('./components/Videos/VideoList.vue')['default']
     VideosPlaylist: typeof import('./components/Watch/VideosPlaylist.vue')['default']
+    VolumeMuted: typeof import('./components/icons/VolumeMuted.vue')['default']
+    VolumeUp: typeof import('./components/icons/VolumeUp.vue')['default']
     Watch: typeof import('./components/Watch/index.vue')['default']
   }
 }

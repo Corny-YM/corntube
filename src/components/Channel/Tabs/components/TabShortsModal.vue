@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { IStreams } from '@/api/model/piped'
 import { getStreams } from '@/api/piped'
-import {
-  CaretRightOutlined,
-  NotificationOutlined,
-  PauseOutlined,
-  SoundOutlined,
-} from '@ant-design/icons-vue'
+import { CaretRightOutlined, PauseOutlined } from '@ant-design/icons-vue'
+import VolumeUp from '@/components/Icons/VolumeUp.vue'
+import VolumeMuted from '@/components/Icons/VolumeMuted.vue'
 import { useQuery } from '@tanstack/vue-query'
 
 const props = defineProps<{
@@ -84,8 +81,8 @@ const handleCancel = () => {
           <CaretRightOutlined v-if="!isPlaying" />
         </div>
         <div class="center cursor-pointer" @click="handleMute">
-          <SoundOutlined v-if="!isMuted" />
-          <NotificationOutlined v-if="isMuted" />
+          <VolumeUp v-if="!isMuted" class="w-6 h-6 text-white" />
+          <VolumeMuted v-if="isMuted" class="w-6 h-6 text-white" />
         </div>
       </div>
 
