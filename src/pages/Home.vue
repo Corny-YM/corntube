@@ -20,7 +20,6 @@ const { isLoading } = useQuery({
 </script>
 
 <template>
-  <!-- LIST VIDEO -->
   <div v-if="isLoading" class="w-full h-full center">
     <a-spin size="large" />
   </div>

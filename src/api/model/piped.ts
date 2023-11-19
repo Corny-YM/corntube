@@ -91,7 +91,9 @@ export interface IPlaylist {
 
 export interface ISearch {
   corrected: boolean
-  items: any[]
+  items: Array<IRelatedStream | IChannelContent | IPlaylistContent>
+  nextpage: string | null
+  suggestion: string | null
 }
 
 export interface IChannel {
@@ -195,21 +197,21 @@ interface IDefaultStream {
   thumbnail: string
   type: Type
   uploaderName: string
-  uploaderUrl: string | null
+  uploaderUrl: string
   uploaderVerified: boolean
   url: string
 }
 
 export interface IRelatedStream extends IDefaultStream {
-  duration?: number
-  isShort?: boolean
-  shortDescription?: null | string
+  duration: number
+  isShort: boolean
+  shortDescription: string | null
   thumbnail: string
-  title?: string
-  uploaded?: number
-  uploadedDate?: string
-  uploaderAvatar?: string
-  views?: number
+  title: string
+  uploaded: number
+  uploadedDate: string
+  uploaderAvatar: string
+  views: number
 }
 
 export interface IPlaylistContent extends IDefaultStream {
@@ -219,6 +221,7 @@ export interface IPlaylistContent extends IDefaultStream {
 export enum Type {
   Playlist = 'playlist',
   Stream = 'stream',
+  Channel = 'channel',
 }
 
 export interface ISubtitle {
