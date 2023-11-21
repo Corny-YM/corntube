@@ -15,7 +15,7 @@ const emits = defineEmits<{
 <template>
   <div
     :key="playlist.url"
-    class="playlist-item bg-red-300"
+    class="playlist-item"
     @click="emits('click', playlist.url)"
   >
     <!-- IMG -->

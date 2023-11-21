@@ -11,8 +11,9 @@ interface Option {
 }
 
 const router = useRouter()
+const route = useRoute()
 
-const value = ref('')
+const value = ref(route.query.q?.toString() || '')
 const dataSource = ref<Option[]>([])
 
 const { mutate, isPending } = useMutation({

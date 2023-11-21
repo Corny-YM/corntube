@@ -3,6 +3,7 @@ import {
   IChannel,
   IComments,
   IPlaylist,
+  ISearch,
   IStreams,
   ITrending,
 } from './model/piped'
@@ -71,7 +72,16 @@ export const getSuggestions = (query: string): Promise<string[]> =>
 export const getSearchData = (params: {
   q: string
   filter: 'all' | 'videos' | 'channels' | 'playlists'
-}): Promise<any> =>
+}): Promise<ISearch> =>
   pipedAxios.get('/search', {
+    params,
+  })
+
+export const getNextDataSearch = (params: {
+  q: string
+  filter: 'all' | 'videos' | 'channels' | 'playlists'
+  nextpage: string
+}): Promise<ISearch> =>
+  pipedAxios.get(`/nextpage/search`, {
     params,
   })

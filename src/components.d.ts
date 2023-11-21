@@ -50,6 +50,8 @@ declare module 'vue' {
     Detail: typeof import('./components/Watch/Detail.vue')['default']
     Header: typeof import('./components/Channel/Header.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    ItemChannel: typeof import('./components/Search/ItemChannel.vue')['default']
+    ItemPlaylist: typeof import('./components/Search/ItemPlaylist.vue')['default']
     ItemVideos: typeof import('./components/Search/ItemVideos.vue')['default']
     ListVideos: typeof import('./components/Watch/ListVideos.vue')['default']
     Playlist: typeof import('./components/Playlist/index.vue')['default']

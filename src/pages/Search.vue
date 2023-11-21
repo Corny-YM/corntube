@@ -7,21 +7,27 @@ import PageSearch from '@/components/Search/index.vue'
 const route = useRoute()
 
 const searchData = ref<ISearch | null>(null)
+const filter = ref<'all' | 'videos' | 'channels' | 'playlists'>('all')
 
 const query = computed(() => route.query.q!)
 
-const { isLoading } = useQuery({
+const { isLoading, refetch } = useQuery({
   enabled: !!unref(query),
-  queryKey: ['search', unref(query)],
+  refetchOnWindowFocus: false,
+  queryKey: ['search', unref(query).toString(), unref(filter)],
   queryFn: () =>
     getSearchData({
       q: unref(query).toString(),
-      filter: 'all',
+      filter: unref(filter),
     }),
-  refetchOnWindowFocus: false,
   select(data) {
     searchData.value = data
   },
+})
+
+watch([filter, query], () => {
+  if (!unref(filter) || !unref(query)) return
+  refetch()
 })
 </script>
 
@@ -35,7 +41,12 @@ const { isLoading } = useQuery({
   >
     <a-empty description="Không tìm thấy dữ liệu" />
   </div>
-  <PageSearch v-else :data="searchData" />
+  <PageSearch
+    v-else
+    :key="query.toString() + searchData.nextpage!"
+    :data="searchData"
+    v-model:filter="filter"
+  />
 </template>
 
 <style scoped lang="scss"></style>

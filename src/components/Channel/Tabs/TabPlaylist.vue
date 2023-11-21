@@ -2,6 +2,7 @@
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import { getPlaylist, getTabsData } from '@/api/piped'
 import type { ITabPlaylist, IPlaylistContent } from '@/api/model/piped'
+import { messagePopup } from '@/utils';
 
 const props = defineProps<{
   data: string
@@ -42,6 +43,10 @@ const { mutate: mutatePlaylist } = useMutation({
     const relatedStreams = data.relatedStreams
     const videoId = relatedStreams[0].url!
     router.push(`${videoId}&list=${variable}`)
+  },
+  onError(err) {
+    messagePopup({ type: 'error' })
+    console.log(err)
   },
 })
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { IRelatedStream } from '@/api/model/piped'
-import { formatTimeAgoToVietnamese, formatViews } from '@/utils'
+import { formatDuration, formatTimeAgoToVietnamese, formatViews } from '@/utils'
 
 defineProps<{
   data: IRelatedStream
@@ -13,13 +13,18 @@ defineProps<{
     class="w-full flex justify-start items-center mt-4 cursor-pointer"
   >
     <div
-      class="center max-w-[500px] min-w-[500px] mr-4 rounded-xl overflow-hidden"
+      class="relative center max-w-[500px] min-w-[500px] mr-4 rounded-xl overflow-hidden shadow-md"
     >
       <img
         :src="data.thumbnail"
         class="w-full h-full object-contain self-stretch"
         loading="lazy"
       />
+      <a-tag
+        class="absolute rounded-md bg-slate-300 font-medium bottom-1 -right-1"
+      >
+        {{ formatDuration(data.duration) }}
+      </a-tag>
     </div>
     <div class="self-stretch flex flex-col">
       <div class="title mb-1">

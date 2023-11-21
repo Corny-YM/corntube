@@ -1,6 +1,6 @@
 import { SelectProps } from 'ant-design-vue'
 
-export const filterSearch = [
+export const filterSearch: SelectProps['options'] = [
   {
     value: 'all',
     label: 'Tất cả',
@@ -17,4 +17,4 @@ export const filterSearch = [
     value: 'playlists',
     label: 'Danh sách phát',
   },
-] as SelectProps['options']
+]
