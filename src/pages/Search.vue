@@ -39,7 +39,7 @@ watch([filter, query], () => {
     v-else-if="!searchData || !Object.keys(searchData).length"
     class="w-full h-full center"
   >
-    <a-empty description="Không tìm thấy dữ liệu" />
+    <EmptyData />
   </div>
   <PageSearch
     v-else

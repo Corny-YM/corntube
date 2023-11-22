@@ -24,7 +24,7 @@ const { isLoading } = useQuery({
     <a-spin size="large" />
   </div>
   <div v-else-if="!trendingData || !trendingData.length" class="h-full center">
-    <a-empty description="Không tìm thấy dữ liệu" />
+    <EmptyData />
   </div>
   <VideoList v-else :data="trendingData" />
 </template>

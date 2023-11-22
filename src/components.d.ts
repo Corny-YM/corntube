@@ -55,6 +55,7 @@ declare module 'vue' {
     ItemPlaylist: typeof import('./components/Search/ItemPlaylist.vue')['default']
     ItemVideos: typeof import('./components/Search/ItemVideos.vue')['default']
     ListVideos: typeof import('./components/Watch/ListVideos.vue')['default']
+    NoComments: typeof import('./components/Icons/NoComments.vue')['default']
     Playlist: typeof import('./components/Playlist/index.vue')['default']
     PlaylistInfo: typeof import('./components/Playlist/PlaylistInfo.vue')['default']
     PlaylistItem: typeof import('./components/Channel/Tabs/components/PlaylistItem.vue')['default']

@@ -28,7 +28,7 @@ const { isLoading } = useQuery({
     v-else-if="!playlistData || !Object.keys(playlistData).length"
     class="h-full center"
   >
-    <a-empty description="Không tìm thấy dữ liệu" />
+    <EmptyData description="Không tìm thấy danh sách phát" />
   </div>
   <PagePlaylist v-else :data="playlistData" />
 </template>

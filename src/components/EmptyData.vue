@@ -7,7 +7,7 @@ defineProps<{
   description?: string
 }>()
 
-const defaultDesc = ref('Không có dữ liệu')
+const defaultDesc = ref('Không tìm thấy dữ liệu')
 </script>
 
 <template>

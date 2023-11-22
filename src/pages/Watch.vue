@@ -34,7 +34,7 @@ watch(
     <a-spin size="large" />
   </div>
   <div v-else-if="!streamsData" class="h-full center">
-    <a-empty description="Không tìm thấy dữ liệu" />
+    <EmptyData />
   </div>
   <Watch v-else :data="streamsData" />
 </template>

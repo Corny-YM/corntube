@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { Empty } from 'ant-design-vue'
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import { getComments, getNextDataComments } from '@/api/piped'
 import { IComment } from '@/api/model/piped'
 import { messagePopup } from '@/utils'
+import NoComments from '@/assets/imgs/NoComments.png'
 
 const route = useRoute()
 
-const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
 const videoId = computed(() => route.query?.v)
 
 const dataComment = ref<IComment[]>([])
@@ -49,7 +48,7 @@ const handleLoadMoreComments = () => {
     <a-spin size="large" />
   </div>
   <div v-else-if="!dataComment || !dataComment.length" class="h-full center">
-    <a-empty :image="simpleImage" description="Chưa có bình luận nào" />
+    <EmptyData :image="NoComments" description="Chưa có bình luận nào" />
   </div>
   <div v-else class="mb-8">
     <Comment
