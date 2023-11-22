@@ -48,7 +48,7 @@ const handleLoadNextPage = () => {
     v-else-if="!livestreamData || !livestreamData.length"
     class="w-full center"
   >
-    <a-empty description="Kênh này chưa có video nào" />
+    <EmptyData description="Kênh này chưa có video nào" />
   </div>
   <VideoList :data="livestreamData" :is-detail="false" class="livestream" />
   <div v-if="dataNextPage" class="w-full center mb-4">

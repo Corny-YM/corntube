@@ -40,7 +40,14 @@ const date = computed(() =>
           </a-tooltip>
         </div>
         <!-- channel -->
-        <div v-if="detail" class="text-sm">{{ video.uploaderName }}</div>
+        <a
+          :href="video.uploaderUrl"
+          v-if="detail"
+          class="text-sm"
+          @click.stop=""
+        >
+          {{ video.uploaderName }}
+        </a>
         <!-- detail -->
         <div class="font-normal" :class="!detail ? 'text-xs' : 'text-sm'">
           {{ views }} lượt xem • {{ date }}

@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import {
   HomeOutlined,
   PlaySquareOutlined,
@@ -9,6 +9,7 @@ import {
   RightOutlined,
   MenuOutlined,
 } from '@ant-design/icons-vue'
+import { onMounted, onUnmounted } from 'vue'
 
 const menuItem = [
   {
@@ -88,6 +89,16 @@ const handleCloseSidebar = () => {
     isShowSidebar.value = false
   }, 250)
 }
+
+const handleResize = () => {
+  if (window.innerWidth <= 1281) {
+    isShowSidebar.value = false
+  }
+}
+
+onMounted(() => window.addEventListener('resize', handleResize))
+
+onUnmounted(() => window.removeEventListener('resize', handleResize))
 </script>
 
 <template>
@@ -97,14 +108,14 @@ const handleCloseSidebar = () => {
       class="sidebar fixed top-0 bottom-0 z-[60]"
       :class="[
         isShowSidebar ? 'active' : '',
-        sidebar ? 'xl:relative' : 'transitioning',
+        sidebar ? 'min-[1281px]:relative' : 'transitioning',
       ]"
     >
       <div class="flex flex-col h-full">
         <!-- Toggle bar & Logo -->
         <div
           class="flex items-center gap-2 select-none px-4 py-[14px]"
-          :class="sidebar ? 'xl:hidden' : ''"
+          :class="sidebar ? 'min-[1281px]:hidden' : ''"
         >
           <div
             class="center w-auto h-auto text-xl p-2 cursor-pointer rounded-full hover:bg-lightHover"

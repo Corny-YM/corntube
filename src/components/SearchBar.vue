@@ -38,6 +38,16 @@ const handleSelect = (value: any) => {
     },
   })
 }
+const handleKeyDown = (e: KeyboardEvent) => {
+  if (e.code === 'Enter') {
+    router.push({
+      path: '/search',
+      query: {
+        q: unref(value),
+      },
+    })
+  }
+}
 const handleMutateSearch = useDebounce(() => {
   const inputValue = unref(value)
   mutate(inputValue)
@@ -62,10 +72,13 @@ watch(
       class="max-w-xs w-80 border-0"
       :dropdown-match-select-width="252"
       :options="dataSource"
+      :defaultActiveFirstOption="false"
       @select="handleSelect"
+      @keydown="handleKeyDown"
     >
       <template #option="item">
-        <div class="flex justify-between">
+        <div class="flex items-center justify-start">
+          <div class="w-5 h-5 mr-2"><SearchOutline /></div>
           <span class="font-medium">{{ item.category }}</span>
         </div>
       </template>

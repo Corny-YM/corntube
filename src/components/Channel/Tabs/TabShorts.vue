@@ -55,7 +55,7 @@ const openModal = (url: string) => {
     <a-spin size="large" />
   </div>
   <div v-else-if="!shortsData || !shortsData.length" class="h-full center">
-    <a-empty description="Kênh này chưa có shorts nào" />
+    <EmptyData description="Kênh này chưa có shorts nào" />
   </div>
   <VideoList v-else class="short-list">
     <template #item>

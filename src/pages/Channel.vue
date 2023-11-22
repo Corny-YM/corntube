@@ -57,7 +57,7 @@ const handleNextDataChannel = () => {
     v-else-if="!channelData || !Object.keys(channelData).length"
     class="h-full center"
   >
-    <a-empty description="Không tìm thấy dữ liệu" />
+    <EmptyData />
   </div>
   <div v-else class="h-full flex flex-col items-center overflow-y-auto">
     <!-- Banner Picture -->
@@ -96,8 +96,7 @@ const handleNextDataChannel = () => {
 
 <style scoped lang="scss">
 .channel-content {
-  width: 100%;
-  padding: 0 16px;
+  @apply w-full py-0 px-2 sm:px-4 flex flex-col;
 
   @media (min-width: 860px) {
     width: 91.666667%;

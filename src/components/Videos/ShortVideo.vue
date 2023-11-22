@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { IShort } from '@/api/model/piped'
-import NoAvatar from '@/assets/imgs/NoAvatar.png'
 
 const props = defineProps<{
   short: IShort
@@ -18,8 +17,10 @@ const handleClick = () => {
 <template>
   <div class="short-item" @click="handleClick">
     <!-- IMG -->
-    <div class="flex justify-center rounded-xl overflow-hidden">
-      <a-image :preview="false" :src="short.thumbnail" :fallback="NoAvatar" />
+    <div
+      class="h-full flex justify-center rounded-xl overflow-hidden bg-[#d9d9d9]"
+    >
+      <img :src="short.thumbnail" class="w-full h-full object-contain" />
     </div>
 
     <!-- INFO -->
@@ -34,7 +35,7 @@ const handleClick = () => {
 
 <style lang="scss" scoped>
 .short-item {
-  @apply h-auto flex flex-col items-center mx-2 rounded-xl cursor-pointer;
+  @apply h-auto flex flex-col items-center sm:mx-2 rounded-xl cursor-pointer;
   @apply w-full sm:w-fit;
   @apply mb-2 sm:mb-7;
   color: initial;

@@ -43,6 +43,7 @@ export const formatTimeAgoToVietnamese = (text: string) => {
     })
     .replace('ago', '')
     .replace('edited', 'đã chỉnh sửa')
+    .replace('Streamed', 'Phát trực tiếp')
     .trim()
   return time
 }

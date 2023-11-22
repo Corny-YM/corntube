@@ -10,7 +10,7 @@ defineProps<{
 <template>
   <a
     :href="data.url"
-    class="w-full flex justify-start items-center mt-4 cursor-pointer"
+    class="w-full h-fit flex justify-start mt-4 cursor-pointer"
   >
     <div
       class="relative center max-w-[500px] min-w-[500px] mr-4 rounded-xl overflow-hidden shadow-md"
@@ -26,7 +26,7 @@ defineProps<{
         {{ formatDuration(data.duration) }}
       </a-tag>
     </div>
-    <div class="self-stretch flex flex-col">
+    <div class="flex-1 flex flex-col">
       <div class="title mb-1">
         {{ data.title }}
       </div>
@@ -45,9 +45,10 @@ defineProps<{
         trigger="hover"
         :mouse-leave-delay="0"
         title="Thông tin trong phần mô tả"
-        class="select-none"
       >
-        <div class="text line-clamp-2">{{ data.shortDescription }}</div>
+        <div class="text h-fit">
+          {{ data.shortDescription }}
+        </div>
       </a-tooltip>
     </div>
   </a>
@@ -59,6 +60,7 @@ defineProps<{
 }
 
 .text {
-  @apply text-[#606060] text-xs;
+  @apply text-[#606060] text-xs line-clamp-2;
+  overflow-wrap: anywhere;
 }
 </style>

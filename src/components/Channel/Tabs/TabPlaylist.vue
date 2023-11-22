@@ -2,7 +2,7 @@
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import { getPlaylist, getTabsData } from '@/api/piped'
 import type { ITabPlaylist, IPlaylistContent } from '@/api/model/piped'
-import { messagePopup } from '@/utils';
+import { messagePopup } from '@/utils'
 
 const props = defineProps<{
   data: string
@@ -69,7 +69,7 @@ const handleClickItem = (url: string) => {
     <a-spin size="large" />
   </div>
   <div v-else-if="!playlistData || !playlistData.length" class="h-full center">
-    <a-empty description="Kênh này chưa có danh sách phát nào" />
+    <EmptyData description="Kênh này chưa có danh sách phát nào" />
   </div>
   <VideoList v-else class="playlist">
     <template #item>

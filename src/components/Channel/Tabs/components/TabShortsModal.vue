@@ -94,7 +94,7 @@ const handleCancel = () => {
         <a-spin size="large" />
       </div>
       <video
-        class="w-fit h-full object-cover"
+        class="w-full h-full object-cover"
         ref="refShortVideo"
         type="video/*"
         preload="metadata"

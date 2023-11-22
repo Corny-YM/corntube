@@ -46,7 +46,7 @@ const handleLoadNextPage = () => {
     <a-spin size="large" />
   </div>
   <div v-else-if="!channelData || !channelData.length" class="h-full center">
-    <a-empty description="Kênh này chưa có bất kỳ kênh nào khác" />
+    <EmptyData description="Kênh này chưa có bất kỳ kênh nào khác" />
   </div>
   <div class="channel-list mb-2">
     <div
