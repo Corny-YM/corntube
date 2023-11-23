@@ -42,6 +42,11 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: '/:pathMatch(.*)*',
+      name: '403',
+      component: () => import('@/pages/403.vue'),
+    },
   ],
 })
 
