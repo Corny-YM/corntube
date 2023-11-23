@@ -54,9 +54,9 @@ const { isLoading } = useQuery({
 
       <!-- detail -->
       <div class="flex flex-col justify-center">
-        <div class="title mb-4">{{ data.title }}</div>
+        <div class="title mb-2">{{ data.title }}</div>
 
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center flex-wrap">
           <div class="center">
             <a :href="channelUrl" class="w-10 h-10 rounded-full">
               <a-avatar
@@ -74,7 +74,7 @@ const { isLoading } = useQuery({
             </div>
           </div>
 
-          <div class="flex gap-1">
+          <div class="flex gap-1 pt-4 pb-2">
             <a-button :icon="h(LikeOutlined)" class="center">
               {{ formatViews(data.likes, 0) }} Like
             </a-button>
@@ -82,6 +82,9 @@ const { isLoading } = useQuery({
               {{ formatViews(data.dislikes, 0) }} Dislike
             </a-button>
             <a-button type="primary" class="font-medium ml-2">Đăng ký</a-button>
+            <a-button :icon="h(DownloadOutlined)" shape="round" class="block lg:hidden ml-2">
+              Download
+            </a-button>
           </div>
         </div>
 
@@ -90,7 +93,7 @@ const { isLoading } = useQuery({
             {{ formatViews(data.views) }} lượt xem | Đã công chiếu vào
             {{ formatDate(new Date(data.uploadDate), 'DD-MM-YYYY hh:mm:ss') }}
           </a-typography-text>
-          <a-button :icon="h(DownloadOutlined)" shape="round">
+          <a-button :icon="h(DownloadOutlined)" shape="round" class="lg:block hidden">
             Download
           </a-button>
         </div>
