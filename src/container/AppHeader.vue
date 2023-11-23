@@ -7,18 +7,42 @@ const props = defineProps<{
 
 const emits = defineEmits(['update:isShow'])
 
+const refUser = ref<HTMLDivElement | null>(null)
+const refDropdown = ref<HTMLDivElement | null>(null)
+const openDropdown = ref(false)
+
 const isShow = computed({
   get: () => props.isShow,
   set: (value) => emits('update:isShow', value),
+})
+
+const handleWindowClick = (e: Event) => {
+  const target = e.target as HTMLElement
+
+  const isClickUser = unref(refUser)?.contains(target)
+  if (isClickUser) return
+  const isContains = unref(refDropdown)?.contains(target)
+  if (isContains) return
+
+  openDropdown.value = false
+}
+
+onMounted(() => {
+  window.addEventListener('click', handleWindowClick)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('click', handleWindowClick)
 })
 </script>
 
 <template>
   <header class="header">
-    <div class="flex items-center gap-2 select-none">
+    <!-- Logo -->
+    <div class="flex items-center select-none">
       <!-- Toggle bar -->
       <div
-        class="center w-full h-full text-xl p-2 cursor-pointer rounded-full hover:bg-lightHover"
+        class="center w-full h-full md:text-xl mr-1 md:mr-2 p-2 cursor-pointer rounded-full hover:bg-lightHover"
         @click="isShow = !isShow"
       >
         <MenuOutlined />
@@ -26,7 +50,9 @@ const isShow = computed({
 
       <!-- Logo -->
       <router-link to="/" class="header-logo no-underline">
-        <div class="text-3xl font-semibold font-rubikWet text-blueAntd">
+        <div
+          class="text-xl md:text-3xl font-semibold font-rubikWet text-blueAntd"
+        >
           CornTube
         </div>
       </router-link>
@@ -37,12 +63,18 @@ const isShow = computed({
 
     <!-- More -->
     <div class="flex justify-center items-center gap-5">
-      <ToggleTheme />
-
-      <a-dropdown :trigger="['click']" class="cursor-pointer">
-        <Avatar />
+      <ToggleTheme class="hidden md:inline-block" />
+      <a-dropdown
+        class="cursor-pointer"
+        :trigger="['click']"
+        :open="openDropdown"
+      >
+        <div ref="refUser" class="center" @click="openDropdown = !openDropdown">
+          <Avatar />
+        </div>
         <template #overlay>
           <div
+            ref="refDropdown"
             class="card-profile bg-white border border-solid border-slate-400"
           >
             <div class="card-profile__content cursor-default">
@@ -56,7 +88,10 @@ const isShow = computed({
             </div>
             <a-divider class="m-0" type="horizontal" />
             <div class="card-profile__action">
-              <a-button type="primary">Đăng xuất</a-button>
+              <ToggleTheme class="inline-block md:hidden" />
+              <div class="flex-1 flex justify-end items-center">
+                <a-button type="primary">Đăng xuất</a-button>
+              </div>
             </div>
           </div>
         </template>
@@ -100,7 +135,7 @@ const isShow = computed({
 
   &__action {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     padding: 12px 16px;
   }

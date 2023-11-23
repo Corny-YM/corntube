@@ -69,7 +69,7 @@ watch(
   <div>
     <a-auto-complete
       v-model:value="value"
-      class="max-w-xs w-80 border-0"
+      class="md:w-80 border-0 mx-2"
       :dropdown-match-select-width="252"
       :options="dataSource"
       :defaultActiveFirstOption="false"
@@ -78,8 +78,10 @@ watch(
     >
       <template #option="item">
         <div class="flex items-center justify-start">
-          <div class="w-5 h-5 mr-2"><SearchOutline /></div>
-          <span class="font-medium">{{ item.category }}</span>
+          <div class="w-4 h-4 md:w-5 md:h-5 center"><SearchOutline /></div>
+          <span class="pl-2 flex-1 text-ellipsis font-medium line-clamp-1">
+            {{ item.category }}
+          </span>
         </div>
       </template>
       <a-input-search
