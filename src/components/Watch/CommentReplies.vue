@@ -6,6 +6,10 @@ import { useMutation, useQuery } from '@tanstack/vue-query'
 
 const props = defineProps<{
   repliesPage: string
+  authorData?: {
+    name: string
+    avatar: string
+  }
 }>()
 
 const route = useRoute()
@@ -59,8 +63,9 @@ const handleLoadMoreReplies = () => {
   <div v-else-if="dataReplies && dataReplies.length" class="flex flex-col">
     <Comment
       v-for="reply in dataReplies"
-      :key="reply.commentId"
+      :key="reply.commentId + reply"
       :content="reply"
+      :author-data="authorData"
     />
     <div class="mt-2 pl-8">
       <a-button

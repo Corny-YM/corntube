@@ -17,18 +17,24 @@ const url = computed(() => {
 
 <template>
   <a :href="url" class="playlist-video--item">
-    <div class="w-9 font-medium text-center">{{ index }}</div>
-    <div class="relative center w-40 rounded-2xl overflow-hidden aspect-video mr-2">
+    <div
+      class="w-auto px-2 sm:w-9 text-sm sm:text-base font-medium text-center"
+    >
+      {{ index }}
+    </div>
+    <div
+      class="relative center w-40 rounded-2xl overflow-hidden aspect-video mr-2"
+    >
       <a-image :preview="false" :src="video.thumbnail"></a-image>
       <a-tag class="playlist-video--duration">
         {{ formatDuration(video.duration) }}
       </a-tag>
     </div>
     <div class="flex-1 flex flex-col">
-      <div class="max-h-[44px] text-base line-clamp-2 font-medium mb-2">
+      <div class="title">
         {{ video.title }}
       </div>
-      <div class="text-xs text-[#606060]">
+      <div class="text-xs text-[#606060] line-clamp-1">
         {{ video.uploaderName }} <span>•</span>
         {{ formatViews(video.views) }} lượt xem <span>•</span>
         {{ formatTimeAgoToVietnamese(video.uploadedDate) }}
@@ -39,11 +45,16 @@ const url = computed(() => {
 
 <style scoped lang="scss">
 .playlist-video--item {
-  @apply w-full flex justify-start items-center py-2 pr-4 cursor-pointer rounded-2xl;
+  @apply w-full flex justify-start items-center py-2 pr-2 sm:pr-4 cursor-pointer rounded-2xl;
   transition: all 150ms ease-in-out;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .title {
+    @apply max-h-[44px] text-base line-clamp-2 font-medium mb-2;
+    overflow-wrap: anywhere;
   }
 }
 

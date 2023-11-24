@@ -25,38 +25,49 @@ const details = computed(
 
 <template>
   <div class="playlist-info text-white">
-    <a :href="url" class="playlist-info--img">
-      <a-image :preview="false" :src="thumbnail"></a-image>
-      <div class="img-overlay">
-        <CaretRightOutlined class="center mr-1 text-xl" />
-        <div class="uppercase font-medium">Phát tất cả</div>
+    <!-- Info -->
+    <div class="flex flex-col sm:flex-row lg:flex-col">
+      <a :href="url" class="playlist-info--img">
+        <img
+          :src="thumbnail"
+          class="w-full h-full object-cover"
+          loading="lazy"
+        />
+        <div class="img-overlay">
+          <CaretRightOutlined class="center mr-1 text-xl" />
+          <div class="uppercase font-medium">Phát tất cả</div>
+        </div>
+      </a>
+      <div class="sm:ml-4 lg:ml-0">
+        <div class="text-2xl font-bold my-4 line-clamp-2">{{ title }}</div>
+        <a :href="uploaderUrl" class="flex w-fit font-medium mb-1">{{ uploader }}</a>
+        <div class="text-xs text-[#FFFFFFB3] text-ellipsis line-clamp-1">
+          {{ details }}
+        </div>
+        <div class="mt-4 flex justify-start items-start">
+          <a-tooltip title="Chia sẻ">
+            <a-button
+              class="playlist-btn"
+              type="dashed"
+              shape="circle"
+              size="large"
+              :icon="h(ShareAltOutlined)"
+            />
+          </a-tooltip>
+          <a-tooltip title="Tải xuống">
+            <a-button
+              class="playlist-btn"
+              type="dashed"
+              shape="circle"
+              size="large"
+              :icon="h(DownloadOutlined)"
+            />
+          </a-tooltip>
+        </div>
       </div>
-    </a>
-    <div class="text-2xl font-bold my-4">{{ title }}</div>
-    <a :href="uploaderUrl" class="w-fit font-medium mb-1">{{ uploader }}</a>
-    <div class="text-xs text-[#FFFFFFB3] text-ellipsis line-clamp-1">
-      {{ details }}
     </div>
-    <div class="mt-4 flex justify-start items-start">
-      <a-tooltip title="Chia sẻ">
-        <a-button
-          class="playlist-btn"
-          type="dashed"
-          shape="circle"
-          size="large"
-          :icon="h(ShareAltOutlined)"
-        />
-      </a-tooltip>
-      <a-tooltip title="Tải xuống">
-        <a-button
-          class="playlist-btn"
-          type="dashed"
-          shape="circle"
-          size="large"
-          :icon="h(DownloadOutlined)"
-        />
-      </a-tooltip>
-    </div>
+
+    <!-- Buttons -->
     <div class="mt-4 w-full flex justify-start items-center">
       <a-button
         type="primary"
@@ -83,12 +94,9 @@ const details = computed(
 
 <style scoped lang="scss">
 .playlist-info {
-  @apply w-[360px] h-full flex flex-col rounded-2xl p-6 mr-2;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(17, 69, 141, 0.9) 100%
-  );
+  @apply w-full lg:w-[360px] h-fit lg:h-full flex flex-col lg:rounded-2xl;
+  @apply p-6 mb-6 lg:mb-0 lg:mr-2;
+  @apply bg-gradient-to-b from-black to-[#11458de6];
 }
 
 .playlist-btn {
@@ -98,8 +106,8 @@ const details = computed(
 }
 
 .playlist-info--img {
-  @apply relative w-full flex justify-center items-center;
-  @apply rounded-2xl cursor-pointer overflow-hidden;
+  @apply relative w-fit flex justify-center items-center;
+  @apply mx-auto rounded-2xl cursor-pointer overflow-hidden;
 
   .img-overlay {
     @apply absolute inset-0 flex justify-center items-center;

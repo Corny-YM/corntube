@@ -4,6 +4,7 @@ import {
   LikeOutlined,
   DislikeOutlined,
   CaretDownOutlined,
+  HeartFilled,
 } from '@ant-design/icons-vue'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { formatTimeAgoToVietnamese, formatViews, messagePopup } from '@/utils'
@@ -14,17 +15,20 @@ dayjs.extend(relativeTime)
 const props = defineProps<{
   content: IComment
   isChildren?: boolean
+  authorData?: {
+    name: string
+    avatar: string
+  }
 }>()
 
 const isFull = ref(false)
-const refComment = ref<HTMLDivElement | null>(null)
 const repliesPage = ref('')
 const isOpen = ref(false)
 
 const channelUrl = computed(() => props.content.commentorUrl)
 
 const handleClick = () => {
-  if (!unref(repliesPage)) repliesPage.value = props.content.repliesPage!
+  if (!unref(repliesPage)) repliesPage.value = props.content.repliesPage || ''
   isOpen.value = !unref(isOpen)
 }
 
@@ -51,29 +55,41 @@ const handleLike = () => {
           {{ formatViews(content.replyCount) }} phản hồi
         </div>
       </a-button>
-      <slot name="reply">
+      <slot name="reply" v-if="content.repliesPage">
         <div class="reply-content" :class="isOpen ? 'show' : 'close'">
-          <CommentReplies :repliesPage="repliesPage" />
+          <CommentReplies :repliesPage="repliesPage" :authorData="authorData" />
         </div>
       </slot>
     </div>
 
     <!-- Like & Dislike -->
     <template #actions>
-      <span key="comment-basic-like" @click="handleLike">
-        <a-tooltip title="Like">
-          <LikeOutlined />
-        </a-tooltip>
-        {{ formatViews(content.likeCount) }}
-      </span>
-      <span key="comment-basic-dislike" @click="handleLike">
-        <a-tooltip title="Dislike">
-          <DislikeOutlined />
-        </a-tooltip>
-      </span>
-      <span v-if="!isChildren" key="comment-basic-reply-to" @click="handleLike">
-        Reply to
-      </span>
+      <div class="flex items-center">
+        <div class="actions-item" @click="handleLike">
+          <a-tooltip title="Like">
+            <LikeOutlined />
+          </a-tooltip>
+          {{ formatViews(content.likeCount) }}
+        </div>
+        <div class="actions-item" @click="handleLike">
+          <a-tooltip title="Dislike">
+            <DislikeOutlined />
+          </a-tooltip>
+        </div>
+        <template v-if="content.hearted">
+          <a-tooltip :title="`💓 từ ${authorData?.name}`">
+            <div class="actions-item center relative w-9 h-9 select-none">
+              <a-avatar class="w-5 h-5" :src="authorData?.avatar" />
+              <HeartFilled
+                class="absolute bottom-0 right-0 -translate-x-1/4 -translate-y-1/4 center text-[#df3636]"
+              />
+            </div>
+          </a-tooltip>
+        </template>
+        <div v-if="!isChildren" class="actions-item" @click="handleLike">
+          Reply to
+        </div>
+      </div>
     </template>
 
     <!-- Author -->
@@ -104,7 +120,7 @@ const handleLike = () => {
           :class="isFull ? 'showing' : ''"
           @click="isFull = !isFull"
         >
-          <p ref="refComment" class="comment" v-html="content.commentText"></p>
+          <p class="comment" v-html="content.commentText"></p>
         </div>
       </div>
     </template>
@@ -130,6 +146,12 @@ const handleLike = () => {
   }
 }
 
+.actions-item {
+  & + & {
+    @apply ml-2;
+  }
+}
+
 .icon-caret-down {
   transition: all 100ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -147,4 +169,3 @@ const handleLike = () => {
   }
 }
 </style>
-@/utils/format

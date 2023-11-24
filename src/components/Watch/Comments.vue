@@ -5,6 +5,13 @@ import { IComment } from '@/api/model/piped'
 import { messagePopup } from '@/utils'
 import NoComments from '@/assets/imgs/NoComments.png'
 
+defineProps<{
+  authorData: {
+    name: string
+    avatar: string
+  }
+}>()
+
 const route = useRoute()
 
 const videoId = computed(() => route.query?.v)
@@ -53,8 +60,9 @@ const handleLoadMoreComments = () => {
   <div v-else class="mb-8">
     <Comment
       v-for="comment in dataComment"
-      :key="comment.commentId"
+      :key="comment.commentId + comment.author"
       :content="comment"
+      :author-data="authorData"
     />
     <div class="w-full center mt-2">
       <a-button

@@ -50,7 +50,12 @@ const hiddenVisible = computed(() => {
 </script>
 
 <template>
-  <div class="w-full h-full flex justify-between items-center py-6">
+  <div
+    class="w-full h-full flex flex-col lg:flex-row justify-between items-center lg:py-6 overflow-y-auto"
+  >
+    <div v-if="hiddenVisible" class="banner-hidden-video !flex lg:!hidden">
+      Đã ẩn {{ hiddenVideos }} video không xem được
+    </div>
     <!-- Info -->
     <PlaylistInfo
       :title="data.name"
@@ -65,9 +70,9 @@ const hiddenVisible = computed(() => {
 
     <!-- playlist -->
     <div
-      class="w-full h-full flex flex-col justify-start items-start mr-6 overflow-auto"
+      class="w-full h-fit lg:h-full flex flex-col justify-start items-start mb-5 lg:pr-4 lg:overflow-auto"
     >
-      <div v-if="hiddenVisible" class="banner-hidden-video">
+      <div v-if="hiddenVisible" class="banner-hidden-video lg:!flex !hidden">
         Đã ẩn {{ hiddenVideos }} video không xem được
       </div>
       <!-- List Videos -->
@@ -85,7 +90,7 @@ const hiddenVisible = computed(() => {
 .banner-hidden-video {
   @apply flex justify-center items-center;
   @apply flex-1 min-h-[56px];
-  @apply ml-9 mb-2 self-stretch;
+  @apply lg:ml-9 lg:mb-2 self-stretch;
   background-color: rgba(0, 0, 0, 0.05);
 }
 </style>

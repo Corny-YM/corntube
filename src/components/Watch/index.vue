@@ -39,9 +39,11 @@ const { isLoading } = useQuery({
 </script>
 
 <template>
-  <div class="px-9 flex w-full h-full pt-6 justify-center overflow-auto">
+  <div
+    class="px-6 lg:px-9 flex w-full h-full pt-6 justify-center overflow-auto"
+  >
     <!-- Content -->
-    <div class="w-3/5 pr-6 mb-3">
+    <div class="w-full lg:w-3/5 lg:pr-6 mb-3">
       <div class="center overflow-hidden rounded-xl mb-3 aspect-video bg-black">
         <video
           class="w-full h-full"
@@ -57,7 +59,7 @@ const { isLoading } = useQuery({
         <div class="title mb-2">{{ data.title }}</div>
 
         <div class="flex justify-between items-center flex-wrap">
-          <div class="center">
+          <div class="center mr-2">
             <a :href="channelUrl" class="w-10 h-10 rounded-full">
               <a-avatar
                 :src="data.uploaderAvatar"
@@ -74,15 +76,21 @@ const { isLoading } = useQuery({
             </div>
           </div>
 
-          <div class="flex gap-1 pt-4 pb-2">
-            <a-button :icon="h(LikeOutlined)" class="center">
+          <div class="flex flex-wrap sm:flex-nowrap pt-4">
+            <a-button :icon="h(LikeOutlined)" class="center mb-2">
               {{ formatViews(data.likes, 0) }} Like
             </a-button>
-            <a-button :icon="h(DislikeOutlined)" class="center">
+            <a-button :icon="h(DislikeOutlined)" class="center mb-2 ml-1 md:ml-2">
               {{ formatViews(data.dislikes, 0) }} Dislike
             </a-button>
-            <a-button type="primary" class="font-medium ml-2">Đăng ký</a-button>
-            <a-button :icon="h(DownloadOutlined)" shape="round" class="block lg:hidden ml-2">
+            <a-button type="primary" class="font-medium mb-2 ml-1 md:ml-2"
+              >Đăng ký</a-button
+            >
+            <a-button
+              :icon="h(DownloadOutlined)"
+              shape="round"
+              class="block lg:hidden mb-2 ml-1 md:ml-2"
+            >
               Download
             </a-button>
           </div>
@@ -93,7 +101,11 @@ const { isLoading } = useQuery({
             {{ formatViews(data.views) }} lượt xem | Đã công chiếu vào
             {{ formatDate(new Date(data.uploadDate), 'DD-MM-YYYY hh:mm:ss') }}
           </a-typography-text>
-          <a-button :icon="h(DownloadOutlined)" shape="round" class="lg:block hidden">
+          <a-button
+            :icon="h(DownloadOutlined)"
+            shape="round"
+            class="lg:block hidden"
+          >
             Download
           </a-button>
         </div>
@@ -102,8 +114,23 @@ const { isLoading } = useQuery({
           <Detail :description="data.description" />
         </div>
 
+        <!-- List Videos Tablet to Mobile -->
+        <div class="block lg:hidden w-full min-w-[300px]">
+          <ListVideos
+            :key="videoId.toString()"
+            :relatedStreams="data.relatedStreams"
+          />
+        </div>
+
+        <!-- List Comments -->
         <div class="heading-comment">Comments</div>
-        <Comments :key="videoId.toString()" />
+        <Comments
+          :key="videoId.toString()"
+          :authorData="{
+            name: data.uploader,
+            avatar: data.uploaderAvatar,
+          }"
+        />
       </div>
     </div>
 
@@ -124,8 +151,8 @@ const { isLoading } = useQuery({
         :chapters="data.chapters"
       />
 
-      <!-- List Videos -->
-      <div class="w-[402px] min-w-[300px] pr-6">
+      <!-- List Videos Desktop -->
+      <div class="hidden lg:block w-[402px] min-w-[300px] pr-6">
         <ListVideos
           :key="videoId.toString()"
           :relatedStreams="data.relatedStreams"
@@ -137,7 +164,7 @@ const { isLoading } = useQuery({
 
 <style lang="scss" scoped>
 .title {
-  @apply text-sm sm:text-base md:text-lg;
+  @apply text-lg;
   @apply font-medium;
 }
 </style>

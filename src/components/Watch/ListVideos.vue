@@ -37,7 +37,7 @@ const handleLoadMoreRelatedStream = () => {
 </script>
 
 <template>
-  <div class="w-96 pb-4">
+  <div class="w-full lg:w-96 pb-4">
     <VideoItem
       v-for="stream in dataRelatedStream"
       :key="stream.url"
@@ -46,6 +46,7 @@ const handleLoadMoreRelatedStream = () => {
     <div class="w-full center mt-4">
       <a-button
         v-if="isShowBtn"
+        class="w-full lg:w-auto"
         shape="round"
         type="primary"
         :loading="isPending"
