@@ -9,7 +9,12 @@ const props = defineProps({
   },
 })
 
+const refContent = ref<HTMLDivElement | null>(null)
 const isShow = ref(false)
+
+const handleGetTarget = () => {
+  return refContent.value?.children[0] as HTMLElement | Window | Document
+}
 
 onMounted(() => {
   if (window.innerWidth > 1280 && props.sidebar) {
@@ -23,25 +28,33 @@ onMounted(() => {
     <AppHeader v-model:is-show="isShow" />
     <div class="content flex h-full">
       <AppSidebar :sidebar="sidebar" v-model:is-show="isShow" />
-      <div class="flex-1" :class="sidebar ? 'xl:pl-4' : ''">
+      <div
+        ref="refContent"
+        class="content flex-1"
+        :class="sidebar ? 'xl:pl-4' : ''"
+      >
         <router-view></router-view>
       </div>
+      <a-back-top
+        class="bottom-4"
+        :duration="250"
+        :visibility-height="400"
+        :target="handleGetTarget"
+        tooltip="Back to top"
+        type="primary"
+      />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .app-layout {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   padding-top: 64px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
-}
-
-.content {
-  height: 100%;
 }
 </style>

@@ -5,14 +5,14 @@ import type { IChannel, ITrending } from '@/api/model/piped'
 import ChannelHeader from '@/components/Channel/Header.vue'
 import ChannelTabs from '@/components/Channel/Tabs/index.vue'
 import { messagePopup } from '@/utils'
-import NoBackground from '@/assets/imgs/NoBackground.jpg'
 
 const route = useRoute()
 
-const channelId = computed(() => route.params.id.toString())
 const channelData = ref<IChannel | null>(null)
 const relatedStreams = ref<ITrending[]>([])
 const nextPageData = ref('')
+const isBannerError = ref(false)
+const channelId = computed(() => route.params.id.toString())
 
 const { isLoading } = useQuery({
   queryKey: ['channel', unref(channelId)],
@@ -61,13 +61,12 @@ const handleNextDataChannel = () => {
   </div>
   <div v-else class="h-full flex flex-col items-center overflow-y-auto">
     <!-- Banner Picture -->
-    <div class="w-full center">
-      <a-image
-        width="100%"
-        :src="channelData.bannerUrl || ''"
-        :preview="true"
-        :fallback="NoBackground"
-        class="max-h-40 object-cover"
+    <div v-if="!isBannerError" class="w-full center">
+      <img
+        class="w-full object-cover"
+        :src="channelData.bannerUrl!"
+        loading="lazy"
+        @error="isBannerError = true"
       />
     </div>
 

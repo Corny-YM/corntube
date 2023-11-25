@@ -94,7 +94,7 @@ const handleCancel = () => {
         <a-spin size="large" />
       </div>
       <video
-        class="w-full h-full object-cover"
+        class="w-full h-full object-contain"
         ref="refShortVideo"
         type="video/*"
         preload="metadata"
@@ -104,6 +104,7 @@ const handleCancel = () => {
         :src="open ? videoSrc : undefined"
         @waiting="isPlayable = false"
         @canplay="isPlayable = true"
+        @click="handlePlay"
       ></video>
     </div>
   </a-modal>
