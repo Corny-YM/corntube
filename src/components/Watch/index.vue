@@ -16,6 +16,7 @@ const props = defineProps<{
 
 const route = useRoute()
 
+const isDesktopSize = ref(false)
 const playlistData = ref<IPlaylist | null>(null)
 
 const videoId = computed(() => route.query.v!)
@@ -36,14 +37,29 @@ const { isLoading } = useQuery({
     playlistData.value = data
   },
 })
+
+const handleCheckWindowWidth = () => {
+  if (window.innerWidth <= 1024) isDesktopSize.value = false
+  else isDesktopSize.value = true
+}
+
+onMounted(() => {
+  handleCheckWindowWidth()
+  window.addEventListener('resize', handleCheckWindowWidth)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleCheckWindowWidth)
+})
 </script>
 
 <template>
   <div
     class="px-6 lg:px-9 flex w-full h-full pt-6 justify-center overflow-auto"
   >
-    <!-- Content -->
+    <!-- Content Watch Stream -->
     <div class="w-full lg:w-3/5 lg:pr-6 mb-3">
+      <!-- Video -->
       <div class="center overflow-hidden rounded-xl mb-3 aspect-video bg-black">
         <video
           class="w-full h-full"
@@ -54,7 +70,7 @@ const { isLoading } = useQuery({
         ></video>
       </div>
 
-      <!-- detail -->
+      <!-- Detail -->
       <div class="flex flex-col justify-center">
         <div class="title mb-2">{{ data.title }}</div>
 
@@ -80,7 +96,10 @@ const { isLoading } = useQuery({
             <a-button :icon="h(LikeOutlined)" class="center mb-2">
               {{ formatViews(data.likes, 0) }} Like
             </a-button>
-            <a-button :icon="h(DislikeOutlined)" class="center mb-2 ml-1 md:ml-2">
+            <a-button
+              :icon="h(DislikeOutlined)"
+              class="center mb-2 ml-1 md:ml-2"
+            >
               {{ formatViews(data.dislikes, 0) }} Dislike
             </a-button>
             <a-button type="primary" class="font-medium mb-2 ml-1 md:ml-2"
@@ -110,9 +129,30 @@ const { isLoading } = useQuery({
           </a-button>
         </div>
 
+        <!-- Detail Description -->
         <div class="my-3">
           <Detail :description="data.description" />
         </div>
+
+        <!-- Playlist -->
+        <template v-if="!isDesktopSize">
+          <div v-if="isLoading" class="w-full center mt-1 mb-6">
+            <a-spin size="large" />
+          </div>
+          <VideosPlaylist
+            v-else-if="!!playlistData && !!Object.keys(playlistData).length"
+            :listId="listId?.toString()"
+            :data="playlistData"
+          />
+        </template>
+
+        <!-- Chapters Mobile -->
+        <template v-if="!isDesktopSize">
+          <Chapters
+            v-if="!!data.chapters.length && !playlistData"
+            :chapters="data.chapters"
+          />
+        </template>
 
         <!-- List Videos Tablet to Mobile -->
         <div class="block lg:hidden w-full min-w-[300px]">
@@ -135,21 +175,25 @@ const { isLoading } = useQuery({
     </div>
 
     <div class="flex flex-col">
-      <!-- Playslist -->
-      <div v-if="isLoading" class="w-full center mt-1 mb-6">
-        <a-spin size="large" />
-      </div>
-      <VideosPlaylist
-        v-else-if="!!playlistData && !!Object.keys(playlistData).length"
-        :listId="listId?.toString()"
-        :data="playlistData"
-      />
+      <!-- Playlist -->
+      <template v-if="isDesktopSize">
+        <div v-if="isLoading" class="w-full center mt-1 mb-6">
+          <a-spin size="large" />
+        </div>
+        <VideosPlaylist
+          v-else-if="!!playlistData && !!Object.keys(playlistData).length"
+          :listId="listId?.toString()"
+          :data="playlistData"
+        />
+      </template>
 
       <!-- Chapters -->
-      <Chapters
-        v-if="!!data.chapters.length && !playlistData"
-        :chapters="data.chapters"
-      />
+      <template v-if="isDesktopSize">
+        <Chapters
+          v-if="!!data.chapters.length && !playlistData"
+          :chapters="data.chapters"
+        />
+      </template>
 
       <!-- List Videos Desktop -->
       <div class="hidden lg:block w-[402px] min-w-[300px] pr-6">

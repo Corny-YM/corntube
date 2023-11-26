@@ -57,7 +57,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="videos-playlist mb-4">
+  <div class="videos-playlist">
     <!-- content -->
     <div class="w-full flex justify-between items-center px-4">
       <div class="flex flex-col justify-center">
@@ -116,8 +116,9 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .videos-playlist {
-  @apply flex flex-col items-center aspect-square;
-  @apply w-[402px] h-fit rounded-xl pb-2 pt-3;
+  @apply flex flex-col items-center;
+  @apply w-full lg:w-[402px] lg:h-fit rounded-xl;
+  @apply pb-2 pt-3 mb-6 lg:mb-4;
   border: 1px solid rgba(0, 0, 0, 0.1);
 
   .list {
@@ -151,7 +152,7 @@ onMounted(() => {
 }
 
 .video-item {
-  @apply w-fit flex justify-center items-center;
+  @apply w-full flex justify-start items-center;
   @apply py-1 cursor-pointer;
 
   &:hover {

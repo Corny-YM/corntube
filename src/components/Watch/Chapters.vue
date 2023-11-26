@@ -11,7 +11,7 @@ const activeChapters = ref(true)
 </script>
 
 <template>
-  <div class="chapters mb-4">
+  <div class="chapters">
     <!-- content -->
     <div class="w-full flex justify-between items-center px-4">
       <div class="flex flex-col justify-center text-xl font-bold">Đoạn video có tiêu đề</div>
@@ -47,8 +47,9 @@ const activeChapters = ref(true)
 
 <style scoped lang="scss">
 .chapters {
-  @apply flex flex-col items-center aspect-square;
-  @apply w-[402px] h-fit rounded-xl pb-2 pt-3;
+  @apply flex flex-col items-center;
+  @apply w-full lg:w-[402px] h-fit rounded-xl;
+  @apply pb-2 pt-3 mb-6 lg:mb-4;
   border: 1px solid rgba(0, 0, 0, 0.1);
 
   .list {
