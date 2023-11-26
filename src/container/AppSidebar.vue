@@ -1,71 +1,12 @@
 <script setup lang="ts">
 import {
-  HomeOutlined,
-  PlaySquareOutlined,
-  SettingOutlined,
-  AppstoreOutlined,
   FacebookFilled,
   GithubFilled,
   RightOutlined,
   MenuOutlined,
 } from '@ant-design/icons-vue'
 import { onMounted, onUnmounted } from 'vue'
-
-const menuItem = [
-  {
-    label: 'Trang chủ',
-    icon: HomeOutlined,
-    path: '/',
-  },
-  {
-    label: 'Kênh đăng ký',
-    icon: PlaySquareOutlined,
-    path: '/subscribed',
-  },
-  {
-    label: 'Thư viện',
-    icon: AppstoreOutlined,
-    path: '/library',
-  },
-  {
-    label: 'Cài đặt',
-    icon: SettingOutlined,
-    path: '/settings',
-  },
-]
-
-const subscribedItem = [
-  {
-    id: 1,
-    avatar: 'https://i.pravatar.cc/150?img=3',
-    name: 'The bausffs',
-    path: '/channel/uashd123123',
-  },
-  {
-    id: 2,
-    avatar: 'https://i.pravatar.cc/150?img=12',
-    name: 'F8',
-    path: '/channel/uashd123123',
-  },
-  {
-    id: 3,
-    avatar: 'https://i.pravatar.cc/150?img=35',
-    name: 'LL Stylish',
-    path: '/channel/uashd123123',
-  },
-  {
-    id: 4,
-    avatar: 'https://i.pravatar.cc/150?img=35',
-    name: 'LL Stylish',
-    path: '/channel/uashd123123',
-  },
-  {
-    id: 5,
-    avatar: 'https://i.pravatar.cc/150?img=35',
-    name: 'LL Stylish',
-    path: '/channel/uashd123123',
-  },
-]
+import { menuItem, subscribedItem } from './sidebar.data'
 
 const props = defineProps<{
   sidebar: boolean
@@ -73,9 +14,13 @@ const props = defineProps<{
 }>()
 const emits = defineEmits(['update:isShow'])
 
+const route = useRoute()
+console.log(route)
+
 const sidebarRef = ref<HTMLDivElement | null>(null)
 const sidebarOverlayRef = ref<HTMLDivElement | null>(null)
 
+const currentPath = computed(() => route.path)
 const isShowSidebar = computed({
   get: () => props.isShow,
   set: (value) => emits('update:isShow', value),
@@ -131,11 +76,12 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
         </div>
 
         <!-- MenuItem -->
-        <div class="flex flex-col gap-2 p-3 w-full">
+        <div class="flex flex-col p-3 w-full">
           <router-link
             v-for="item in menuItem"
             :to="item.path"
             :key="item.path"
+            :class="item.path === currentPath ? `bg-lightHover` : ''"
             class="h-10 flex items-center px-3 rounded-lg cursor-pointer hover:bg-lightHover"
           >
             <div class="flex justify-center items-center mr-6">
