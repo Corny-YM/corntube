@@ -47,6 +47,7 @@ declare module 'vue' {
     Book: typeof import('./components/Icons/Book.vue')['default']
     Channel: typeof import('./components/Channel/index.vue')['default']
     Chapters: typeof import('./components/Watch/Chapters.vue')['default']
+    Clock: typeof import('./components/Icons/Clock.vue')['default']
     Comment: typeof import('./components/Watch/Comment.vue')['default']
     CommentReplies: typeof import('./components/Watch/CommentReplies.vue')['default']
     Comments: typeof import('./components/Watch/Comments.vue')['default']

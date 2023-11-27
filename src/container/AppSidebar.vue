@@ -15,7 +15,6 @@ const props = defineProps<{
 const emits = defineEmits(['update:isShow'])
 
 const route = useRoute()
-console.log(route)
 
 const sidebarRef = ref<HTMLDivElement | null>(null)
 const sidebarOverlayRef = ref<HTMLDivElement | null>(null)

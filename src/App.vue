@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import useLocalDB from '@/hooks/useLocalDB'
+import { useLocalDBStore } from '@/store/localDB'
 
-const localDB = useLocalDB()
+const { init } = useLocalDBStore()
 
 onMounted(() => {
-  localDB?.init()
+  init()
 })
 </script>
 

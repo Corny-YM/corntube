@@ -3,10 +3,10 @@ import { useQuery } from '@tanstack/vue-query'
 import { getStreams } from '@/api/piped'
 import { IStreams } from '@/api/model/piped'
 import Watch from '@/components/Watch/index.vue'
-import useLocalDB from '@/hooks/useLocalDB'
+import { useLocalDBStore } from '@/store/localDB'
 
 const route = useRoute()
-const localDB = useLocalDB()
+const { insert } = useLocalDBStore()
 
 const videoId = computed(() => route.query.v)
 const enabled = computed(() => !!route.query.v)
@@ -22,17 +22,19 @@ const { isLoading, refetch } = useQuery({
   refetchOnWindowFocus: false,
   select(data) {
     streamsData.value = data
-    localDB?.insert({
+    insert({
       id: unref(videoId)?.toString()!,
       url: `/watch?v=${unref(videoId)}`,
       title: data.title,
       duration: data.duration,
       description: data.description,
       thumbnailUrl: data.thumbnailUrl,
+      uploadDate: data.uploadDate,
       uploader: data.uploader,
       uploaderUrl: data.uploaderUrl,
       uploaderVerified: data.uploaderVerified,
       uploaderAvatar: data.uploaderAvatar,
+      views: data.views,
       timestamp: new Date().getTime(),
     })
   },

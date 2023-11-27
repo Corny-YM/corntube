@@ -1,6 +1,7 @@
 import Home from '@/components/Icons/Home.vue'
 import Subscription from '@/components/Icons/Subscription.vue'
 import Library from '@/components/Icons/Library.vue'
+import Clock from '@/components/Icons/Clock.vue'
 import Setting from '@/components/Icons/Setting.vue'
 
 export const menuItem = [
@@ -18,6 +19,11 @@ export const menuItem = [
     label: 'Thư viện',
     icon: Library,
     path: '/library',
+  },
+  {
+    label: 'Lịch sử',
+    icon: Clock,
+    path: '/history',
   },
   {
     label: 'Cài đặt',

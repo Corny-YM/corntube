@@ -28,6 +28,11 @@ const router = createRouter({
           name: 'search',
           path: 'search',
         },
+        {
+          component: () => import('@/pages/History.vue'),
+          name: 'history',
+          path: 'history',
+        },
       ],
     },
     {
