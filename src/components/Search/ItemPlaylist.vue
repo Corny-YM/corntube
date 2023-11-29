@@ -34,9 +34,7 @@ const handleClick = () => {
 
 <template>
   <div class="item-playlist" @click="handleClick">
-    <div
-      class="relative center max-w-[500px] min-w-[500px] mr-4 rounded-xl overflow-hidden shadow-md"
-    >
+    <div class="playlist-thumbnail">
       <img
         :src="data.thumbnail"
         class="w-full h-full object-contain self-stretch"
@@ -48,28 +46,30 @@ const handleClick = () => {
         <div class="uppercase font-medium">Phát tất cả</div>
       </div>
     </div>
-    <div class="self-stretch flex-1 flex flex-col">
+    <div class="self-stretch flex-1 flex flex-col mt-3 sm:mt-0">
       <div class="title mb-1">
         {{ data.name }}
       </div>
-      <div class="flex items-center">
-        <a
-          :href="data.uploaderUrl"
-          class="text hover:!text-[#3791de]"
-          @click.stop=""
-        >
-          {{ data.uploaderName }}
-        </a>
-        <div
-          v-if="data.uploaderVerified"
-          class="h-full center ml-2 text-xs text"
-        >
-          <CheckCircleFilled class="center text-sm" />
+      <div class="flex flex-row sm:flex-col items-center sm:items-start">
+        <div class="flex items-center py-2 sm:py-0 pr-2 sm:pr-0">
+          <a
+            :href="data.uploaderUrl"
+            class="text hover:!text-[#3791de]"
+            @click.stop=""
+          >
+            {{ data.uploaderName }}
+          </a>
+          <div
+            v-if="data.uploaderVerified"
+            class="h-full center ml-2 text-xs text"
+          >
+            <CheckCircleFilled class="center text-sm" />
+          </div>
         </div>
+        <a-typography-text code class="sm:my-2">
+          {{ formatViews(data.videos) }} videos
+        </a-typography-text>
       </div>
-      <a-typography-text code class="my-2">
-        {{ formatViews(data.videos) }} videos
-      </a-typography-text>
       <a-button
         type="dashed"
         size="middle"
@@ -85,7 +85,8 @@ const handleClick = () => {
 
 <style scoped lang="scss">
 .item-playlist {
-  @apply w-full flex justify-start items-center mt-4 cursor-pointer;
+  @apply w-full justify-start items-center mt-6 sm:mt-4 cursor-pointer;
+  @apply flex flex-col sm:flex-row;
 
   &:hover .overlay {
     opacity: 1;
@@ -95,6 +96,14 @@ const handleClick = () => {
     background-color: rgba(0, 0, 0, 0.8);
     transition: all 150ms ease-in-out;
   }
+}
+
+.playlist-thumbnail {
+  @apply relative center mr-4 rounded-xl overflow-hidden shadow-md;
+  @apply max-w-full min-w-full;
+  @apply sm:max-w-[300px] sm:min-w-[300px];
+  @apply md:max-w-[360px] md:min-w-[360px];
+  @apply lg:max-w-[500px] lg:min-w-[500px];
 }
 
 .title {

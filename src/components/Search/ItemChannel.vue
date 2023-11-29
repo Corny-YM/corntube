@@ -13,9 +13,9 @@ const handleSubscribed = () => {}
 <template>
   <a
     :href="data.url"
-    class="w-full flex justify-start items-center mt-4 cursor-pointer"
+    class="item-channel"
   >
-    <div class="center max-w-[500px] min-w-[500px] mr-4">
+    <div class="channel-thumbnail">
       <a-image
         class="w-auto h-auto rounded-full object-contain self-stretch"
         loading="lazy"
@@ -49,6 +49,16 @@ const handleSubscribed = () => {}
 </template>
 
 <style scoped lang="scss">
+.item-channel {
+  @apply w-full flex justify-start items-center mt-6 sm:mt-4 cursor-pointer;
+}
+.channel-thumbnail {
+  @apply center mr-4;
+  @apply sm:max-w-[300px] sm:min-w-[300px];
+  @apply md:max-w-[360px] md:min-w-[360px];
+  @apply lg:max-w-[500px] lg:min-w-[500px];
+}
+
 .title {
   @apply text-[#0F0F0F] text-[18px] font-medium line-clamp-2;
 }

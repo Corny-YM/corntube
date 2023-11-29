@@ -21,13 +21,8 @@ defineProps<{
 </script>
 
 <template>
-  <a
-    :href="data.url"
-    class="w-full h-fit flex justify-start mt-4 cursor-pointer"
-  >
-    <div
-      class="relative center max-w-[500px] min-w-[500px] mr-4 rounded-xl overflow-hidden shadow-md"
-    >
+  <a :href="data.url" class="item-video">
+    <div class="video-thumbnail">
       <img
         :src="data.thumbnailUrl"
         class="w-full h-full object-contain self-stretch"
@@ -39,21 +34,25 @@ defineProps<{
         {{ formatDuration(data.duration) }}
       </a-tag>
     </div>
-    <div class="flex-1 flex flex-col">
+    <div class="flex-1 flex flex-col mt-3 sm:mt-0">
       <div class="title mb-1">
         {{ data.title }}
       </div>
-      <div class="text">
-        {{ formatViews(data.views, 0) }} lượt xem •
-        {{ formatTimeAgoToVietnamese(data.uploadDate) }}
-      </div>
-      <a
-        :href="data.uploaderUrl"
-        class="w-fit flex items-center my-4 cursor-pointer"
+      <div
+        class="flex flex-row-reverse sm:flex-col items-center sm:items-start justify-end sm:justify-start"
       >
-        <a-avatar :src="data.uploaderAvatar" class="mr-2" />
-        <div class="text">{{ data.uploader }}</div>
-      </a>
+        <div class="text">
+          {{ formatViews(data.views, 0) }} lượt xem •
+          {{ formatTimeAgoToVietnamese(data.uploadDate) }}
+        </div>
+        <a
+          :href="data.uploaderUrl"
+          class="w-fit flex items-center mr-2 sm:mr-0 my-2 sm:my-2 md:my-4 cursor-pointer"
+        >
+          <a-avatar :src="data.uploaderAvatar" class="mr-2" />
+          <div class="text">{{ data.uploader }}</div>
+        </a>
+      </div>
       <a-tooltip
         trigger="hover"
         :mouse-leave-delay="0"
@@ -68,6 +67,19 @@ defineProps<{
 </template>
 
 <style scoped lang="scss">
+.item-video {
+  @apply w-full h-fit flex flex-col sm:flex-row justify-start cursor-pointer;
+  @apply mt-6 sm:mt-4;
+}
+
+.video-thumbnail {
+  @apply relative center mr-4 rounded-xl overflow-hidden shadow-md;
+  @apply max-w-full min-w-full;
+  @apply sm:max-w-[300px] sm:min-w-[300px];
+  @apply md:max-w-[360px] md:min-w-[360px];
+  @apply lg:max-w-[500px] lg:min-w-[500px];
+}
+
 .title {
   @apply text-[#0F0F0F] text-[18px] font-medium line-clamp-2;
 }

@@ -70,18 +70,15 @@ export const useLocalDBStore = defineStore('history', () => {
         e.target as IDBRequest
       ).result.reverse()
       const queriedVideos = sortedVideos.filter((v) => {
-        const uploader = v.uploader.toLowerCase().includes(query)
-        if (uploader) return true
         const title = v.title.toLowerCase().includes(query)
         if (title) return true
         return false
       })
-      if (query) {
-        watchedVideos.value = queriedVideos
-      }
-      const index = watchedVideos.value.length
-      const nextItems = queriedVideos.slice(index, index + 20)
-      watchedVideos.value = [...watchedVideos.value, ...nextItems]
+      // console.log(queriedVideos)
+      watchedVideos.value = queriedVideos
+      // const index = watchedVideos.value.length
+      // const nextItems = queriedVideos.slice(index, index + 20)
+      // watchedVideos.value = [...watchedVideos.value, ...nextItems]
       loading.value = false
     }
     result.onerror = (e) => {
@@ -95,6 +92,7 @@ export const useLocalDBStore = defineStore('history', () => {
     const tx = historyDB.value.transaction('watch-history', 'readwrite')
     const store = tx.objectStore('watch-history')
     store.clear()
+    watchedVideos.value = []
   }
 
   onMounted(() => {

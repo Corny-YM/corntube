@@ -5,6 +5,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .center {
+    @apply flex justify-center items-center;
+  }
+}
+
 @layer base {
   body {
     @apply font-body;

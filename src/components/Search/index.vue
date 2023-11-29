@@ -10,6 +10,7 @@ import { useMutation } from '@tanstack/vue-query'
 import { getNextDataSearch } from '@/api/piped'
 import { Type } from '@/api/model/piped'
 import { filterSearch } from './search.data'
+import ItemVideos from '@/components/Search/ItemVideos.vue'
 
 const props = defineProps<{
   data: ISearch

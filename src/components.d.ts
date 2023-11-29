@@ -59,7 +59,7 @@ declare module 'vue' {
     Home: typeof import('./components/Icons/Home.vue')['default']
     ItemChannel: typeof import('./components/Search/ItemChannel.vue')['default']
     ItemPlaylist: typeof import('./components/Search/ItemPlaylist.vue')['default']
-    ItemVideos: typeof import('./components/Search/ItemVideos.vue')['default']
+    ItemVideos: typeof import('./components/History/ItemVideos.vue')['default']
     Library: typeof import('./components/Icons/Library.vue')['default']
     ListVideos: typeof import('./components/Watch/ListVideos.vue')['default']
     NoComments: typeof import('./components/Icons/NoComments.vue')['default']
