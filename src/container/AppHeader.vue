@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { MenuOutlined } from '@ant-design/icons-vue'
+import { useMutation } from '@tanstack/vue-query'
+import { loginGoogle } from '@/api/supabase'
 
 const props = defineProps<{
   isShow: boolean
@@ -16,6 +18,11 @@ const isShow = computed({
   set: (value) => emits('update:isShow', value),
 })
 
+const { mutate } = useMutation({
+  mutationKey: ['login'],
+  mutationFn: loginGoogle,
+})
+
 const handleWindowClick = (e: Event) => {
   const target = e.target as HTMLElement
 
@@ -25,6 +32,9 @@ const handleWindowClick = (e: Event) => {
   if (isContains) return
 
   openDropdown.value = false
+}
+const handleLogin = () => {
+  mutate()
 }
 
 onMounted(() => {
@@ -64,7 +74,10 @@ onUnmounted(() => {
     <!-- More -->
     <div class="flex justify-center items-center gap-5">
       <ToggleTheme class="hidden md:inline-block" />
-      <a-dropdown
+      <a-button type="dashed" class="btn-login" @click="handleLogin"
+        >Đăng nhập</a-button
+      >
+      <!-- <a-dropdown
         class="cursor-pointer"
         :trigger="['click']"
         :open="openDropdown"
@@ -95,7 +108,7 @@ onUnmounted(() => {
             </div>
           </div>
         </template>
-      </a-dropdown>
+      </a-dropdown> -->
     </div>
   </header>
 </template>
@@ -122,6 +135,15 @@ onUnmounted(() => {
     color: #555;
     gap: 0.5rem;
     // border-right: solid 1px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.btn-login {
+  @apply text-[#4096ff] border-[#4096ff] font-medium;
+  transition: all 150ms linear;
+
+  &:hover {
+    @apply bg-[#4096ff25];
   }
 }
 
