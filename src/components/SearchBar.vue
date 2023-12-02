@@ -76,14 +76,14 @@ watch(
       @select="handleSelect"
       @keydown="handleKeyDown"
     >
-      <template #option="item">
+      <!-- <template #options="item">
         <div class="flex items-center justify-start">
           <div class="w-4 h-4 md:w-5 md:h-5 center"><SearchOutline /></div>
           <span class="pl-2 flex-1 text-ellipsis font-medium line-clamp-1">
             {{ item.category }}
           </span>
         </div>
-      </template>
+      </template> -->
       <a-input-search
         size="large"
         placeholder="Tìm kiếm"
