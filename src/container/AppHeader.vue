@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MenuOutlined } from '@ant-design/icons-vue'
-import { useMutation } from '@tanstack/vue-query'
-import { loginGoogle } from '@/api/supabase'
+import { useMutation, useQuery } from '@tanstack/vue-query'
+import { loginGoogle, getUser } from '@/api/supabase'
 
 const props = defineProps<{
   isShow: boolean
@@ -13,14 +13,30 @@ const refUser = ref<HTMLDivElement | null>(null)
 const refDropdown = ref<HTMLDivElement | null>(null)
 const openDropdown = ref(false)
 
+const userData = ref<any>()
+watch([userData], () => {
+  console.log(userData.value)
+})
+
 const isShow = computed({
   get: () => props.isShow,
   set: (value) => emits('update:isShow', value),
 })
 
+useQuery({
+  queryKey: ['user'],
+  queryFn: () => getUser(),
+  select(data) {
+    console.log(data)
+  },
+})
+
 const { mutate } = useMutation({
   mutationKey: ['login'],
   mutationFn: loginGoogle,
+  onSuccess(data) {
+    userData.value = data
+  },
 })
 
 const handleWindowClick = (e: Event) => {
