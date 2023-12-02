@@ -39,6 +39,8 @@ export const formatTimeAgoToVietnamese = (text: string) => {
   const regex = /(\d+)\s*(year|month|week|day|hour|minute|second)s?/g
   const time = text
     ?.replace(regex, (match, value, unit) => {
+      if (match) {
+      }
       return `${value} ${timeUnits[unit]} trước`
     })
     .replace('ago', '')

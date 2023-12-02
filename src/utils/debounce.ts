@@ -1,5 +1,5 @@
 export function useDebounce(func: Function, wait: number): Function {
-  let timeout: number | null
+  let timeout: NodeJS.Timeout | null
 
   return function (this: any, ...args: any[]) {
     const context = this
