@@ -17,6 +17,7 @@ declare module 'vue' {
     ADivider: typeof import('ant-design-vue/es')['Divider']
     ADropdown: typeof import('ant-design-vue/es')['Dropdown']
     AEmpty: typeof import('ant-design-vue/es')['Empty']
+    AFloatButton: typeof import('ant-design-vue/es')['FloatButton']
     AImage: typeof import('ant-design-vue/es')['Image']
     AInputSearch: typeof import('ant-design-vue/es')['InputSearch']
     AModal: typeof import('ant-design-vue/es')['Modal']

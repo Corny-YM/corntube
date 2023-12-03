@@ -108,7 +108,13 @@ const handleLike = () => {
     <!-- Avatar -->
     <template #avatar>
       <a :href="channelUrl" class="rounded-full">
-        <a-avatar :src="content.thumbnail" :alt="content.author" />
+        <a-avatar
+          class="w-8 h-8 center"
+          :src="content.thumbnail"
+          :alt="content.author"
+        >
+          <NoAvatar />
+        </a-avatar>
       </a>
     </template>
 

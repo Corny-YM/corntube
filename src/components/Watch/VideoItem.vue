@@ -1,16 +1,23 @@
 <script setup lang="ts">
 import { IRelatedStream, Type } from '@/api/model/piped'
 import { formatDuration, formatViews, formatTimeAgoToVietnamese } from '@/utils'
+import NoThumbnail from '@/assets/imgs/NoThumbnail.png'
 
 const props = defineProps<{
   video: IRelatedStream
 }>()
+
+const srcThumbnail = ref(props.video.thumbnail)
 
 const duration = computed(() => formatDuration(props.video.duration!))
 const views = computed(() => formatViews(+props.video.views!))
 const date = computed(() =>
   formatTimeAgoToVietnamese(props.video.uploadedDate!)
 )
+
+const handleError = () => {
+  srcThumbnail.value = NoThumbnail
+}
 </script>
 
 <template>
@@ -19,7 +26,12 @@ const date = computed(() =>
     <div
       class="relative flex justify-center rounded-xl overflow-hidden min-w-[168px] h-24 mr-2"
     >
-      <img :src="video.thumbnail" class="w-full h-full" loading="lazy" />
+      <img
+        :src="srcThumbnail"
+        class="w-full h-full"
+        loading="lazy"
+        @error="handleError"
+      />
       <a-tag
         class="absolute rounded-md bg-slate-300 font-medium bottom-1 -right-1"
       >

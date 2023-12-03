@@ -78,9 +78,11 @@ onUnmounted(() => {
           <div class="center mr-2">
             <a :href="channelUrl" class="w-10 h-10 rounded-full">
               <a-avatar
-                :src="data.uploaderAvatar"
-                class="w-full h-full object-cover"
-              />
+                :src="data.uploaderAvatar + 123"
+                class="w-10 h-10 center object-cover aspect-square"
+              >
+                <NoAvatar />
+              </a-avatar>
             </a>
             <div class="ml-3">
               <a :href="channelUrl" class="font-medium">

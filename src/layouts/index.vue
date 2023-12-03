@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { VerticalAlignTopOutlined } from '@ant-design/icons-vue'
 import AppHeader from '../container/AppHeader.vue'
 import AppSidebar from '../container/AppSidebar.vue'
 
@@ -12,14 +13,15 @@ const props = defineProps({
 const refContent = ref<HTMLDivElement | null>(null)
 const isShow = ref(false)
 
-const handleGetTarget = () => {
-  const target = document.getElementById('target_content')
-  return target as HTMLElement | Window | Document
-  // return refContent.value?.children[0] as HTMLElement | Window | Document
+const handleBackToTop = () => {
+  refContent.value?.children[0]?.scrollTo({
+    left: 0,
+    top: 0,
+    behavior: 'smooth',
+  })
 }
 
 onMounted(() => {
-  handleGetTarget()
   if (window?.innerWidth > 1280 && props?.sidebar) {
     isShow.value = true
   }
@@ -38,14 +40,9 @@ onMounted(() => {
       >
         <router-view id="target_content"></router-view>
       </div>
-      <a-back-top
-        class="bottom-4"
-        tooltip="Back to top"
-        type="primary"
-        :duration="250"
-        :visibility-height="400"
-        :target="handleGetTarget"
-      />
+      <a-float-button type="primary" class="bottom-4" @click="handleBackToTop">
+        <template #icon> <VerticalAlignTopOutlined /> </template>
+      </a-float-button>
     </div>
   </div>
 </template>
