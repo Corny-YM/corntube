@@ -30,7 +30,7 @@ const { mutate, isPending } = useMutation({
 })
 
 const handleSelect = (value: any) => {
-  if (!value) return
+  if (!value.trim()) return
   router.push({
     path: '/search',
     query: {
@@ -39,6 +39,7 @@ const handleSelect = (value: any) => {
   })
 }
 const handleKeyDown = (e: KeyboardEvent) => {
+  if (!unref(value).trim()) return
   if (e.code === 'Enter') {
     router.push({
       path: '/search',
