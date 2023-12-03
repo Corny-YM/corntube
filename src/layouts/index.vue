@@ -12,6 +12,7 @@ const props = defineProps({
 
 const refContent = ref<HTMLDivElement | null>(null)
 const isShow = ref(false)
+const isShowFloatBtn = ref(false)
 
 const handleBackToTop = () => {
   refContent.value?.children[0]?.scrollTo({
@@ -19,6 +20,11 @@ const handleBackToTop = () => {
     top: 0,
     behavior: 'smooth',
   })
+}
+const handleScroll = (e: Event) => {
+  const curHeight = (e.target as HTMLDivElement).scrollTop
+  if (curHeight > 400) isShowFloatBtn.value = true
+  else isShowFloatBtn.value = false
 }
 
 onMounted(() => {
@@ -38,9 +44,14 @@ onMounted(() => {
         class="content flex-1"
         :class="sidebar ? 'xl:pl-4' : ''"
       >
-        <router-view id="target_content"></router-view>
+        <router-view id="target_content" @scroll="handleScroll"></router-view>
       </div>
-      <a-float-button type="primary" class="bottom-4" @click="handleBackToTop">
+      <a-float-button
+        type="primary"
+        class="back-to-top bottom-4"
+        :class="isShowFloatBtn ? 'show' : ''"
+        @click="handleBackToTop"
+      >
         <template #icon> <VerticalAlignTopOutlined /> </template>
       </a-float-button>
     </div>
@@ -56,5 +67,15 @@ onMounted(() => {
   flex-direction: column;
   overflow: hidden;
   position: relative;
+}
+
+.back-to-top {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 250ms linear;
+  &.show {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 </style>
