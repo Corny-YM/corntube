@@ -12,3 +12,5 @@
 - Go to link: https://supabase.com/dashboard/project/<project-id>/auth/providers
 - Set Client ID (for OAuth): 01234567890-abcdefghijklmnopqrstuvwxyz012345.apps.googleusercontent.com
   + Take Client ID from: https://console.cloud.google.com/apis/credentials
+- Set Client Secret (for OAuth): 
+  + Take Client secrets key from there too
