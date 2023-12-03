@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MenuOutlined } from '@ant-design/icons-vue'
-import { useMutation, useQuery } from '@tanstack/vue-query'
-import { loginGoogle, getUser } from '@/api/supabase'
+import { storeToRefs } from 'pinia'
+import { useAuth } from '@/store/auth'
 
 const props = defineProps<{
   isShow: boolean
@@ -9,34 +9,16 @@ const props = defineProps<{
 
 const emits = defineEmits(['update:isShow'])
 
+const auth = useAuth()
+const { user, isPendingLogin, isPendingLogout } = storeToRefs(auth)
+
 const refUser = ref<HTMLDivElement | null>(null)
 const refDropdown = ref<HTMLDivElement | null>(null)
 const openDropdown = ref(false)
 
-const userData = ref<any>()
-watch([userData], () => {
-  console.log(userData.value)
-})
-
 const isShow = computed({
   get: () => props.isShow,
   set: (value) => emits('update:isShow', value),
-})
-
-useQuery({
-  queryKey: ['user'],
-  queryFn: () => getUser(),
-  select(data) {
-    console.log(data)
-  },
-})
-
-const { mutate } = useMutation({
-  mutationKey: ['login'],
-  mutationFn: loginGoogle,
-  onSuccess(data) {
-    userData.value = data
-  },
 })
 
 const handleWindowClick = (e: Event) => {
@@ -50,7 +32,10 @@ const handleWindowClick = (e: Event) => {
   openDropdown.value = false
 }
 const handleLogin = () => {
-  mutate()
+  auth.mutateLogin()
+}
+const handleLogout = () => {
+  auth.mutateLogout()
 }
 
 onMounted(() => {
@@ -90,16 +75,25 @@ onUnmounted(() => {
     <!-- More -->
     <div class="flex justify-center items-center gap-5">
       <ToggleTheme class="hidden md:inline-block" />
-      <a-button type="dashed" class="btn-login" @click="handleLogin"
-        >Đăng nhập</a-button
+      <a-button
+        v-if="!user"
+        type="dashed"
+        class="btn-login"
+        :loading="isPendingLogin"
+        @click="handleLogin"
       >
-      <!-- <a-dropdown
+        Đăng nhập
+      </a-button>
+      <a-dropdown
+        v-else
         class="cursor-pointer"
         :trigger="['click']"
         :open="openDropdown"
       >
         <div ref="refUser" class="center" @click="openDropdown = !openDropdown">
-          <Avatar />
+          <Avatar
+            :src="user.user_metadata?.avatar_url || user.user_metadata?.picture"
+          />
         </div>
         <template #overlay>
           <div
@@ -108,10 +102,19 @@ onUnmounted(() => {
           >
             <div class="card-profile__content cursor-default">
               <div class="flex justify-center items-center gap-4">
-                <Avatar />
+                <Avatar
+                  :src="
+                    user.user_metadata?.avatar_url ||
+                    user.user_metadata?.picture
+                  "
+                />
                 <div class="flex flex-col gap-2">
-                  <span class="font-semibold text-base">The Anh Nguyen</span>
-                  <a-tag color="blue">theanh9356@gmail.com</a-tag>
+                  <span class="font-semibold text-base">{{
+                    user.user_metadata?.full_name || user.user_metadata?.name
+                  }}</span>
+                  <a-tag v-if="user.email" color="blue">
+                    {{ user.email }}
+                  </a-tag>
                 </div>
               </div>
             </div>
@@ -119,12 +122,18 @@ onUnmounted(() => {
             <div class="card-profile__action">
               <ToggleTheme class="inline-block md:hidden" />
               <div class="flex-1 flex justify-end items-center">
-                <a-button type="primary">Đăng xuất</a-button>
+                <a-button
+                  type="primary"
+                  :loading="isPendingLogout"
+                  @click="handleLogout"
+                >
+                  Đăng xuất
+                </a-button>
               </div>
             </div>
           </div>
         </template>
-      </a-dropdown> -->
+      </a-dropdown>
     </div>
   </header>
 </template>

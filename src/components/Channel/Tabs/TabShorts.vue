@@ -31,6 +31,7 @@ const { mutate, isPending } = useMutation({
     getTabsData<ITabShort>(params.data, params.nextpage),
   onSuccess(data) {
     shortsData.value = [...shortsData.value, ...data.content]
+    dataNextPage.value = data.nextpage || ''
   },
 })
 

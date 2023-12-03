@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { IShort } from '@/api/model/piped'
+import NoThumbnail from '@/assets/imgs/NoThumbnail.png'
 
 const props = defineProps<{
   short: IShort
@@ -9,8 +10,13 @@ const emits = defineEmits<{
   (e: 'click', url: string): void
 }>()
 
+const srcThumbnail = ref(props.short.thumbnail)
+
 const handleClick = () => {
   emits('click', props.short.url)
+}
+const handleError = () => {
+  srcThumbnail.value = NoThumbnail
 }
 </script>
 
@@ -18,9 +24,13 @@ const handleClick = () => {
   <div class="short-item" @click="handleClick">
     <!-- IMG -->
     <div
-      class="h-full flex justify-center rounded-xl overflow-hidden bg-[#d9d9d9]"
+      class="w-full h-full flex justify-center items-center rounded-xl overflow-hidden bg-[#d9d9d9]"
     >
-      <img :src="short.thumbnail" class="w-full h-full object-contain" />
+      <img
+        :src="srcThumbnail"
+        class="w-full h-full object-contain aspect-[9/16]"
+        @error="handleError"
+      />
     </div>
 
     <!-- INFO -->

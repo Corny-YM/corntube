@@ -21,7 +21,6 @@ const { isLoading } = useQuery({
   queryKey: ['shorts', unref(channelId), props.data],
   queryFn: () => getTabsData<ITabPlaylist>(props.data),
   select(data) {
-    console.log(data)
     playlistData.value = data.content
     dataNextPage.value = data.nextpage
   },
@@ -33,6 +32,7 @@ const { mutate, isPending } = useMutation({
     getTabsData<ITabPlaylist>(params.data, params.nextpage),
   onSuccess(data) {
     playlistData.value = [...playlistData.value, ...data.content]
+    dataNextPage.value = data.nextpage || ''
   },
 })
 

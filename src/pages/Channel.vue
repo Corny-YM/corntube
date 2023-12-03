@@ -30,8 +30,8 @@ const { mutate, isPending } = useMutation({
   mutationKey: ['channel', 'nextpage'],
   mutationFn: getNextDataChannel,
   onSuccess(data) {
-    console.log(data)
     relatedStreams.value = [...relatedStreams.value, ...data.relatedStreams]
+    nextPageData.value = data.nextpage || ''
   },
   onError(err) {
     console.log(err)

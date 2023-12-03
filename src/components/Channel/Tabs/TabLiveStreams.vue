@@ -28,6 +28,7 @@ const { mutate, isPending } = useMutation({
     getTabsData<ITabLiveStream>(params.data, params.nextpage),
   onSuccess(data) {
     livestreamData.value = [...livestreamData.value, ...data.content]
+    dataNextPage.value = data.nextpage || ''
   },
 })
 

@@ -1,22 +1,28 @@
 <script setup lang="ts">
 import { IRelatedStream } from '@/api/model/piped'
 import { formatDuration, formatTimeAgoToVietnamese, formatViews } from '@/utils'
+import NoThumbnail from '@/assets/imgs/NoThumbnail.png'
+import NoAvatar from '@/components/Icons/NoAvatar.vue'
 
-defineProps<{
+const props = defineProps<{
   data: IRelatedStream
 }>()
+
+const srcThumbnail = ref(props.data.thumbnail)
+
+const handleError = () => {
+  srcThumbnail.value = NoThumbnail
+}
 </script>
 
 <template>
-  <a
-    :href="data.url"
-    class="item-video"
-  >
+  <a :href="data.url" class="item-video">
     <div class="video-thumbnail">
       <img
-        :src="data.thumbnail"
-        class="w-full h-full object-contain self-stretch"
+        :src="srcThumbnail"
+        class="w-full h-full object-contain self-stretch aspect-video"
         loading="lazy"
+        @error="handleError"
       />
       <a-tag
         class="absolute rounded-md bg-slate-300 font-medium bottom-1 -right-1"
@@ -28,7 +34,9 @@ defineProps<{
       <div class="title mb-1">
         {{ data.title }}
       </div>
-      <div class="flex flex-row-reverse sm:flex-col items-center sm:items-start justify-end sm:justify-start">
+      <div
+        class="flex flex-row-reverse sm:flex-col items-center sm:items-start justify-end sm:justify-start"
+      >
         <div class="text">
           {{ formatViews(data.views, 0) }} lượt xem •
           {{ formatTimeAgoToVietnamese(data.uploadedDate) }}
@@ -37,7 +45,12 @@ defineProps<{
           :href="data.uploaderUrl"
           class="w-fit flex items-center mr-2 sm:mr-0 my-2 sm:my-2 md:my-4 cursor-pointer"
         >
-          <a-avatar :src="data.uploaderAvatar" class="mr-2" />
+          <a-avatar
+            :src="data.uploaderAvatar"
+            class="center w-9 h-9 bg-slate-300 mr-2"
+          >
+            <NoAvatar />
+          </a-avatar>
           <div class="text">{{ data.uploaderName }}</div>
         </a>
       </div>

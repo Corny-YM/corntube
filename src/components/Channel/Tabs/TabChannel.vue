@@ -29,6 +29,7 @@ const { mutate, isPending } = useMutation({
     getTabsData<ITabChannel>(params.data, params.nextpage),
   onSuccess(data) {
     channelData.value = [...channelData.value, ...data.content]
+    dataNextPage.value = data.nextpage || ''
   },
 })
 

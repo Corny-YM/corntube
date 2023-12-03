@@ -1,6 +1,11 @@
+<script setup lang="ts">
+import NoAvatar from '@/assets/imgs/NoAvatar.png'
+
+defineProps<{
+  src?: string
+}>()
+</script>
+
 <template>
-  <a-avatar
-    src="https://i.pravatar.cc/150?img=3"
-    size="large"
-  ></a-avatar>
+  <a-avatar :src="src || NoAvatar" size="large"></a-avatar>
 </template>

@@ -13,11 +13,14 @@ const refContent = ref<HTMLDivElement | null>(null)
 const isShow = ref(false)
 
 const handleGetTarget = () => {
-  return refContent.value?.children[0] as HTMLElement | Window | Document
+  const target = document.getElementById('target_content')
+  return target as HTMLElement | Window | Document
+  // return refContent.value?.children[0] as HTMLElement | Window | Document
 }
 
 onMounted(() => {
-  if (window.innerWidth > 1280 && props.sidebar) {
+  handleGetTarget()
+  if (window?.innerWidth > 1280 && props?.sidebar) {
     isShow.value = true
   }
 })
@@ -33,15 +36,15 @@ onMounted(() => {
         class="content flex-1"
         :class="sidebar ? 'xl:pl-4' : ''"
       >
-        <router-view></router-view>
+        <router-view id="target_content"></router-view>
       </div>
       <a-back-top
         class="bottom-4"
+        tooltip="Back to top"
+        type="primary"
         :duration="250"
         :visibility-height="400"
         :target="handleGetTarget"
-        tooltip="Back to top"
-        type="primary"
       />
     </div>
   </div>

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { formatDuration, formatTimeAgoToVietnamese, formatViews } from '@/utils'
+import NoThumbnail from '@/assets/imgs/NoThumbnail.png'
+import NoAvatar from '@/components/Icons/NoAvatar.vue'
 
-defineProps<{
+const props = defineProps<{
   data: {
     timestamp: number
     title: string
@@ -18,15 +20,22 @@ defineProps<{
     id: string
   }
 }>()
+
+const srcThumbnail = ref(props.data.thumbnailUrl)
+
+const handleError = () => {
+  srcThumbnail.value = NoThumbnail
+}
 </script>
 
 <template>
   <a :href="data.url" class="item-video">
     <div class="video-thumbnail">
       <img
-        :src="data.thumbnailUrl"
-        class="w-full h-full object-contain self-stretch"
+        :src="srcThumbnail"
+        class="w-full h-full object-contain self-stretch aspect-video"
         loading="lazy"
+        @error="handleError"
       />
       <a-tag
         class="absolute rounded-md bg-slate-300 font-medium bottom-1 -right-1"
@@ -49,7 +58,12 @@ defineProps<{
           :href="data.uploaderUrl"
           class="w-fit flex items-center mr-2 sm:mr-0 my-2 sm:my-2 md:my-4 cursor-pointer"
         >
-          <a-avatar :src="data.uploaderAvatar" class="mr-2" />
+          <a-avatar
+            :src="data.uploaderAvatar"
+            class="center w-9 h-9 bg-slate-300 mr-2"
+          >
+            <NoAvatar />
+          </a-avatar>
           <div class="text">{{ data.uploader }}</div>
         </a>
       </div>

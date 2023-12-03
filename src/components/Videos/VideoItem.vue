@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ITrending } from '@/api/model/piped'
 import { formatViews, formatDuration, formatTimeAgoToVietnamese } from '@/utils'
+import NoThumbnail from '@/assets/imgs/NoThumbnail.png'
+import NoAvatar from '@/components/Icons/NoAvatar.vue'
 
 const props = defineProps<{
   video: ITrending
@@ -8,18 +10,29 @@ const props = defineProps<{
   playlist?: boolean
 }>()
 
+const srcThumbnail = ref(props.video.thumbnail)
+
 const duration = computed(() => formatDuration(props.video.duration!))
 const views = computed(() => formatViews(+props.video.views!))
 const date = computed(() =>
   formatTimeAgoToVietnamese(props.video.uploadedDate!)
 )
+
+const handleError = () => {
+  srcThumbnail.value = NoThumbnail
+}
 </script>
 
 <template>
   <a :href="video.url" class="video-item">
     <!-- IMG -->
     <div class="relative flex justify-center rounded-xl overflow-hidden">
-      <img :src="video.thumbnail" class="w-full h-full" loading="lazy" />
+      <img
+        :src="srcThumbnail"
+        class="w-full h-full aspect-video"
+        loading="lazy"
+        @error="handleError"
+      />
       <a-tag class="absolute bg-slate-300 font-medium bottom-2 right-0">
         {{ duration }}
       </a-tag>
@@ -29,7 +42,12 @@ const date = computed(() =>
     <div class="flex items-center mt-3">
       <div v-if="detail" class="h-full mr-3">
         <router-link :to="`${video.uploaderUrl}`">
-          <a-avatar class="center w-9 h-9" :src="video.uploaderAvatar" />
+          <a-avatar
+            class="center w-9 h-9 bg-slate-300"
+            :src="video.uploaderAvatar"
+          >
+            <NoAvatar />
+          </a-avatar>
         </router-link>
       </div>
       <div class="w-full flex flex-col justify-between">

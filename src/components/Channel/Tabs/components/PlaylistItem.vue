@@ -2,14 +2,21 @@
 import { UnorderedListOutlined } from '@ant-design/icons-vue'
 import { IPlaylistContent } from '@/api/model/piped'
 import { formatViews } from '@/utils'
+import NoThumbnail from '@/assets/imgs/NoThumbnail.png'
 
-defineProps<{
+const props = defineProps<{
   playlist: IPlaylistContent
 }>()
 
 const emits = defineEmits<{
   (e: 'click', value: string): void
 }>()
+
+const srcThumbnail = ref(props.playlist.thumbnail)
+
+const handleError = () => {
+  srcThumbnail.value = NoThumbnail
+}
 </script>
 
 <template>
@@ -20,7 +27,12 @@ const emits = defineEmits<{
   >
     <!-- IMG -->
     <div class="relative flex justify-center rounded-xl overflow-hidden">
-      <a-image :preview="false" :src="playlist.thumbnail" />
+      <img
+        :src="srcThumbnail"
+        class="w-full h-full aspect-video bg-[#d9d9d9]"
+        loading="lazy"
+        @error="handleError"
+      />
       <div class="overlay-playlist">
         <div class="text-slate-100 mb-1 font-semibold">
           {{ formatViews(playlist.videos) }}
@@ -50,7 +62,7 @@ const emits = defineEmits<{
 <style scoped lang="scss">
 .playlist-item {
   @apply flex flex-col justify-start items-center;
-  @apply w-fit mx-2 mb-7 rounded-xl cursor-pointer;
+  @apply w-auto mx-2 mb-7 rounded-xl cursor-pointer;
 
   &:hover {
     color: initial;

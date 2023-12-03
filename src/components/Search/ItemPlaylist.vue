@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import { IPlaylistContent } from '@/api/model/piped'
-import { getPlaylist } from '@/api/piped'
-import { formatViews, messagePopup } from '@/utils'
 import { CaretRightOutlined, CheckCircleFilled } from '@ant-design/icons-vue'
 import { useMutation } from '@tanstack/vue-query'
+import { formatViews, messagePopup } from '@/utils'
+import { getPlaylist } from '@/api/piped'
+import { IPlaylistContent } from '@/api/model/piped'
+import NoThumbnail from '@/assets/imgs/NoThumbnail.png'
 
 const props = defineProps<{
   data: IPlaylistContent
 }>()
 
 const router = useRouter()
+
+const srcThumbnail = ref(props.data.thumbnail)
 
 const { mutate } = useMutation({
   mutationKey: ['playlist', 'get'],
@@ -30,15 +33,19 @@ const handleClick = () => {
   if (!listId) return
   mutate(listId)
 }
+const handleError = () => {
+  srcThumbnail.value = NoThumbnail
+}
 </script>
 
 <template>
   <div class="item-playlist" @click="handleClick">
     <div class="playlist-thumbnail">
       <img
-        :src="data.thumbnail"
-        class="w-full h-full object-contain self-stretch"
+        :src="srcThumbnail"
+        class="w-full h-full object-contain self-stretch aspect-video"
         loading="lazy"
+        @error="handleError"
       />
 
       <div class="overlay text-xs text-white">

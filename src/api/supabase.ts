@@ -1,18 +1,10 @@
 import supabase from '@/services/supabase'
 
-export const getUser = () => {
-  return supabase.auth.getSession()
-}
+export const getUser = async () => await supabase.auth.getUser()
 
-export const loginGoogle = async () => {
-  return await supabase.auth.signInWithOAuth({
+export const loginGoogle = () =>
+  supabase.auth.signInWithOAuth({
     provider: 'google',
-    options: {
-      scopes: 'email',
-      queryParams: {
-        access_type: 'offline',
-        prompt: 'consent',
-      },
-    },
   })
-}
+
+export const logout = async () => await supabase.auth.signOut()
