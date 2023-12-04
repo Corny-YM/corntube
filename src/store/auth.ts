@@ -1,13 +1,14 @@
 import { defineStore } from 'pinia'
 import { User } from '@supabase/supabase-js'
 import { useMutation, useQuery } from '@tanstack/vue-query'
-import { getUser, loginGoogle, logout } from '@/api/supabase'
+import { getUser, loginGoogle, logout, userSubscribed } from '@/api/supabase'
 import { messagePopup } from '@/utils'
 
 export const useAuth = defineStore('auth', () => {
   const currentUser = ref<User | null>(
     JSON.parse(localStorage.getItem('currentUser')!)
   )
+  const currentSubcribed = ref<any[] | null>(null)
 
   const user = computed(() => currentUser.value)
   const enabled = computed(() => !currentUser.value)
@@ -50,11 +51,23 @@ export const useAuth = defineStore('auth', () => {
     },
   })
 
+  const getSubscribed = async () => {
+    if (!user.value) return
+    const { data, error } = await userSubscribed(user.value.id)
+    if (error) {
+      messagePopup({ type: 'error' })
+    }
+    if (data) {
+      // TODO: take value from supabase
+    }
+  }
+
   return {
     user,
     isPendingLogin,
     isPendingLogout,
     mutateLogin,
     mutateLogout,
+    getSubscribed,
   }
 })

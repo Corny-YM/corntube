@@ -9,7 +9,27 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      [_ in never]: never
+      Subscribeds: {
+        Row: {
+          created_at: string
+          id: number
+          subscriber: Json | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          subscriber?: Json | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          subscriber?: Json | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

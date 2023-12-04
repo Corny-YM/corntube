@@ -1,13 +1,45 @@
 <script setup lang="ts">
-import { formatViews } from '@/utils'
+import { formatViews, messagePopup } from '@/utils'
 import { IChannelContent } from '@/api/model/piped'
 import NoAvatar from '@/assets/imgs/NoAvatar.png'
+import { useMutation } from '@tanstack/vue-query'
+import { userSubscription } from '@/api/supabase'
+import { useAuth } from '@/store/auth'
+import { storeToRefs } from 'pinia'
 
-defineProps<{
+const props = defineProps<{
   data: IChannelContent
 }>()
 
-const handleSubscribed = () => {}
+const auth = useAuth()
+const { user } = storeToRefs(auth)
+
+const { mutateAsync, isPending } = useMutation({
+  mutationKey: ['subscriber', 'user'],
+  mutationFn: userSubscription,
+  onSuccess(data: any) {
+    if (data?.message) {
+      messagePopup({
+        type: 'error',
+        content: 'Đăng ký kênh thất bại. Vui lòng thử lại sau',
+      })
+    }
+  },
+  onError() {
+    messagePopup({
+      type: 'error',
+      content: 'Đăng ký kênh thất bại. Vui lòng thử lại sau',
+    })
+  },
+})
+
+const handleSubscribed = () => {
+  if (!user.value) return
+  mutateAsync({
+    user_id: user.value.id,
+    subscriber: JSON.stringify(props.data),
+  })
+}
 </script>
 
 <template>
@@ -38,10 +70,11 @@ const handleSubscribed = () => {}
 
     <div class="self-stretch center">
       <a-button
+        class="h-9"
         type="primary"
         shape="round"
         size="middle"
-        class="h-9"
+        :loading="isPending"
         @click.prevent="handleSubscribed"
       >
         Đăng ký
