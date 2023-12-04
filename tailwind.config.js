@@ -11,7 +11,7 @@ export default {
       },
     },
     fontFamily: {
-      body: ['Roboto', 'sans-serif'],
+      body: ['Roboto Mono', 'sans-serif'],
       rubikWet: ['Rubik Wet Paint'],
     },
   },
