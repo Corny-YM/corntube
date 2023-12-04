@@ -85,9 +85,14 @@ onUnmounted(() => {
               </a-avatar>
             </a>
             <div class="ml-3">
-              <a :href="channelUrl" class="font-medium">
-                {{ data.uploader }}
-              </a>
+              <div class="flex items-center">
+                <a :href="channelUrl" class="font-medium">
+                  {{ data.uploader }}
+                </a>
+                <div v-if="data.uploaderVerified" class="w-4 h-4 ml-2 center">
+                  <check-circle />
+                </div>
+              </div>
               <div v-if="data.uploaderSubscriberCount > 0" class="text-sm mt-1">
                 {{ formatViews(data.uploaderSubscriberCount) }} người đăng ký
               </div>

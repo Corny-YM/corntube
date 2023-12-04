@@ -58,14 +58,14 @@ const handleError = () => {
           </a-tooltip>
         </div>
         <!-- channel -->
-        <a
-          :href="video.uploaderUrl"
-          v-if="detail"
-          class="text-sm"
-          @click.stop=""
-        >
-          {{ video.uploaderName }}
-        </a>
+        <div v-if="detail" class="flex items-center">
+          <a :href="video.uploaderUrl" class="text-sm" @click.stop="">
+            {{ video.uploaderName }}
+          </a>
+          <div v-if="video.uploaderVerified" class="w-3 h-3 ml-2 center">
+            <check-circle />
+          </div>
+        </div>
         <!-- detail -->
         <div class="font-normal" :class="!detail ? 'text-xs' : 'text-sm'">
           {{ views }} lượt xem • {{ date }}

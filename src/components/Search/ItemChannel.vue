@@ -11,10 +11,7 @@ const handleSubscribed = () => {}
 </script>
 
 <template>
-  <a
-    :href="data.url"
-    class="item-channel"
-  >
+  <a :href="data.url" class="item-channel">
     <div class="channel-thumbnail">
       <a-image
         class="w-auto h-auto rounded-full object-contain self-stretch"
@@ -26,7 +23,12 @@ const handleSubscribed = () => {}
     </div>
 
     <div class="flex-1 flex flex-col pr-4">
-      <div class="title mb-1">{{ data.name }}</div>
+      <div class="mb-1 flex items-center">
+        <div class="title">{{ data.name }}</div>
+        <div v-if="data.verified" class="w-4 h-4 ml-2 center">
+          <check-circle />
+        </div>
+      </div>
       <div class="text mb-1">
         {{ formatViews(data.subscribers, 0) }} người đăng ký
         {{ data.videos > 0 ? `• ${formatViews(data.videos)}` : null }}

@@ -47,12 +47,14 @@ const handleError = () => {
           {{ video.title }}
         </div>
         <!-- channel -->
-        <div class="mb-1 text-xs">{{ video.uploaderName }}</div>
-        <!-- detail -->
-        <div class="text-xs">
-          {{ views }} lượt xem •
-          {{ date }}
+        <div class="flex items-center mb-1">
+          <div class="text-xs">{{ video.uploaderName }}</div>
+          <div v-if="video.uploaderVerified" class="w-3 h-3 ml-2 center">
+            <check-circle />
+          </div>
         </div>
+        <!-- detail -->
+        <div class="text-xs">{{ views }} lượt xem • {{ date }}</div>
       </div>
     </div>
   </a>

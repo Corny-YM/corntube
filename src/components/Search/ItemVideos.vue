@@ -51,7 +51,12 @@ const handleError = () => {
           >
             <NoAvatar />
           </a-avatar>
-          <div class="text">{{ data.uploaderName }}</div>
+          <div class="flex items-center">
+            <div class="text">{{ data.uploaderName }}</div>
+            <div v-if="data.uploaderVerified" class="w-3 h-3 ml-2 center">
+              <check-circle />
+            </div>
+          </div>
         </a>
       </div>
       <a-tooltip

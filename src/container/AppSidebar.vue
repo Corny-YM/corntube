@@ -55,7 +55,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
         sidebar ? 'min-[1281px]:relative' : 'transitioning',
       ]"
     >
-      <div class="flex flex-col h-full">
+      <div class="flex flex-col">
         <!-- Toggle bar & Logo -->
         <div
           class="flex items-center gap-2 select-none px-4 py-[14px]"
@@ -132,7 +132,11 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
       <div class="menu-footer flex">
         <div class="w-full flex justify-end items-center py-3">
           <div class="center gap-2 mr-2">
-            <a class="center" href="https://www.facebook.com/corny1508/">
+            <a
+              class="center"
+              href="https://www.facebook.com/corny1508/"
+              target="_blank"
+            >
               <a-tag class="center m-0" color="#1e40af">
                 <template #icon>
                   <FacebookFilled style="color: white" />
@@ -140,7 +144,11 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
                 Facebook
               </a-tag>
             </a>
-            <a class="center" href="https://github.com/Corny-YM">
+            <a
+              class="center"
+              href="https://github.com/Corny-YM"
+              target="_blank"
+            >
               <a-tag class="center m-0">
                 <template #icon>
                   <GithubFilled />
@@ -189,7 +197,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
 
 <style lang="scss" scoped>
 .sidebar {
-  @apply flex-col justify-between;
+  @apply flex flex-col justify-between;
   @apply overflow-hidden bg-white;
   width: 240px;
   height: 100%;

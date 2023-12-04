@@ -48,7 +48,7 @@ onUnmounted(() => {
           shape="round"
           @click="handleClearHistory"
         >
-          Xóa toàn cả nhật ký xem
+          Xóa toàn bộ nhật ký xem
         </a-button>
         <a-input-search
           v-model:value="searchQuery"

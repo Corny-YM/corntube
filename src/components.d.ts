@@ -31,6 +31,7 @@ declare module 'vue' {
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
     Avatar: typeof import('./components/Avatar.vue')['default']
     Chapters: typeof import('./components/Watch/Chapters.vue')['default']
+    CheckCircle: typeof import('./components/Icons/CheckCircle.vue')['default']
     Clock: typeof import('./components/Icons/Clock.vue')['default']
     Comment: typeof import('./components/Watch/Comment.vue')['default']
     CommentReplies: typeof import('./components/Watch/CommentReplies.vue')['default']
