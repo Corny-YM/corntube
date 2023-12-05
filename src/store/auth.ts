@@ -1,16 +1,30 @@
 import { defineStore } from 'pinia'
 import { User } from '@supabase/supabase-js'
 import { useMutation, useQuery } from '@tanstack/vue-query'
-import { getUser, loginGoogle, logout, userSubscribed } from '@/api/supabase'
+import {
+  loginGoogle,
+  logout,
+  getUser,
+  getSubscribedChannels,
+  createSubscribedChannels,
+  removeSubscribedChannels,
+} from '@/api/supabase'
+import {
+  DestroySubscribedRequest,
+  ISubscribed,
+  StoreSubscribedRequest,
+} from '@/api/model/supabase'
 import { messagePopup } from '@/utils'
+import supabase from '@/services/supabase'
 
 export const useAuth = defineStore('auth', () => {
   const currentUser = ref<User | null>(
     JSON.parse(localStorage.getItem('currentUser')!)
   )
-  const currentSubcribed = ref<any[] | null>(null)
+  const currentSubscribedChannel = ref<ISubscribed[]>([])
 
   const user = computed(() => currentUser.value)
+  const subscribedChannel = computed(() => currentSubscribedChannel.value)
   const enabled = computed(() => !currentUser.value)
 
   useQuery({
@@ -53,21 +67,77 @@ export const useAuth = defineStore('auth', () => {
 
   const getSubscribed = async () => {
     if (!user.value) return
-    const { data, error } = await userSubscribed(user.value.id)
+    const { data, error } = await getSubscribedChannels(user.value.id)
     if (error) {
-      messagePopup({ type: 'error' })
+      messagePopup({
+        type: 'error',
+        content: 'Không thể lấy danh sách kênh đã đăng ký 💀💀💀',
+      })
     }
     if (data) {
       // TODO: take value from supabase
+      currentSubscribedChannel.value = data
+
+      supabase
+        .channel('Subscribeds')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'Subscribeds' },
+          (data) => {
+            const newSubscribed = data?.new as ISubscribed
+            if (data.eventType === 'INSERT') {
+              currentSubscribedChannel.value.push(newSubscribed)
+              return
+            }
+            if (data.eventType === 'DELETE') {
+              const index = currentSubscribedChannel.value.findIndex(
+                (c) => c.id === data.old.id
+              )
+              currentSubscribedChannel.value.splice(index, 1)
+              return
+            }
+          }
+        )
+        .subscribe()
+    }
+  }
+
+  const createSubscribed = async (value: StoreSubscribedRequest) => {
+    if (!user.value) {
+      await mutateLogin()
+      return
+    }
+    const { error } = await createSubscribedChannels(value)
+    if (error) {
+      if (error.code !== '23505') messagePopup({ type: 'error' })
+    } else {
+      messagePopup({
+        type: 'success',
+        content: 'Đăng ký thành công',
+      })
+    }
+  }
+  const removeSubscribed = async (value: DestroySubscribedRequest) => {
+    const { error } = await removeSubscribedChannels(value)
+    if (error) {
+      messagePopup({ type: 'error' })
+    } else {
+      messagePopup({
+        type: 'info',
+        content: 'Hủy đăng ký thành công',
+      })
     }
   }
 
   return {
     user,
+    subscribedChannel,
     isPendingLogin,
     isPendingLogout,
     mutateLogin,
     mutateLogout,
     getSubscribed,
+    createSubscribed,
+    removeSubscribed,
   }
 })

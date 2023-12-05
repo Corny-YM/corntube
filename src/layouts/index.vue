@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { VerticalAlignTopOutlined } from '@ant-design/icons-vue'
+import { useAuth } from '@/store/auth'
 import AppHeader from '../container/AppHeader.vue'
 import AppSidebar from '../container/AppSidebar.vue'
 
@@ -9,6 +10,8 @@ const props = defineProps({
     default: true,
   },
 })
+
+const auth = useAuth()
 
 const refContent = ref<HTMLDivElement | null>(null)
 const isShow = ref(false)
@@ -28,6 +31,7 @@ const handleScroll = (e: Event) => {
 }
 
 onMounted(() => {
+  auth.getSubscribed()
   if (window?.innerWidth > 1280 && props?.sidebar) {
     isShow.value = true
   }

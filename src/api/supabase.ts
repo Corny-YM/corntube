@@ -1,5 +1,8 @@
 import supabase from '@/services/supabase'
-import { Json } from '@/services/database.types'
+import {
+  DestroySubscribedRequest,
+  StoreSubscribedRequest,
+} from './model/supabase'
 
 export const getUser = async () => await supabase.auth.getUser()
 
@@ -10,10 +13,17 @@ export const loginGoogle = () =>
 
 export const logout = async () => await supabase.auth.signOut()
 
-export const userSubscription = async (data: {
-  user_id: string
-  subscriber: Json
-}) => await supabase.from('Subscribeds').insert(data)
-
-export const userSubscribed = async (id: string) =>
+export const getSubscribedChannels = async (id: string) =>
   await supabase.from('Subscribeds').select().eq('user_id', id)
+
+export const createSubscribedChannels = async (data: StoreSubscribedRequest) =>
+  await supabase.from('Subscribeds').insert(data)
+
+export const removeSubscribedChannels = async (
+  data: DestroySubscribedRequest
+) =>
+  await supabase
+    .from('Subscribeds')
+    .delete()
+    .eq('user_id', data.user_id)
+    .eq('channel_id', data.channel_id)

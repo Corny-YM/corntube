@@ -15,18 +15,21 @@ export interface Database {
           id: number
           subscriber: Json | null
           user_id: string | null
+          channel_id: string | null
         }
         Insert: {
           created_at?: string
           id?: number
           subscriber?: Json | null
           user_id?: string | null
+          channel_id: string | null
         }
         Update: {
           created_at?: string
           id?: number
           subscriber?: Json | null
           user_id?: string | null
+          channel_id: string | null
         }
         Relationships: []
       }

@@ -1,3 +1,5 @@
+import { Json } from '@/services/database.types'
+
 export interface IUser {
   id: string
   aud: string
@@ -40,4 +42,22 @@ export interface Data {
   picture: string
   provider_id: string
   sub: string
+}
+
+export interface StoreSubscribedRequest {
+  user_id: string
+  channel_id: string
+  subscriber: Json
+}
+export interface DestroySubscribedRequest {
+  user_id: string
+  channel_id: string
+}
+
+export interface ISubscribed {
+  id: number
+  subscriber: any
+  user_id: string | null
+  channel_id: string | null
+  created_at: string
 }

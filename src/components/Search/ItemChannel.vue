@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { formatViews, messagePopup } from '@/utils'
+import { formatViews } from '@/utils'
 import { IChannelContent } from '@/api/model/piped'
 import NoAvatar from '@/assets/imgs/NoAvatar.png'
-import { useMutation } from '@tanstack/vue-query'
-import { userSubscription } from '@/api/supabase'
 import { useAuth } from '@/store/auth'
 import { storeToRefs } from 'pinia'
 
@@ -12,33 +10,34 @@ const props = defineProps<{
 }>()
 
 const auth = useAuth()
-const { user } = storeToRefs(auth)
+const { user, subscribedChannel } = storeToRefs(auth)
 
-const { mutateAsync, isPending } = useMutation({
-  mutationKey: ['subscriber', 'user'],
-  mutationFn: userSubscription,
-  onSuccess(data: any) {
-    if (data?.message) {
-      messagePopup({
-        type: 'error',
-        content: 'Đăng ký kênh thất bại. Vui lòng thử lại sau',
-      })
-    }
-  },
-  onError() {
-    messagePopup({
-      type: 'error',
-      content: 'Đăng ký kênh thất bại. Vui lòng thử lại sau',
-    })
-  },
+const isSubscribed = computed(() => {
+  const item = subscribedChannel.value.find((channel) => {
+    const curChannelId = props.data.url.split('/')[2]
+    return curChannelId === channel.channel_id
+  })
+  return item ? true : false
 })
 
 const handleSubscribed = () => {
-  if (!user.value) return
-  mutateAsync({
-    user_id: user.value.id,
+  auth.createSubscribed({
+    user_id: user.value?.id!,
+    channel_id: props.data.url.split('/')[2],
     subscriber: JSON.stringify(props.data),
   })
+}
+const handleUnsubscribed = () => {
+  if (!user.value) return
+  auth.removeSubscribed({
+    user_id: user.value.id!,
+    channel_id: props.data.url.split('/')[2],
+  })
+}
+const handleClickSubscription = () => {
+  console.log(isSubscribed.value)
+  if (isSubscribed.value) handleUnsubscribed()
+  else handleSubscribed()
 }
 </script>
 
@@ -71,13 +70,12 @@ const handleSubscribed = () => {
     <div class="self-stretch center">
       <a-button
         class="h-9"
-        type="primary"
+        :type="isSubscribed ? 'dashed' : 'primary'"
         shape="round"
         size="middle"
-        :loading="isPending"
-        @click.prevent="handleSubscribed"
+        @click.prevent="handleClickSubscription"
       >
-        Đăng ký
+        {{ isSubscribed ? 'Đã đăng ký' : 'Đăng ký' }}
       </a-button>
     </div>
   </a>
