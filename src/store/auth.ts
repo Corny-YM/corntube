@@ -65,6 +65,28 @@ export const useAuth = defineStore('auth', () => {
     },
   })
 
+  const subscribePostgresChanges = (subscribed: ISubscribed[]) => {
+    supabase
+      .channel('Subscribeds')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'Subscribeds' },
+        (data) => {
+          const newSubscribed = data?.new as ISubscribed
+          if (data.eventType === 'INSERT') {
+            subscribed.push(newSubscribed)
+            return
+          }
+          if (data.eventType === 'DELETE') {
+            const index = subscribed.findIndex((c) => c.id === data.old.id)
+            subscribed.splice(index, 1)
+            return
+          }
+        }
+      )
+      .subscribe()
+  }
+
   const getSubscribed = async () => {
     if (!user.value) return
     const { data, error } = await getSubscribedChannels(user.value.id)
@@ -75,30 +97,8 @@ export const useAuth = defineStore('auth', () => {
       })
     }
     if (data) {
-      // TODO: take value from supabase
       currentSubscribedChannel.value = data
-
-      supabase
-        .channel('Subscribeds')
-        .on(
-          'postgres_changes',
-          { event: '*', schema: 'public', table: 'Subscribeds' },
-          (data) => {
-            const newSubscribed = data?.new as ISubscribed
-            if (data.eventType === 'INSERT') {
-              currentSubscribedChannel.value.push(newSubscribed)
-              return
-            }
-            if (data.eventType === 'DELETE') {
-              const index = currentSubscribedChannel.value.findIndex(
-                (c) => c.id === data.old.id
-              )
-              currentSubscribedChannel.value.splice(index, 1)
-              return
-            }
-          }
-        )
-        .subscribe()
+      subscribePostgresChanges(currentSubscribedChannel.value)
     }
   }
 
