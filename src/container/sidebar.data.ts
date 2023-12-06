@@ -1,3 +1,4 @@
+import { FacebookFilled, GithubFilled } from '@ant-design/icons-vue'
 import Home from '@/components/Icons/Home.vue'
 import Subscription from '@/components/Icons/Subscription.vue'
 import Library from '@/components/Icons/Library.vue'
@@ -62,5 +63,20 @@ export const subscribedItem = [
     avatar: 'https://i.pravatar.cc/150?img=35',
     name: 'LL Stylish',
     path: '/channel/uashd123123',
+  },
+]
+
+export const menuFooterItem = [
+  {
+    href: 'https://www.facebook.com/corny1508/',
+    icon: FacebookFilled,
+    title: 'Facebook',
+    color: '#1e40af',
+  },
+  {
+    href: 'https://github.com/Corny-YM',
+    icon: GithubFilled,
+    title: 'Github',
+    color: 'default',
   },
 ]

@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import {
-  FacebookFilled,
-  GithubFilled,
-  RightOutlined,
-  MenuOutlined,
-} from '@ant-design/icons-vue'
-import { onMounted, onUnmounted } from 'vue'
-import { menuItem, subscribedItem } from './sidebar.data'
+import { RightOutlined, MenuOutlined } from '@ant-design/icons-vue'
+import { menuItem, menuFooterItem } from './sidebar.data'
+import { useAuth } from '@/store/auth'
+import { storeToRefs } from 'pinia'
 
 const props = defineProps<{
   sidebar: boolean
@@ -15,6 +11,8 @@ const props = defineProps<{
 const emits = defineEmits(['update:isShow'])
 
 const route = useRoute()
+const auth = useAuth()
+const { subscribedChannel } = storeToRefs(auth)
 
 const sidebarRef = ref<HTMLDivElement | null>(null)
 const sidebarOverlayRef = ref<HTMLDivElement | null>(null)
@@ -55,7 +53,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
         sidebar ? 'min-[1281px]:relative' : 'transitioning',
       ]"
     >
-      <div class="flex flex-col">
+      <div class="flex flex-col h-full max-h-[calc(100%-46px)]">
         <!-- Toggle bar & Logo -->
         <div
           class="flex items-center gap-2 select-none px-4 py-[14px]"
@@ -75,7 +73,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
         </div>
 
         <!-- MenuItem -->
-        <div class="flex flex-col p-3 w-full">
+        <div class="flex flex-col h-fit p-3 w-full">
           <router-link
             v-for="item in menuItem"
             :to="item.path"
@@ -91,28 +89,19 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
         </div>
 
         <!-- Menu subscribed -->
-        <div class="menu-subscribed h-full flex flex-col">
-          <div class="w-full h-full p-3">
-            <p class="menu-subscribed__title border-blueAntd px-3 py-1">
+        <div class="menu-subscribed h-full flex flex-col overflow-hidden">
+          <div class="w-full h-full max-h-full px-3 py-2 flex flex-col">
+            <p class="menu-subscribed__title border-blueAntd px-3 py-1 mb-2">
               Kênh đăng ký
             </p>
 
             <!-- List subscribed -->
-            <div class="w-full h-fit flex flex-col gap-1 mt-2">
-              <div
-                v-for="subscribed in subscribedItem"
-                :key="subscribed.id"
-                class="h-11 flex items-center px-3 rounded-lg cursor-pointer hover:bg-lightHover"
-              >
-                <div class="flex justify-center items-center mr-4">
-                  <a-avatar class="w-7 h-7" :src="subscribed.avatar" />
-                </div>
-                <div
-                  class="text-[16px] font-medium overflow-hidden whitespace-nowrap text-ellipsis"
-                >
-                  {{ subscribed.name }}
-                </div>
-              </div>
+            <div class="w-full h-full max-h-full flex flex-col overflow-auto">
+              <SubscribedItem
+                v-for="channel in subscribedChannel"
+                :key="channel.id"
+                :subscribed="JSON.parse(channel.subscriber)"
+              />
             </div>
 
             <!-- Button show all subscribed -->
@@ -122,7 +111,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
               <div class="flex justify-center items-center w-7 h-7 mr-4">
                 <RightOutlined class="center w-4 h-4 text-2xl" />
               </div>
-              <div class="center text-[16px]">Hiện thị tất cả</div>
+              <div class="center text-sm">Hiện thị tất cả</div>
             </div>
           </div>
         </div>
@@ -133,27 +122,17 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
         <div class="w-full flex justify-end items-center py-3">
           <div class="center gap-2 mr-2">
             <a
+              v-for="item in menuFooterItem"
+              :key="item.href"
+              :href="item.href"
               class="center"
-              href="https://www.facebook.com/corny1508/"
               target="_blank"
             >
-              <a-tag class="center m-0" color="#1e40af">
+              <a-tag class="center m-0" :color="item.color">
                 <template #icon>
-                  <FacebookFilled style="color: white" />
+                  <component :is="item.icon" />
                 </template>
-                Facebook
-              </a-tag>
-            </a>
-            <a
-              class="center"
-              href="https://github.com/Corny-YM"
-              target="_blank"
-            >
-              <a-tag class="center m-0">
-                <template #icon>
-                  <GithubFilled />
-                </template>
-                Github
+                {{ item.title }}
               </a-tag>
             </a>
           </div>
