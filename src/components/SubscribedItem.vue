@@ -7,8 +7,9 @@ defineProps<{
 </script>
 
 <template>
-  <div
+  <a
     class="h-11 flex items-center px-3 py-2 rounded-lg cursor-pointer hover:bg-lightHover"
+    :href="subscribed.url"
   >
     <div class="flex justify-center items-center mr-4">
       <a-avatar class="w-7 h-7" :src="subscribed.thumbnail" />
@@ -18,7 +19,7 @@ defineProps<{
     >
       {{ subscribed.name }}
     </div>
-  </div>
+  </a>
 </template>
 
 <style scoped lang="scss"></style>

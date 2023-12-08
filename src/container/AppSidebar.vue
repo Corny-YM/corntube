@@ -95,24 +95,26 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
               Kênh đăng ký
             </p>
 
-            <!-- List subscribed -->
-            <div class="w-full h-full max-h-full flex flex-col overflow-auto">
-              <SubscribedItem
-                v-for="channel in subscribedChannel"
-                :key="channel.id"
-                :subscribed="JSON.parse(channel.subscriber)"
-              />
-            </div>
-
-            <!-- Button show all subscribed -->
-            <div
-              class="h-10 flex items-center px-3 rounded-lg cursor-pointer hover:bg-lightHover"
-            >
-              <div class="flex justify-center items-center w-7 h-7 mr-4">
-                <RightOutlined class="center w-4 h-4 text-2xl" />
+            <template v-if="subscribedChannel && subscribedChannel.length">
+              <!-- List subscribed -->
+              <div class="w-full h-full max-h-full flex flex-col overflow-auto">
+                <SubscribedItem
+                  v-for="channel in subscribedChannel"
+                  :key="channel.id"
+                  :subscribed="JSON.parse(channel.subscriber)"
+                />
               </div>
-              <div class="center text-sm">Hiện thị tất cả</div>
-            </div>
+
+              <!-- Button show all subscribed -->
+              <div
+                class="h-10 flex items-center px-3 rounded-lg cursor-pointer hover:bg-lightHover"
+              >
+                <div class="flex justify-center items-center w-7 h-7 mr-4">
+                  <RightOutlined class="center w-4 h-4 text-2xl" />
+                </div>
+                <div class="center text-sm">Hiện thị tất cả</div>
+              </div>
+            </template>
           </div>
         </div>
       </div>

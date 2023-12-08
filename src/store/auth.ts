@@ -54,6 +54,7 @@ export const useAuth = defineStore('auth', () => {
     mutationFn: logout,
     onSuccess() {
       currentUser.value = null
+      currentSubscribedChannel.value = []
       localStorage.removeItem('currentUser')
       messagePopup({
         content: {
@@ -128,6 +129,10 @@ export const useAuth = defineStore('auth', () => {
       })
     }
   }
+
+  watch([currentUser], () => {
+    if (currentUser.value) getSubscribed()
+  })
 
   return {
     user,
