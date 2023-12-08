@@ -12,7 +12,9 @@ defineProps<{
     :href="subscribed.url"
   >
     <div class="flex justify-center items-center mr-4">
-      <a-avatar class="w-7 h-7" :src="subscribed.thumbnail" />
+      <a-avatar class="w-7 h-7" :src="subscribed.thumbnail">
+        <NoAvatar />
+      </a-avatar>
     </div>
     <div
       class="text-[16px] font-medium overflow-hidden whitespace-nowrap text-ellipsis"

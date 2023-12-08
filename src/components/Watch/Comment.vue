@@ -79,7 +79,9 @@ const handleLike = () => {
         <template v-if="content.hearted">
           <a-tooltip :title="`💓 từ ${authorData?.name}`">
             <div class="actions-item center relative w-9 h-9 select-none">
-              <a-avatar class="w-5 h-5" :src="authorData?.avatar" />
+              <a-avatar class="w-5 h-5" :src="authorData?.avatar">
+                <NoAvatar />
+              </a-avatar>
               <HeartFilled
                 class="absolute bottom-0 right-0 -translate-x-1/4 -translate-y-1/4 center text-[#df3636]"
               />
