@@ -45,7 +45,7 @@ const handleClickSubscription = () => {
   <a :href="data.url" class="item-channel">
     <div class="channel-thumbnail">
       <a-image
-        class="w-auto h-auto rounded-full object-contain self-stretch"
+        class="w-auto h-auto rounded-full object-contain self-stretch dark:shadow-slate-300 dark:shadow"
         loading="lazy"
         :preview="false"
         :src="data.thumbnail"
@@ -69,7 +69,8 @@ const handleClickSubscription = () => {
 
     <div class="self-stretch center">
       <a-button
-        class="h-9"
+        class="h-9 dark:text-white"
+        :class="isSubscribed ? 'dark:bg-headerDark' : ''"
         :type="isSubscribed ? 'dashed' : 'primary'"
         shape="round"
         size="middle"
@@ -86,17 +87,18 @@ const handleClickSubscription = () => {
   @apply w-full flex justify-start items-center mt-6 sm:mt-4 cursor-pointer;
 }
 .channel-thumbnail {
-  @apply center mr-4;
+  @apply flex justify-center items-center mr-4;
   @apply sm:max-w-[300px] sm:min-w-[300px];
   @apply md:max-w-[360px] md:min-w-[360px];
   @apply lg:max-w-[500px] lg:min-w-[500px];
 }
 
 .title {
-  @apply text-[#0F0F0F] text-[18px] font-medium line-clamp-2;
+  @apply text-[18px] font-medium line-clamp-2;
+  @apply dark:text-lightHover text-[#0F0F0F];
 }
 
 .text {
-  @apply text-[#606060] text-xs;
+  @apply dark:text-darkTitle text-[#606060] text-xs;
 }
 </style>

@@ -73,14 +73,14 @@ const handleError = () => {
             <CheckCircleFilled class="center text-sm" />
           </div>
         </div>
-        <a-typography-text code class="sm:my-2">
+        <a-typography-text code class="sm:my-2 dark:text-darkTitle">
           {{ formatViews(data.videos) }} videos
         </a-typography-text>
       </div>
       <a-button
         type="dashed"
         size="middle"
-        class="w-fit h-9 center"
+        class="w-fit h-9 center dark:bg-headerDark dark:text-white"
         :href="data.url"
         @click.stop=""
       >
@@ -106,7 +106,8 @@ const handleError = () => {
 }
 
 .playlist-thumbnail {
-  @apply relative center mr-4 rounded-xl overflow-hidden shadow-md;
+  @apply flex justify-center items-center;
+  @apply relative mr-4 rounded-xl overflow-hidden shadow-md;
   @apply max-w-full min-w-full;
   @apply sm:max-w-[300px] sm:min-w-[300px];
   @apply md:max-w-[360px] md:min-w-[360px];
@@ -114,9 +115,11 @@ const handleError = () => {
 }
 
 .title {
-  @apply text-[#0F0F0F] text-[18px] font-medium line-clamp-2;
+  @apply text-[18px] font-medium line-clamp-2;
+  @apply dark:text-lightHover text-[#0F0F0F];
 }
+
 .text {
-  @apply text-[#606060] text-xs;
+  @apply dark:text-darkTitle text-[#606060] text-xs;
 }
 </style>

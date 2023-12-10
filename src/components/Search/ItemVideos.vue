@@ -78,19 +78,21 @@ const handleError = () => {
   @apply mt-6 sm:mt-4;
 }
 .video-thumbnail {
-  @apply relative center mr-4 rounded-xl overflow-hidden shadow-md;
+  @apply flex justify-center items-center;
+  @apply relative mr-4 rounded-xl overflow-hidden shadow-md;
   @apply max-w-full min-w-full;
   @apply sm:max-w-[300px] sm:min-w-[300px];
   @apply md:max-w-[360px] md:min-w-[360px];
   @apply lg:max-w-[500px] lg:min-w-[500px];
+  box-shadow: 0px 2px 16px rgba(255, 255, 255, 0.4);
 }
 
 .title {
-  @apply text-[#0F0F0F] text-[18px] font-medium line-clamp-2;
+  @apply text-[18px] font-medium line-clamp-2;
+  @apply dark:text-lightHover text-[#0F0F0F];
 }
 
 .text {
-  @apply text-[#606060] text-xs line-clamp-2;
-  overflow-wrap: anywhere;
+  @apply dark:text-darkTitle text-[#606060] text-xs;
 }
 </style>

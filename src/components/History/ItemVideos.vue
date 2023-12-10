@@ -92,7 +92,8 @@ const handleError = () => {
 }
 
 .video-thumbnail {
-  @apply relative center mr-4 rounded-xl overflow-hidden shadow-md;
+  @apply flex justify-center items-center;
+  @apply relative mr-4 rounded-xl overflow-hidden shadow-md;
   @apply max-w-full min-w-full;
   @apply sm:max-w-[300px] sm:min-w-[300px];
   @apply md:max-w-[360px] md:min-w-[360px];
