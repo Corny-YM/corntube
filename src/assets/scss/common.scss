@@ -1,0 +1,13 @@
+html.dark {
+  @apply bg-primaryDark;
+
+  .header--search-bar {
+    .ant-input {
+      background-color: #303033 !important;
+      color: white;
+      &::placeholder {
+        color: #f2f2f2;
+      }
+    }
+  }
+}

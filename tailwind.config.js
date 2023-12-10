@@ -1,13 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
         blueAntd: '#1677ff',
+        headerDark: '#18181c',
+        primaryDark: '#101014',
+        darkTitle: '#aaaaaa',
+        darkHover: '#343438',
         lightHover: '#f2f2f2',
         lightTitle: '#606060',
-        darkTitle: '#aaaaaa',
       },
     },
     fontFamily: {

@@ -52,11 +52,8 @@ onUnmounted(() => {
     <!-- Logo -->
     <div class="flex items-center select-none">
       <!-- Toggle bar -->
-      <div
-        class="center w-full h-full md:text-xl mr-1 md:mr-2 p-2 cursor-pointer rounded-full hover:bg-lightHover"
-        @click="isShow = !isShow"
-      >
-        <MenuOutlined />
+      <div class="toggle-bar-btn" @click="isShow = !isShow">
+        <MenuOutlined class="dark:text-white" />
       </div>
 
       <!-- Logo -->
@@ -98,9 +95,11 @@ onUnmounted(() => {
         <template #overlay>
           <div
             ref="refDropdown"
-            class="card-profile bg-white border border-solid border-slate-400"
+            class="card-profile border border-solid border-slate-400 dark:border-[#ffffff17] dark:text-white"
           >
-            <div class="card-profile__content cursor-default">
+            <div
+              class="card-profile__content cursor-default bg-white dark:bg-primaryDark"
+            >
               <div class="flex justify-center items-center gap-4">
                 <Avatar
                   :src="
@@ -118,8 +117,7 @@ onUnmounted(() => {
                 </div>
               </div>
             </div>
-            <a-divider class="m-0" type="horizontal" />
-            <div class="card-profile__action">
+            <div class="card-profile__action bg-[#FAFAFC] dark:bg-headerDark">
               <ToggleTheme class="inline-block md:hidden" />
               <div class="flex-1 flex justify-end items-center">
                 <a-button
@@ -140,27 +138,22 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 64px;
-  z-index: 50;
-  margin: 0;
+  @apply fixed top-0 w-full h-16 z-50 m-0;
+  @apply flex items-center justify-between;
+  @apply bg-white dark:bg-headerDark;
   padding: 0.625rem 1rem;
-  background-color: white;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 
   &-logo {
-    display: flex;
-    justify-items: center;
-    font-size: 22px;
+    @apply flex justify-center text-[22px] gap-[0.5rem];
     color: #555;
-    gap: 0.5rem;
-    // border-right: solid 1px rgba(0, 0, 0, 0.1);
   }
+}
+
+.toggle-bar-btn {
+  @apply flex justify-center items-center w-full h-full;
+  @apply md:text-xl mr-1 md:mr-2 p-2 cursor-pointer rounded-full;
+  @apply hover:bg-lightHover dark:hover:bg-darkHover;
 }
 
 .btn-login {
@@ -174,6 +167,7 @@ onUnmounted(() => {
 
 .card-profile {
   width: max-content;
+  overflow: hidden;
   border-radius: 8px;
 
   &__content {

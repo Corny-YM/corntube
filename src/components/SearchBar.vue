@@ -67,7 +67,7 @@ watch(
 </script>
 
 <template>
-  <div>
+  <div class="">
     <a-auto-complete
       v-model:value="value"
       class="md:w-80 border-0 mx-2"
@@ -77,15 +77,8 @@ watch(
       @select="handleSelect"
       @keydown="handleKeyDown"
     >
-      <!-- <template #options="item">
-        <div class="flex items-center justify-start">
-          <div class="w-4 h-4 md:w-5 md:h-5 center"><SearchOutline /></div>
-          <span class="pl-2 flex-1 text-ellipsis font-medium line-clamp-1">
-            {{ item.category }}
-          </span>
-        </div>
-      </template> -->
       <a-input-search
+        class="header--search-bar"
         size="large"
         placeholder="Tìm kiếm"
         enter-button
@@ -95,3 +88,5 @@ watch(
     </a-auto-complete>
   </div>
 </template>
+
+<style scoped lang="scss"></style>
