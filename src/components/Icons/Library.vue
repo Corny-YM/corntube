@@ -4,6 +4,7 @@
     viewBox="0 0 512 512"
     width="512"
     xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
   >
     <path
       d="m64 480h-16a32 32 0 0 1 -32-32v-336a32 32 0 0 1 32-32h16a32 32 0 0 1 32 32v336a32 32 0 0 1 -32 32z"

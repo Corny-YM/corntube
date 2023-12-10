@@ -70,7 +70,7 @@ watch(
   <div class="">
     <a-auto-complete
       v-model:value="value"
-      class="md:w-80 border-0 mx-2"
+      class="md:w-80 border-0 mx-2 dark:bg-headerDark"
       :dropdown-match-select-width="252"
       :options="dataSource"
       :defaultActiveFirstOption="false"

@@ -79,5 +79,6 @@ const handleError = () => {
 .video-item {
   @apply h-auto w-full flex flex-col px-2 mb-7 rounded-xl cursor-pointer;
   color: initial;
+  @apply dark:text-white;
 }
 </style>

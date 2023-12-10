@@ -60,7 +60,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
           :class="sidebar ? 'min-[1281px]:hidden' : ''"
         >
           <div
-            class="center w-auto h-auto text-xl p-2 cursor-pointer rounded-full hover:bg-lightHover"
+            class="center w-auto h-auto text-xl p-2 cursor-pointer rounded-full hover:bg-lightHover dark:hover:bg-darkHover"
             @click="handleCloseSidebar"
           >
             <MenuOutlined />
@@ -78,8 +78,10 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
             v-for="item in menuItem"
             :to="item.path"
             :key="item.path"
-            :class="item.path === currentPath ? `bg-lightHover` : ''"
-            class="h-10 flex items-center px-3 rounded-lg cursor-pointer hover:bg-lightHover"
+            :class="
+              item.path === currentPath ? `bg-lightHover dark:bg-darkHover` : ''
+            "
+            class="h-10 flex items-center px-3 rounded-lg cursor-pointer hover:bg-lightHover dark:hover:bg-darkHover"
           >
             <div class="flex justify-center items-center mr-6">
               <component :is="item.icon" class="center w-6 h-6 text-2xl" />
@@ -107,7 +109,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
 
               <!-- Button show all subscribed -->
               <div
-                class="h-10 flex items-center px-3 rounded-lg cursor-pointer hover:bg-lightHover"
+                class="h-10 flex items-center px-3 rounded-lg cursor-pointer hover:bg-lightHover dark:hover:bg-darkHover"
               >
                 <div class="flex justify-center items-center w-7 h-7 mr-4">
                   <RightOutlined class="center w-4 h-4 text-2xl" />
@@ -130,7 +132,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
               class="center"
               target="_blank"
             >
-              <a-tag class="center m-0" :color="item.color">
+              <a-tag class="center m-0 dark:text-white" :color="item.color">
                 <template #icon>
                   <component :is="item.icon" />
                 </template>
@@ -153,10 +155,13 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
           v-for="item in menuItem"
           :to="item.path"
           :key="item.path"
-          class="min-w-[76px] flex flex-col justify-center items-center gap-1 p-2 rounded-lg cursor-pointer hover:bg-lightHover"
+          class="min-w-[76px] flex flex-col justify-center items-center gap-1 p-2 rounded-lg cursor-pointer hover:bg-lightHover dark:hover:bg-darkHover dark:text-white"
         >
           <div class="flex justify-center items-center">
-            <component :is="item.icon" class="center w-6 h-6 text-2xl" />
+            <component
+              :is="item.icon"
+              class="center w-6 h-6 text-2xl dark:text-white"
+            />
           </div>
           <div class="center text-[10px]">{{ item.label }}</div>
         </router-link>
@@ -179,7 +184,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
 <style lang="scss" scoped>
 .sidebar {
   @apply flex flex-col justify-between;
-  @apply overflow-hidden bg-white;
+  @apply overflow-hidden bg-white dark:bg-primaryDark dark:text-white;
   width: 240px;
   height: 100%;
   transition: all 250ms ease-in-out !important;

@@ -10,4 +10,19 @@ html.dark {
       }
     }
   }
+
+  .ant-select-dropdown {
+    @apply bg-headerDark shadow-zinc-700;
+
+    .ant-select-item {
+      color: white !important;
+      &:hover {
+        @apply bg-darkHover;
+      }
+    }
+
+    .rc-virtual-list-scrollbar-thumb {
+      background-color: #f2f2f2 !important;
+    }
+  }
 }

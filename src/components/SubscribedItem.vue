@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <a
-    class="h-11 flex items-center px-3 py-2 rounded-lg cursor-pointer hover:bg-lightHover"
+    class="h-11 flex items-center px-3 py-2 rounded-lg cursor-pointer hover:bg-lightHover dark:hover:bg-darkHover"
     :href="subscribed.url"
   >
     <div class="flex justify-center items-center mr-4">

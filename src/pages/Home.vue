@@ -54,7 +54,7 @@ const handleRandomUrl = () => {
       <VideoList :data="trendingData" class="!overflow-visible !h-fit" />
       <div class="w-full center mb-4">
         <a-button
-          class="font-semibold"
+          class="font-semibold dark:bg-headerDark dark:text-white"
           type="dashed"
           shape="round"
           size="large"
