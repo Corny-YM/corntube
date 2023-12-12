@@ -49,7 +49,7 @@ const handleError = () => {
         <!-- detail -->
         <a
           :href="`${playlist.url}`"
-          class="text-[#858585] hover:text-black font-medium"
+          class="text-[#858585] hover:text-black dark:hover:text-lightText font-medium"
           @click.stop=""
         >
           Xem toàn bộ danh sách
@@ -65,6 +65,7 @@ const handleError = () => {
   @apply w-auto mx-2 mb-7 rounded-xl cursor-pointer;
 
   &:hover {
+    @apply dark:text-lightText;
     color: initial;
   }
 }

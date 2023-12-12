@@ -9,7 +9,6 @@ const app = useApp()
 const { currentTheme } = storeToRefs(app)
 
 const theme = computed(() => {
-  console.log(currentTheme.value)
   if (currentTheme.value === ThemeEnum.DARK) return true
   return false
 })

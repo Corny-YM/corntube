@@ -53,7 +53,7 @@ onUnmounted(() => {
     <div class="flex items-center select-none">
       <!-- Toggle bar -->
       <div class="toggle-bar-btn" @click="isShow = !isShow">
-        <MenuOutlined class="dark:text-white" />
+        <MenuOutlined class="dark:text-lightText" />
       </div>
 
       <!-- Logo -->
@@ -95,7 +95,7 @@ onUnmounted(() => {
         <template #overlay>
           <div
             ref="refDropdown"
-            class="card-profile border border-solid border-slate-400 dark:border-[#ffffff17] dark:text-white"
+            class="card-profile border border-solid border-slate-400 dark:border-[#ffffff17] dark:text-lightText"
           >
             <div
               class="card-profile__content cursor-default bg-white dark:bg-primaryDark"

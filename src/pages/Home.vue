@@ -52,9 +52,9 @@ const handleRandomUrl = () => {
   <template v-else>
     <div class="w-full h-full overflow-auto">
       <VideoList :data="trendingData" class="!overflow-visible !h-fit" />
-      <div class="w-full center mb-4">
+      <div class="w-full center pb-4">
         <a-button
-          class="font-semibold dark:bg-headerDark dark:text-white"
+          class="font-semibold dark:bg-headerDark dark:text-lightText"
           type="dashed"
           shape="round"
           size="large"

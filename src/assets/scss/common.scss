@@ -1,10 +1,11 @@
 html.dark {
   @apply bg-primaryDark;
 
-  .header--search-bar {
+  .header--search-bar,
+  .history--search-bar {
     .ant-input {
       background-color: #303033 !important;
-      color: white;
+      color: #ffffffd1;
       &::placeholder {
         color: #f2f2f2;
       }
@@ -15,7 +16,7 @@ html.dark {
     @apply bg-headerDark shadow-zinc-700;
 
     .ant-select-item {
-      color: white !important;
+      color: #ffffffd1 !important;
       &:hover {
         @apply bg-darkHover;
       }
@@ -27,18 +28,18 @@ html.dark {
   }
 
   .ant-select {
-    color: white !important;
+    color: #ffffffd1 !important;
   }
 
   .ant-select-selection-item {
-    color: white !important;
+    color: #ffffffd1 !important;
   }
   .ant-select-selector {
     background-color: #18181c !important;
-    color: white !important;
+    color: #ffffffd1 !important;
   }
   .ant-select-dropdown .ant-select-item:hover {
-    color: white !important;
+    color: #ffffffd1 !important;
   }
   .ant-select-dropdown .ant-select-item-option-selected {
     color: #303033 !important;

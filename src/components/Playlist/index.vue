@@ -51,7 +51,7 @@ const hiddenVisible = computed(() => {
 
 <template>
   <div
-    class="w-full h-full flex flex-col lg:flex-row justify-between items-center lg:py-6 overflow-y-auto"
+    class="w-full h-full flex flex-col lg:flex-row justify-between items-center lg:py-6"
   >
     <div v-if="hiddenVisible" class="banner-hidden-video !flex lg:!hidden">
       Đã ẩn {{ hiddenVideos }} video không xem được
@@ -91,6 +91,6 @@ const hiddenVisible = computed(() => {
   @apply flex justify-center items-center;
   @apply flex-1 min-h-[56px];
   @apply lg:ml-9 lg:mb-2 self-stretch;
-  background-color: rgba(0, 0, 0, 0.05);
+  @apply bg-[#0000000d] dark:bg-darkHover dark:text-lightText;
 }
 </style>

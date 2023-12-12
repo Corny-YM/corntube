@@ -81,8 +81,9 @@ const handleClickItem = (url: string) => {
       />
     </template>
   </VideoList>
-  <div v-if="dataNextPage" class="w-full center mb-4">
+  <div v-if="dataNextPage" class="w-full center pb-4">
     <a-button
+      class="dark:bg-headerDark dark:text-lightText"
       type="dashed"
       shape="round"
       :loading="isPending"

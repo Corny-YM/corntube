@@ -37,7 +37,7 @@ const activeTabKey = ref('videos')
   <a-tabs
     v-model:activeKey="activeTabKey"
     :tab-position="mode"
-    class="custom-tabs"
+    class="custom-tabs dark:text-lightText"
   >
     <a-tab-pane key="videos" class="font-medium">
       <template #tab><div class="tab-item font-medium">Videos</div></template>
@@ -48,8 +48,9 @@ const activeTabKey = ref('videos')
         <EmptyData description="Kênh này chưa có video nào" />
       </div>
       <TabVideos v-else :videos="relatedStreams" />
-      <div v-if="nextpage" class="w-full center mb-4">
+      <div v-if="nextpage" class="w-full center pb-4">
         <a-button
+          class="h-9 dark:text-lightText dark:bg-headerDark"
           :loading="loading"
           type="dashed"
           shape="round"

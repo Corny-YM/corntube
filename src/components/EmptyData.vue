@@ -14,6 +14,6 @@ const defaultDesc = ref('Không tìm thấy dữ liệu')
   <a-empty
     :image="image || NoVideos"
     :description="description || defaultDesc"
-    class="mt-24 mb-14"
+    class="mt-24 mb-14 dark:!text-white"
   />
 </template>

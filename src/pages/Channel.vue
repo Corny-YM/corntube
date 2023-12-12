@@ -59,9 +59,15 @@ const handleNextDataChannel = () => {
   >
     <EmptyData />
   </div>
-  <div v-else class="h-full flex flex-col items-center overflow-y-auto">
+  <div
+    v-else
+    class="h-full flex flex-col items-center overflow-y-auto dark:text-lightText"
+  >
     <!-- Banner Picture -->
-    <div v-if="!isBannerError" class="w-full center">
+    <div
+      v-if="!isBannerError"
+      class="w-full center dark:shadow-slate-200 dark:shadow"
+    >
       <img
         class="w-full object-cover"
         :src="channelData.bannerUrl!"

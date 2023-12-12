@@ -23,7 +23,7 @@ const url = computed(() => {
       {{ index }}
     </div>
     <div
-      class="relative center w-40 rounded-2xl overflow-hidden aspect-video mr-2"
+      class="relative center w-40 rounded-2xl overflow-hidden aspect-video mr-2 dark:shadow-slate-300 dark:shadow"
     >
       <a-image :preview="false" :src="video.thumbnail"></a-image>
       <a-tag class="playlist-video--duration">
@@ -34,7 +34,7 @@ const url = computed(() => {
       <div class="title">
         {{ video.title }}
       </div>
-      <div class="text-xs text-[#606060] line-clamp-1">
+      <div class="text-xs text-[#606060] dark:text-darkTitle line-clamp-1">
         {{ video.uploaderName }} <span>•</span>
         {{ formatViews(video.views) }} lượt xem <span>•</span>
         {{ formatTimeAgoToVietnamese(video.uploadedDate) }}
@@ -45,11 +45,12 @@ const url = computed(() => {
 
 <style scoped lang="scss">
 .playlist-video--item {
-  @apply w-full flex justify-start items-center py-2 pr-2 sm:pr-4 cursor-pointer rounded-2xl;
+  @apply w-full flex justify-start items-center py-2 pr-2 sm:pr-4;
+  @apply cursor-pointer rounded-2xl dark:text-lightText;
   transition: all 150ms ease-in-out;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    @apply bg-[#0000000d] dark:bg-darkHover;
   }
 
   .title {

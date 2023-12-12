@@ -101,11 +101,12 @@ const handleError = () => {
 }
 
 .title {
-  @apply text-[#0F0F0F] text-[18px] font-medium line-clamp-2;
+  @apply text-[18px] font-medium line-clamp-2;
+  @apply dark:text-lightHover text-[#0F0F0F];
 }
 
 .text {
-  @apply text-[#606060] text-xs line-clamp-2;
+  @apply dark:text-darkTitle text-[#606060] text-xs;
   overflow-wrap: anywhere;
 }
 </style>

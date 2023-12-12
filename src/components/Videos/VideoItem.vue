@@ -59,10 +59,17 @@ const handleError = () => {
         </div>
         <!-- channel -->
         <div v-if="detail" class="flex items-center">
-          <a :href="video.uploaderUrl" class="text-sm" @click.stop="">
+          <a
+            :href="video.uploaderUrl"
+            class="text-sm line-clamp-1"
+            @click.stop=""
+          >
             {{ video.uploaderName }}
           </a>
-          <div v-if="video.uploaderVerified" class="w-3 h-3 ml-2 center">
+          <div
+            v-if="video.uploaderVerified"
+            class="min-w-[12px] max-w-[12px] h-3 ml-2 center"
+          >
             <check-circle />
           </div>
         </div>
@@ -79,6 +86,6 @@ const handleError = () => {
 .video-item {
   @apply h-auto w-full flex flex-col px-2 mb-7 rounded-xl cursor-pointer;
   color: initial;
-  @apply dark:text-white;
+  @apply dark:text-lightText;
 }
 </style>

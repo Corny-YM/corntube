@@ -74,7 +74,7 @@ const handleLoadNextPage = () => {
       </a-button>
     </div>
   </div>
-  <div v-if="dataNextPage" class="w-full center mb-4">
+  <div v-if="dataNextPage" class="w-full center pb-4">
     <a-button
       type="dashed"
       shape="round"

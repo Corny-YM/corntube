@@ -11,6 +11,7 @@ export default {
         primaryDark: '#101014',
         darkTitle: '#aaaaaa',
         darkHover: '#343438',
+        lightText: '#FFFFFFD1',
         lightHover: '#f2f2f2',
         lightTitle: '#606060',
       },

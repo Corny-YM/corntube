@@ -17,7 +17,7 @@ defineProps<{
       <!-- avatar -->
       <div class="center mr-6">
         <a-image
-          class="rounded-full"
+          class="rounded-full dark:shadow-slate-300 dark:shadow"
           :width="128"
           :src="avatar"
           :fallback="NoAvatar"

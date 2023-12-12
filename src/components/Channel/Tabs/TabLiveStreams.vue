@@ -52,8 +52,9 @@ const handleLoadNextPage = () => {
     <EmptyData description="Kênh này chưa có video nào" />
   </div>
   <VideoList :data="livestreamData" :is-detail="false" class="livestream" />
-  <div v-if="dataNextPage" class="w-full center mb-4">
+  <div v-if="dataNextPage" class="w-full center pb-4">
     <a-button
+      class="dark:bg-headerDark dark:text-lightText"
       type="dashed"
       shape="round"
       :loading="isPending"

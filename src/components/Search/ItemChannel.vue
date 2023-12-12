@@ -69,7 +69,7 @@ const handleClickSubscription = () => {
 
     <div class="self-stretch center">
       <a-button
-        class="h-9 dark:text-white"
+        class="h-9 dark:text-lightText"
         :class="isSubscribed ? 'dark:bg-headerDark' : ''"
         :type="isSubscribed ? 'dashed' : 'primary'"
         shape="round"

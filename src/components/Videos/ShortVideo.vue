@@ -48,6 +48,7 @@ const handleError = () => {
   @apply h-auto flex flex-col items-center sm:mx-2 rounded-xl cursor-pointer;
   @apply w-full sm:w-fit;
   @apply mb-2 sm:mb-7;
+  @apply dark:text-lightText;
   color: initial;
 }
 

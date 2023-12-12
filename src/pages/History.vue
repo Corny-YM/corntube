@@ -38,12 +38,14 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="w-full h-full overflow-auto px-6 pt-2">
+  <div class="w-full h-full overflow-auto px-6 pt-2 dark:text-lightText">
     <div class="max-w-[1250px] mx-auto mt-4 pb-8">
       <div class="w-full text-4xl font-bold mb-8">Nhật ký xem</div>
-      <div class="flex flex-col-reverse min-[500px]:flex-row w-full justify-between items-end">
+      <div
+        class="flex flex-col-reverse min-[500px]:flex-row w-full justify-between items-end"
+      >
         <a-button
-          class="w-fit mr-2 min-[500px]:opacity-70 hover:opacity-100 transition-all font-medium"
+          class="w-fit mr-2 min-[500px]:opacity-70 hover:opacity-100 dark:opacity-90 transition-all font-medium"
           type="primary"
           shape="round"
           @click="handleClearHistory"
@@ -52,7 +54,7 @@ onUnmounted(() => {
         </a-button>
         <a-input-search
           v-model:value="searchQuery"
-          class="mb-4 min-[500px]:mb-0 min-[500px]:max-w-[250px]"
+          class="history--search-bar mb-4 min-[500px]:mb-0 min-[500px]:max-w-[250px]"
           placeholder="Tìm kiếm trong danh sách video đã xem"
           enter-button
           :loading="isLoading"

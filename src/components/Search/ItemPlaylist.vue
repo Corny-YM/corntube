@@ -80,7 +80,7 @@ const handleError = () => {
       <a-button
         type="dashed"
         size="middle"
-        class="w-fit h-9 center dark:bg-headerDark dark:text-white"
+        class="w-fit h-9 center dark:bg-headerDark dark:text-lightText"
         :href="data.url"
         @click.stop=""
       >
