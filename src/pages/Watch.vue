@@ -66,16 +66,4 @@ watch(
   line-height: 2.8rem;
   font-weight: 500;
 }
-
-.heading-comment {
-  display: flex;
-  align-items: center;
-  height: 30px;
-  border-left: 3px solid #1677ff;
-  font-size: 18px;
-  font-weight: 600;
-  padding-left: 8px;
-  margin-top: 28px;
-  margin-bottom: 18px;
-}
 </style>

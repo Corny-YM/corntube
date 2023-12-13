@@ -47,14 +47,14 @@ const handleError = () => {
           {{ video.title }}
         </div>
         <!-- channel -->
-        <div class="flex items-center mb-1">
+        <div class="flex items-center mb-1 dark:text-darkTitle">
           <div class="text-xs">{{ video.uploaderName }}</div>
           <div v-if="video.uploaderVerified" class="w-3 h-3 ml-2 center">
             <check-circle />
           </div>
         </div>
         <!-- detail -->
-        <div class="text-xs">{{ views }} lượt xem • {{ date }}</div>
+        <div class="text-xs dark:text-darkTitle">{{ views }} lượt xem • {{ date }}</div>
       </div>
     </div>
   </a>
@@ -63,6 +63,6 @@ const handleError = () => {
 <style lang="scss" scoped>
 .video-item {
   @apply w-fit flex justify-center items-center;
-  @apply mr-2 mb-2 rounded-xl cursor-pointer;
+  @apply mr-2 mb-2 rounded-xl cursor-pointer dark:text-lightText;
 }
 </style>

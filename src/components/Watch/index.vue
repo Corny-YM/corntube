@@ -75,11 +75,11 @@ onUnmounted(() => {
         <div class="title mb-2">{{ data.title }}</div>
 
         <div class="flex justify-between items-center flex-wrap">
-          <div class="center mr-2">
+          <div class="center mr-2 dark:text-lightText">
             <a :href="channelUrl" class="w-10 h-10 rounded-full">
               <a-avatar
                 :src="data.uploaderAvatar + 123"
-                class="w-10 h-10 center object-cover aspect-square"
+                class="w-10 h-10 center object-cover aspect-square dark:bg-sidebarDark"
               >
                 <NoAvatar />
               </a-avatar>
@@ -100,18 +100,21 @@ onUnmounted(() => {
           </div>
 
           <div class="flex flex-wrap sm:flex-nowrap pt-4">
-            <a-button :icon="h(LikeOutlined)" class="center mb-2">
+            <a-button
+              :icon="h(LikeOutlined)"
+              class="center mb-2 dark:text-darkTitle dark:bg-headerDark"
+            >
               {{ formatViews(data.likes, 0) }} Like
             </a-button>
             <a-button
               :icon="h(DislikeOutlined)"
-              class="center mb-2 ml-1 md:ml-2"
+              class="center mb-2 ml-1 md:ml-2 dark:text-darkTitle dark:bg-headerDark"
             >
               {{ formatViews(data.dislikes, 0) }} Dislike
             </a-button>
-            <a-button type="primary" class="font-medium mb-2 ml-1 md:ml-2"
-              >Đăng ký</a-button
-            >
+            <a-button type="primary" class="font-medium mb-2 ml-1 md:ml-2">
+              Đăng ký
+            </a-button>
             <a-button
               :icon="h(DownloadOutlined)"
               shape="round"
@@ -123,14 +126,14 @@ onUnmounted(() => {
         </div>
 
         <div class="flex justify-between items-center mt-3">
-          <a-typography-text code>
+          <a-typography-text code class="dark:text-lightText">
             {{ formatViews(data.views) }} lượt xem | Đã công chiếu vào
             {{ formatDate(new Date(data.uploadDate), 'DD-MM-YYYY hh:mm:ss') }}
           </a-typography-text>
           <a-button
             :icon="h(DownloadOutlined)"
             shape="round"
-            class="lg:block hidden"
+            class="lg:block hidden dark:bg-headerDark dark:text-lightText"
           >
             Download
           </a-button>
@@ -170,7 +173,7 @@ onUnmounted(() => {
         </div>
 
         <!-- List Comments -->
-        <div class="heading-comment">Comments</div>
+        <div class="heading-comment dark:">Comments</div>
         <Comments
           :key="videoId.toString()"
           :authorData="{
@@ -217,5 +220,12 @@ onUnmounted(() => {
 .title {
   @apply text-lg;
   @apply font-medium;
+  @apply dark:text-lightHover text-[#0F0F0F];
+}
+
+.heading-comment {
+  @apply flex items-center pl-2 mt-7 mb-4;
+  @apply h-8 text-lg font-semibold dark:text-lightText;
+  border-left: 3px solid #1677ff;
 }
 </style>

@@ -38,13 +38,13 @@ const handleLike = () => {
 </script>
 
 <template>
-  <a-comment v-if="!!content.author" class="w-full">
+  <a-comment v-if="!!content.author" class="w-full dark:text-lightText">
     <div class="flex flex-col">
       <a-button
         v-if="!isChildren && content.replyCount > 0"
         type="text"
         shape="round"
-        class="w-fit"
+        class="w-fit dark:text-lightText dark:hover:bg-darkHover dark:hover:text-lightText"
         @click="handleClick"
       >
         <div class="center gap-2">
@@ -96,22 +96,38 @@ const handleLike = () => {
 
     <!-- Author -->
     <template #author>
-      <a
-        :href="channelUrl"
-        class="center font-medium text-sm !text-black cursor-pointer"
-        :class="
-          content.channelOwner ? 'px-2 py-[2px] rounded-xl bg-[#eee]' : ''
-        "
+      <div
+        v-if="content.pinned && authorData"
+        class="flex items-center mb-1 font-medium dark:text-lightText"
       >
-        {{ content.author }}
-      </a>
+        <div class="center w-4 h-4 dark:text-lightText"><Pinned /></div>
+        <span class="ml-1 text-blueAntd">{{ authorData.name }} đã ghim</span>
+      </div>
+      <div class="flex items-center">
+        <a
+          :href="channelUrl"
+          class="center font-medium text-sm !text-black dark:!text-lightText cursor-pointer"
+          :class="
+            content.channelOwner
+              ? 'px-2 py-[2px] rounded-xl bg-[#eee] dark:bg-darkHover'
+              : ''
+          "
+        >
+          {{ content.author }}
+        </a>
+        <div
+          class="h-full center text-darkTitle dark:text-darkTitle ml-2 text-xs"
+        >
+          {{ formatTimeAgoToVietnamese(content.commentedTime) }}
+        </div>
+      </div>
     </template>
 
     <!-- Avatar -->
     <template #avatar>
       <a :href="channelUrl" class="rounded-full">
         <a-avatar
-          class="w-8 h-8 center"
+          class="w-8 h-8 center dark:bg-sidebarDark"
           :src="content.thumbnail"
           :alt="content.author"
         >
@@ -128,17 +144,16 @@ const handleLike = () => {
           :class="isFull ? 'showing' : ''"
           @click="isFull = !isFull"
         >
-          <p class="comment" v-html="content.commentText"></p>
+          <p
+            class="comment dark:text-lightText"
+            v-html="content.commentText"
+          ></p>
         </div>
       </div>
     </template>
 
     <!-- Date -->
-    <template #datetime>
-      <div class="h-full center text-darkTitle">
-        {{ formatTimeAgoToVietnamese(content.commentedTime) }}
-      </div>
-    </template>
+    <template #datetime> </template>
   </a-comment>
 </template>
 
@@ -155,6 +170,7 @@ const handleLike = () => {
 }
 
 .actions-item {
+  @apply dark:text-lightText;
   & + & {
     @apply ml-2;
   }

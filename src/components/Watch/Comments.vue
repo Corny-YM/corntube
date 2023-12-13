@@ -69,6 +69,7 @@ const handleLoadMoreComments = () => {
         v-if="dataNextPage"
         shape="round"
         type="dashed"
+        class="dark:text-lightText dark:bg-headerDark"
         :loading="isPending"
         @click="handleLoadMoreComments"
       >

@@ -47,6 +47,7 @@ declare module 'vue' {
     ListSubscribed: typeof import('./components/ListSubscribed.vue')['default']
     ListVideos: typeof import('./components/Watch/ListVideos.vue')['default']
     NoAvatar: typeof import('./components/Icons/NoAvatar.vue')['default']
+    Pinned: typeof import('./components/Icons/Pinned.vue')['default']
     Playlist: typeof import('./components/Playlist/index.vue')['default']
     PlaylistInfo: typeof import('./components/Playlist/PlaylistInfo.vue')['default']
     PlaylistItem: typeof import('./components/Channel/Tabs/components/PlaylistItem.vue')['default']

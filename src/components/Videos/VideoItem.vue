@@ -58,7 +58,7 @@ const handleError = () => {
           </a-tooltip>
         </div>
         <!-- channel -->
-        <div v-if="detail" class="flex items-center">
+        <div v-if="detail" class="flex items-center dark:text-darkTitle">
           <a
             :href="video.uploaderUrl"
             class="text-sm line-clamp-1"
@@ -74,7 +74,10 @@ const handleError = () => {
           </div>
         </div>
         <!-- detail -->
-        <div class="font-normal" :class="!detail ? 'text-xs' : 'text-sm'">
+        <div
+          class="font-normal dark:text-darkTitle"
+          :class="!detail ? 'text-xs' : 'text-sm'"
+        >
           {{ views }} lượt xem • {{ date }}
         </div>
       </div>

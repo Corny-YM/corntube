@@ -99,11 +99,14 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
 
             <template v-if="subscribedChannel && subscribedChannel.length">
               <!-- List subscribed -->
-              <div class="w-full h-full max-h-full flex flex-col overflow-auto">
+              <div
+                class="w-full h-full max-h-full flex flex-col overflow-auto"
+                :key="subscribedChannel.length"
+              >
                 <SubscribedItem
                   v-for="channel in subscribedChannel"
                   :key="channel.id"
-                  :subscribed="JSON.parse(channel.subscriber)"
+                  :subscribed="JSON.parse(channel?.subscriber!)"
                 />
               </div>
 

@@ -85,7 +85,9 @@ onMounted(() => {
         :data-url="video.url"
         @click.prevent="handleClickVideo(video.url)"
       >
-        <div class="min-w-[24px] center text-xs text-lightTitle">
+        <div
+          class="min-w-[24px] center text-xs text-lightTitle dark:text-lightText"
+        >
           {{ index + 1 }}
         </div>
         <div class="video-item--img">
@@ -99,14 +101,14 @@ onMounted(() => {
             <div class="title-video">
               {{ video.title }}
             </div>
-            <div class="mb-1 text-xs">{{ video.uploaderName }}</div>
+            <div class="mb-1 text-xs dark:text-darkTitle">{{ video.uploaderName }}</div>
           </div>
         </div>
       </a>
 
       <div
         v-if="hiddenVisible"
-        class="w-full px-6 py-2 text-sm text-lightTitle"
+        class="w-full px-6 py-2 text-sm text-lightTitle dark:text-lightText"
       >
         Đã ẩn {{ hiddenVideos }} video không xem được
       </div>
@@ -119,6 +121,7 @@ onMounted(() => {
   @apply flex flex-col items-center;
   @apply w-full lg:w-[402px] lg:h-fit rounded-xl;
   @apply pb-2 pt-3 mb-6 lg:mb-4;
+  @apply dark:border-darkHover dark:text-lightText;
   border: 1px solid rgba(0, 0, 0, 0.1);
 
   .list {
@@ -132,17 +135,20 @@ onMounted(() => {
   }
   .title,
   .author {
-    @apply text-[#0F0F0F] text-ellipsis whitespace-pre;
+    @apply text-ellipsis whitespace-pre;
+    @apply dark:text-lightHover text-[#0F0F0F];
   }
   .title {
     @apply text-xl font-bold;
+    @apply dark:text-lightHover;
   }
   .author {
     @apply text-xs font-normal;
   }
   .icon {
     @apply flex justify-center items-center h-fit p-2 text-2xl;
-    @apply cursor-pointer select-none rounded-full hover:bg-lightHover;
+    @apply cursor-pointer select-none rounded-full;
+    @apply hover:bg-lightHover dark:hover:bg-darkHover;
     transition: all 150ms linear;
 
     &.active {

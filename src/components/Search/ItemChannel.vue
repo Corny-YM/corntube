@@ -35,7 +35,6 @@ const handleUnsubscribed = () => {
   })
 }
 const handleClickSubscription = () => {
-  console.log(isSubscribed.value)
   if (isSubscribed.value) handleUnsubscribed()
   else handleSubscribed()
 }
