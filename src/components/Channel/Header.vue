@@ -1,14 +1,61 @@
 <script setup lang="ts">
-import { formatViews } from '@/utils'
 import { CheckCircleFilled } from '@ant-design/icons-vue'
+import { storeToRefs } from 'pinia'
+import { formatViews } from '@/utils'
+import { useAuth } from '@/store/auth'
+import { Type } from '@/api/model/piped'
 import NoAvatar from '@/assets/imgs/NoAvatar.png'
 
-defineProps<{
+const props = defineProps<{
   avatar: string
   name: string
   subscriberCount: number
   verified: boolean
+  description: string
 }>()
+
+const route = useRoute()
+const auth = useAuth()
+const { user, subscribedChannel } = storeToRefs(auth)
+
+const channelId = computed(() => route.params.id)
+
+const isSubscribed = computed(() => {
+  const item = subscribedChannel.value.find((channel) => {
+    const curChannelId = channelId.value.toString()
+    return curChannelId === channel.channel_id
+  })
+  return item ? true : false
+})
+
+const handleSubscribed = () => {
+  const data = {
+    description: props.description,
+    name: props.name,
+    subscribers: props.subscriberCount,
+    thumbnail: props.avatar,
+    type: Type.Channel,
+    url: route.path,
+    verified: props.verified,
+    videos: -1,
+  }
+  auth.createSubscribed({
+    user_id: user.value?.id!,
+    channel_id: channelId.value.toString(),
+    subscriber: JSON.stringify(data),
+  })
+}
+const handleUnsubscribed = () => {
+  if (!user.value) return
+  auth.removeSubscribed({
+    user_id: user.value.id!,
+    channel_id: channelId.value.toString(),
+  })
+}
+const handleClickSubscription = () => {
+  if (isSubscribed.value) handleUnsubscribed()
+  else handleSubscribed()
+}
 </script>
 
 <template>
@@ -41,8 +88,15 @@ defineProps<{
         </div>
         <!-- Btn subscribe -->
         <div class="center mt-4 sm:mt-0">
-          <a-button :type="true ? 'primary' : undefined" shape="round">
-            Đăng ký
+          <a-button
+            shape="round"
+            size="middle"
+            class="h-9 dark:text-lightText"
+            :class="isSubscribed ? 'dark:bg-headerDark' : ''"
+            :type="isSubscribed ? 'dashed' : 'primary'"
+            @click.prevent="handleClickSubscription"
+          >
+            {{ isSubscribed ? 'Đã đăng ký' : 'Đăng ký' }}
           </a-button>
         </div>
       </div>

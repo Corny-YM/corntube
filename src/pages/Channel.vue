@@ -83,6 +83,7 @@ const handleNextDataChannel = () => {
         :subscriber-count="channelData.subscriberCount"
         :avatar="channelData.avatarUrl"
         :verified="channelData.verified"
+        :description="channelData.description"
       />
 
       <!-- Tabs -->
