@@ -16,6 +16,7 @@ const { subscribedChannel } = storeToRefs(auth)
 
 const sidebarRef = ref<HTMLDivElement | null>(null)
 const sidebarOverlayRef = ref<HTMLDivElement | null>(null)
+const isShowAll = ref(false)
 
 const currentPath = computed(() => route.path)
 const isShowSidebar = computed({
@@ -31,7 +32,9 @@ const handleCloseSidebar = () => {
     isShowSidebar.value = false
   }, 250)
 }
-
+const handleShowAllSubscribed = () => {
+  isShowAll.value = !isShowAll.value
+}
 const handleResize = () => {
   if (window.innerWidth <= 1281) {
     isShowSidebar.value = false
@@ -91,7 +94,9 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
         </div>
 
         <!-- Menu subscribed -->
-        <div class="menu-subscribed h-full flex flex-col overflow-hidden">
+        <div
+          class="menu-subscribed h-full max-h-full flex flex-col overflow-auto"
+        >
           <div class="w-full h-full max-h-full px-3 py-2 flex flex-col">
             <p class="menu-subscribed__title border-blueAntd px-3 py-1 mb-2">
               Kênh đăng ký
@@ -100,11 +105,14 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
             <template v-if="subscribedChannel && subscribedChannel.length">
               <!-- List subscribed -->
               <div
-                class="w-full h-full max-h-full flex flex-col overflow-auto"
+                class="w-full h-fit flex flex-col"
                 :key="subscribedChannel.length"
               >
                 <SubscribedItem
-                  v-for="channel in subscribedChannel"
+                  v-for="channel in subscribedChannel.slice(
+                    0,
+                    isShowAll ? subscribedChannel.length : 7
+                  )"
                   :key="channel.id"
                   :subscribed="JSON.parse(channel?.subscriber!)"
                 />
@@ -112,12 +120,19 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
 
               <!-- Button show all subscribed -->
               <div
-                class="h-10 flex items-center px-3 rounded-lg cursor-pointer hover:bg-lightHover dark:hover:bg-darkHover"
+                v-if="subscribedChannel.length > 7"
+                class="min-h-[40px] flex items-center px-3 rounded-lg cursor-pointer hover:bg-lightHover dark:hover:bg-darkHover"
+                @click="handleShowAllSubscribed"
               >
-                <div class="flex justify-center items-center w-7 h-7 mr-4">
+                <div
+                  class="flex justify-center items-center w-7 h-7 mr-4 transition-all"
+                  :class="isShowAll ? '-rotate-90' : 'rotate-90'"
+                >
                   <RightOutlined class="center w-4 h-4 text-2xl" />
                 </div>
-                <div class="center text-sm">Hiện thị tất cả</div>
+                <div class="center text-sm">
+                  {{ isShowAll ? 'Ẩn bớt' : 'Hiện thị tất cả' }}
+                </div>
               </div>
             </template>
           </div>
@@ -158,6 +173,9 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
           v-for="item in menuItem"
           :to="item.path"
           :key="item.path"
+          :class="
+            item.path === currentPath ? `bg-lightHover dark:bg-darkHover` : ''
+          "
           class="min-w-[76px] flex flex-col justify-center items-center gap-1 p-2 rounded-lg cursor-pointer hover:bg-lightHover dark:hover:bg-darkHover dark:text-lightText"
         >
           <div class="flex justify-center items-center">
@@ -228,11 +246,8 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
 }
 
 .sidebar-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 55;
-  background-color: rgba(0, 0, 0, 0.5);
+  @apply bg-[#00000080] dark:bg-[#242424b5];
+  @apply hidden fixed inset-0 z-[55];
   transition: all 250ms ease-in-out;
 
   &.showing {
@@ -240,12 +255,9 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
   }
 
   @media screen and (max-width: 1280px) {
-    display: block;
-    visibility: hidden;
-    opacity: 0;
+    @apply block invisible opacity-0;
     &.active {
-      visibility: visible;
-      opacity: 1;
+      @apply visible opacity-100;
     }
   }
 }
@@ -256,7 +268,8 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
   border-top: 2px solid rgba(5, 5, 5, 0.06);
 }
 
-menu-subscribed__title {
+.menu-subscribed__title {
+  @apply font-medium;
   border-left-width: 3px;
   border-left-style: solid;
 }

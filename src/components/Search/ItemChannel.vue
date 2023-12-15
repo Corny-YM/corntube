@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { formatViews } from '@/utils'
 import { IChannelContent } from '@/api/model/piped'
-import NoAvatar from '@/assets/imgs/NoAvatar.png'
 import { useAuth } from '@/store/auth'
-import { storeToRefs } from 'pinia'
+import NoAvatar from '@/assets/imgs/NoAvatar.png'
 
 const props = defineProps<{
   data: IChannelContent

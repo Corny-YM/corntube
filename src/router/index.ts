@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import DefaultLayout from '../layouts/index.vue'
+import DefaultLayout from '@/layouts/index.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -32,6 +32,11 @@ const router = createRouter({
           component: () => import('@/pages/History.vue'),
           name: 'history',
           path: 'history',
+        },
+        {
+          component: () => import('@/pages/Subscribed.vue'),
+          name: 'subscribed',
+          path: 'subscribed',
         },
       ],
     },

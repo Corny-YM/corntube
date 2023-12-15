@@ -44,8 +44,26 @@ html.dark {
   .ant-select-dropdown .ant-select-item-option-selected {
     color: #303033 !important;
   }
-  
+
   .ant-tooltip-inner {
     @apply bg-lightTitle;
+  }
+
+  .ant-modal-content {
+    @apply bg-sidebarDark;
+    color: #ffffffd1 !important;
+
+    .ant-modal-confirm-title {
+      @apply text-lightText;
+    }
+    .ant-modal-confirm-content {
+      @apply text-darkTitle;
+    }
+    .ant-modal-confirm-btns > button {
+      @apply bg-darkHover;
+      &:not(.ant-btn-dangerous) {
+        @apply text-lightText hover:text-blueAntd;
+      }
+    }
   }
 }
