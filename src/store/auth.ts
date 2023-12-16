@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import { User } from '@supabase/supabase-js'
 import { useMutation, useQuery } from '@tanstack/vue-query'
+import { User } from '@supabase/supabase-js'
+import { messagePopup } from '@/utils'
 import {
   loginGoogle,
   logout,
@@ -14,7 +15,6 @@ import {
   ISubscribed,
   StoreSubscribedRequest,
 } from '@/api/model/supabase'
-import { messagePopup } from '@/utils'
 import supabase from '@/services/supabase'
 
 export const useAuth = defineStore('auth', () => {

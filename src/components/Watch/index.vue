@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { h } from 'vue'
 import {
   DislikeOutlined,
@@ -6,15 +7,18 @@ import {
   LikeOutlined,
 } from '@ant-design/icons-vue'
 import { useQuery } from '@tanstack/vue-query'
+import { useAuth } from '@/store/auth'
 import { formatViews, formatDate } from '@/utils'
 import { getPlaylist } from '@/api/piped'
-import { IPlaylist, IStreams } from '@/api/model/piped'
+import { IPlaylist, IStreams, Type } from '@/api/model/piped'
 
 const props = defineProps<{
   data: IStreams
 }>()
 
 const route = useRoute()
+const auth = useAuth()
+const { user, subscribedChannel } = storeToRefs(auth)
 
 const isDesktopSize = ref(false)
 const playlistData = ref<IPlaylist | null>(null)
@@ -22,11 +26,19 @@ const playlistData = ref<IPlaylist | null>(null)
 const videoId = computed(() => route.query.v!)
 const listId = computed(() => route.query.list!)
 const channelUrl = computed(() => props.data.uploaderUrl)
+const channelId = computed(() => props.data.uploaderUrl.split('/')[2])
 const videoSrc = computed(() => {
   const arrVideos = props.data?.videoStreams.filter((video) => !video.videoOnly)
   const selectedVideo =
     arrVideos?.sort((a, b) => parseInt(b.quality) - parseInt(a.quality)) || []
   return selectedVideo[0]?.url
+})
+const isSubscribed = computed(() => {
+  const item = subscribedChannel.value.find((channel) => {
+    const curChannelId = channelId.value.toString()
+    return curChannelId === channel.channel_id
+  })
+  return item ? true : false
 })
 
 const { isLoading } = useQuery({
@@ -38,6 +50,32 @@ const { isLoading } = useQuery({
   },
 })
 
+const handleSubscribed = () => {
+  const data = {
+    description: props.data.description,
+    name: props.data.uploader,
+    subscribers: props.data.uploaderSubscriberCount,
+    thumbnail: props.data.uploaderAvatar,
+    type: Type.Channel,
+    url: props.data.uploaderUrl,
+    verified: props.data.uploaderVerified,
+    videos: -1,
+  }
+  auth.createSubscribed({
+    user_id: user.value?.id!,
+    channel_id: channelId.value.toString(),
+    subscriber: JSON.stringify(data),
+  })
+}
+const handleClickSubscription = () => {
+  if (isSubscribed.value) {
+    if (!user.value) return
+    auth.removeSubscribed({
+      user_id: user.value.id!,
+      channel_id: channelId.value.toString(),
+    })
+  } else handleSubscribed()
+}
 const handleCheckWindowWidth = () => {
   if (window.innerWidth <= 1024) isDesktopSize.value = false
   else isDesktopSize.value = true
@@ -112,8 +150,13 @@ onUnmounted(() => {
             >
               {{ formatViews(data.dislikes, 0) }} Dislike
             </a-button>
-            <a-button type="primary" class="font-medium mb-2 ml-1 md:ml-2">
-              Đăng ký
+            <a-button
+              class="font-medium mb-2 ml-1 md:ml-2 dark:text-lightText"
+              :class="isSubscribed ? 'dark:bg-headerDark' : ''"
+              :type="isSubscribed ? 'dashed' : 'primary'"
+              @click.prevent="handleClickSubscription"
+            >
+              {{ isSubscribed ? 'Đã đăng ký' : 'Đăng ký' }}
             </a-button>
             <a-button
               :icon="h(DownloadOutlined)"

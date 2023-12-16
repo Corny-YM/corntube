@@ -1,8 +1,19 @@
 import { defineStore } from 'pinia'
 import { ThemeEnum } from '@/enums/theme'
 
+enum ItemEnum {
+  COUNTRY = 'country',
+  THEME = 'theme',
+}
+const initCountry = 'VN'
+
 export const useApp = defineStore('app', () => {
-  const currentTheme = ref(localStorage.getItem('theme') || ThemeEnum.DARK)
+  const currentCountry = ref(
+    localStorage.getItem(ItemEnum.COUNTRY) || initCountry
+  )
+  const currentTheme = ref(
+    localStorage.getItem(ItemEnum.THEME) || ThemeEnum.DARK
+  )
 
   const theme = computed(() =>
     currentTheme.value === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK
@@ -10,14 +21,18 @@ export const useApp = defineStore('app', () => {
 
   const toggleTheme = (value: ThemeEnum) => {
     currentTheme.value = value
-    localStorage.setItem('theme', value)
+    localStorage.setItem(ItemEnum.THEME, value)
+  }
+  const setCountry = (value: string) => {
+    currentCountry.value = value
+    localStorage.setItem(ItemEnum.COUNTRY, value)
   }
 
   onMounted(() => {
-    const localTheme = localStorage.getItem('theme')
-    if (!localTheme) {
-      localStorage.setItem('theme', ThemeEnum.DARK)
-    }
+    const localTheme = localStorage.getItem(ItemEnum.THEME)
+    const localCountry = localStorage.getItem(ItemEnum.COUNTRY)
+    if (!localTheme) localStorage.setItem(ItemEnum.THEME, ThemeEnum.DARK)
+    if (!localCountry) localStorage.setItem(ItemEnum.COUNTRY, initCountry)
   })
 
   watch(
@@ -34,6 +49,8 @@ export const useApp = defineStore('app', () => {
 
   return {
     currentTheme,
+    currentCountry,
     toggleTheme,
+    setCountry,
   }
 })

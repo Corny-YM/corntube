@@ -20,23 +20,20 @@ const isSubscribed = computed(() => {
   return item ? true : false
 })
 
-const handleSubscribed = () => {
-  auth.createSubscribed({
-    user_id: user.value?.id!,
-    channel_id: props.data.url.split('/')[2],
-    subscriber: JSON.stringify(props.data),
-  })
-}
-const handleUnsubscribed = () => {
-  if (!user.value) return
-  auth.removeSubscribed({
-    user_id: user.value.id!,
-    channel_id: props.data.url.split('/')[2],
-  })
-}
 const handleClickSubscription = () => {
-  if (isSubscribed.value) handleUnsubscribed()
-  else handleSubscribed()
+  if (isSubscribed.value) {
+    if (!user.value) return
+    auth.removeSubscribed({
+      user_id: user.value.id!,
+      channel_id: props.data.url.split('/')[2],
+    })
+  } else {
+    auth.createSubscribed({
+      user_id: user.value?.id!,
+      channel_id: props.data.url.split('/')[2],
+      subscriber: JSON.stringify(props.data),
+    })
+  }
 }
 </script>
 

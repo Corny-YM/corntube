@@ -53,6 +53,18 @@ const router = createRouter({
       ],
     },
     {
+      path: '/settings',
+      component: DefaultLayout,
+      props: { sidebar: false },
+      children: [
+        {
+          component: () => import('@/pages/Setting.vue'),
+          name: 'settings',
+          path: '',
+        },
+      ],
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: '403',
       component: () => import('@/pages/403.vue'),

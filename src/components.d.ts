@@ -46,6 +46,7 @@ declare module 'vue' {
     Library: typeof import('./components/Icons/Library.vue')['default']
     ListSubscribed: typeof import('./components/ListSubscribed.vue')['default']
     ListVideos: typeof import('./components/Watch/ListVideos.vue')['default']
+    Location: typeof import('./components/Icons/Location.vue')['default']
     NoAvatar: typeof import('./components/Icons/NoAvatar.vue')['default']
     Pinned: typeof import('./components/Icons/Pinned.vue')['default']
     Playlist: typeof import('./components/Playlist/index.vue')['default']

@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { useMutation, useQuery } from '@tanstack/vue-query'
-import { getStreams, getTrending } from '@/api/piped'
-import { ITrending, Type } from '@/api/model/piped'
-import VideoList from '@/components/Videos/VideoList.vue'
+import { useApp } from '@/store/app'
 import { messagePopup, randomItem } from '@/utils'
+import { ITrending, Type } from '@/api/model/piped'
+import { getStreams, getTrending } from '@/api/piped'
+import VideoList from '@/components/Videos/VideoList.vue'
+
+const app = useApp()
+const { currentCountry } = storeToRefs(app)
 
 const trendingData = ref<ITrending[]>([])
 
@@ -11,7 +16,7 @@ const { isLoading } = useQuery({
   queryKey: ['trending'],
   queryFn: () =>
     getTrending({
-      region: 'VN',
+      region: currentCountry.value,
     }),
   refetchOnWindowFocus: false,
   select(data) {

@@ -45,16 +45,14 @@ const handleSubscribed = () => {
     subscriber: JSON.stringify(data),
   })
 }
-const handleUnsubscribed = () => {
-  if (!user.value) return
-  auth.removeSubscribed({
-    user_id: user.value.id!,
-    channel_id: channelId.value.toString(),
-  })
-}
 const handleClickSubscription = () => {
-  if (isSubscribed.value) handleUnsubscribed()
-  else handleSubscribed()
+  if (isSubscribed.value) {
+    if (!user.value) return
+    auth.removeSubscribed({
+      user_id: user.value.id!,
+      channel_id: channelId.value.toString(),
+    })
+  } else handleSubscribed()
 }
 </script>
 
