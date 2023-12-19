@@ -32,6 +32,8 @@ const handleChange = (value: SelectValue) => {
 <template>
   <div class="w-full h-full px-6 pt-2 dark:text-lightText">
     <div class="max-w-3xl mx-auto mt-4 pb-8">
+      <div class="w-full center text-4xl mb-5 font-medium">Settings</div>
+
       <div class="flex justify-between items-center w-full">
         <div class="center w-fit">
           <div class="center w-5 h-5 dark:text-lightText"><Location /></div>

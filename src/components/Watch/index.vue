@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { h } from 'vue'
-import { DislikeOutlined, LikeOutlined } from '@ant-design/icons-vue'
+import {
+  DislikeOutlined,
+  DownloadOutlined,
+  LikeOutlined,
+  ShareAltOutlined,
+} from '@ant-design/icons-vue'
 import { useQuery } from '@tanstack/vue-query'
 import { useAuth } from '@/store/auth'
 import { formatViews, formatDate } from '@/utils'
 import { getPlaylist } from '@/api/piped'
 import { IPlaylist, IStreams, Type } from '@/api/model/piped'
+import PlaylistAdd from '@/components/Icons/PlaylistAdd.vue'
 
 const props = defineProps<{
   data: IStreams
@@ -16,7 +22,8 @@ const route = useRoute()
 const auth = useAuth()
 const { user, subscribedChannel } = storeToRefs(auth)
 
-const openModal = ref(false)
+const openModalDownload = ref(false)
+const openModalShare = ref(false)
 const isDesktopSize = ref(false)
 const playlistData = ref<IPlaylist | null>(null)
 
@@ -91,7 +98,9 @@ const handleClickSubscription = () => {
     })
   } else handleSubscribed()
 }
+const handleAddToPlaylist = () => {
 
+}
 const handleCheckWindowWidth = () => {
   if (window.innerWidth <= 1024) isDesktopSize.value = false
   else isDesktopSize.value = true
@@ -174,19 +183,33 @@ onUnmounted(() => {
             >
               {{ isSubscribed ? 'Đã đăng ký' : 'Đăng ký' }}
             </a-button>
-            <DownloadButton
-              class="block lg:hidden mb-2 ml-1 md:ml-2"
-              @click="openModal = true"
-            />
           </div>
         </div>
 
-        <div class="flex justify-between items-center mt-3">
-          <a-typography-text code class="dark:text-lightText">
+        <div class="flex flex-wrap-reverse justify-between items-center mt-3">
+          <a-typography-text code class="dark:text-lightText py-2">
             {{ formatViews(data.views) }} lượt xem | Đã công chiếu vào
             {{ formatDate(new Date(data.uploadDate), 'DD-MM-YYYY hh:mm:ss') }}
           </a-typography-text>
-          <DownloadButton class="lg:block hidden" @click="openModal = true" />
+          <div class="flex items-center">
+            <ActionButton
+              title="Chia sẻ"
+              :icon="h(ShareAltOutlined)"
+              @click="openModalShare = true"
+            />
+            <ActionButton
+              title="Download"
+              :icon="h(DownloadOutlined)"
+              @click="openModalDownload = true"
+            />
+            <a-tooltip title="Thêm vào Playlist">
+              <ActionButton
+                :icon="h(PlaylistAdd)"
+                shape="circle"
+                @click="handleAddToPlaylist"
+              />
+            </a-tooltip>
+          </div>
         </div>
 
         <!-- Detail Description -->
@@ -264,8 +287,9 @@ onUnmounted(() => {
       </div>
     </div>
 
+    <DownloadShare v-model:open="openModalShare" />
     <DownloadModal
-      v-model:open="openModal"
+      v-model:open="openModalDownload"
       :options="{
         mp3: mp3Options,
         mp4: mp4Options,

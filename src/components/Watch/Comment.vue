@@ -7,7 +7,12 @@ import {
   HeartFilled,
 } from '@ant-design/icons-vue'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { formatTimeAgoToVietnamese, formatViews, messagePopup } from '@/utils'
+import {
+  formatTimeAgoToVietnamese,
+  formatViews,
+  htmlRender,
+  messagePopup,
+} from '@/utils'
 import { IComment } from '@/api/model/piped'
 
 dayjs.extend(relativeTime)
@@ -146,7 +151,7 @@ const handleLike = () => {
         >
           <p
             class="comment dark:text-lightText"
-            v-html="content.commentText"
+            v-html="htmlRender(content.commentText)"
           ></p>
         </div>
       </div>
