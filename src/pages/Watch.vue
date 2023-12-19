@@ -2,8 +2,8 @@
 import { useQuery } from '@tanstack/vue-query'
 import { getStreams } from '@/api/piped'
 import { IStreams } from '@/api/model/piped'
-import Watch from '@/components/Watch/index.vue'
 import { useLocalDBStore } from '@/store/localDB'
+import Watch from '@/components/Watch/index.vue'
 
 const route = useRoute()
 const { insert } = useLocalDBStore()

@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { h } from 'vue'
-import {
-  DislikeOutlined,
-  DownloadOutlined,
-  LikeOutlined,
-} from '@ant-design/icons-vue'
+import { DislikeOutlined, LikeOutlined } from '@ant-design/icons-vue'
 import { useQuery } from '@tanstack/vue-query'
 import { useAuth } from '@/store/auth'
 import { formatViews, formatDate } from '@/utils'
@@ -20,6 +16,7 @@ const route = useRoute()
 const auth = useAuth()
 const { user, subscribedChannel } = storeToRefs(auth)
 
+const openModal = ref(false)
 const isDesktopSize = ref(false)
 const playlistData = ref<IPlaylist | null>(null)
 
@@ -39,6 +36,24 @@ const isSubscribed = computed(() => {
     return curChannelId === channel.channel_id
   })
   return item ? true : false
+})
+const mp3Options = computed(() => {
+  const audioStreams = props.data.audioStreams.sort(
+    (a, b) => parseInt(b.quality) - parseInt(a.quality)
+  )
+  return audioStreams.map((audio) => ({
+    value: audio.url,
+    label: audio.quality,
+  }))
+})
+const mp4Options = computed(() => {
+  const videoStreams = props.data.videoStreams
+    ?.filter((video) => !video.videoOnly)
+    .sort((a, b) => parseInt(b.quality) - parseInt(a.quality))
+  return videoStreams.map((video) => ({
+    value: video.url,
+    label: video.quality,
+  }))
 })
 
 const { isLoading } = useQuery({
@@ -76,6 +91,7 @@ const handleClickSubscription = () => {
     })
   } else handleSubscribed()
 }
+
 const handleCheckWindowWidth = () => {
   if (window.innerWidth <= 1024) isDesktopSize.value = false
   else isDesktopSize.value = true
@@ -158,13 +174,10 @@ onUnmounted(() => {
             >
               {{ isSubscribed ? 'Đã đăng ký' : 'Đăng ký' }}
             </a-button>
-            <a-button
-              :icon="h(DownloadOutlined)"
-              shape="round"
+            <DownloadButton
               class="block lg:hidden mb-2 ml-1 md:ml-2"
-            >
-              Download
-            </a-button>
+              @click="openModal = true"
+            />
           </div>
         </div>
 
@@ -173,13 +186,7 @@ onUnmounted(() => {
             {{ formatViews(data.views) }} lượt xem | Đã công chiếu vào
             {{ formatDate(new Date(data.uploadDate), 'DD-MM-YYYY hh:mm:ss') }}
           </a-typography-text>
-          <a-button
-            :icon="h(DownloadOutlined)"
-            shape="round"
-            class="lg:block hidden dark:bg-headerDark dark:text-lightText"
-          >
-            Download
-          </a-button>
+          <DownloadButton class="lg:block hidden" @click="openModal = true" />
         </div>
 
         <!-- Detail Description -->
@@ -216,7 +223,7 @@ onUnmounted(() => {
         </div>
 
         <!-- List Comments -->
-        <div class="heading-comment dark:">Comments</div>
+        <div class="heading-comment">Comments</div>
         <Comments
           :key="videoId.toString()"
           :authorData="{
@@ -256,6 +263,14 @@ onUnmounted(() => {
         />
       </div>
     </div>
+
+    <DownloadModal
+      v-model:open="openModal"
+      :options="{
+        mp3: mp3Options,
+        mp4: mp4Options,
+      }"
+    />
   </div>
 </template>
 

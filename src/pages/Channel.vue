@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useMutation, useQuery } from '@tanstack/vue-query'
+import { messagePopup } from '@/utils'
 import { getChannel, getNextDataChannel } from '@/api/piped'
 import type { IChannel, ITrending } from '@/api/model/piped'
 import ChannelHeader from '@/components/Channel/Header.vue'
 import ChannelTabs from '@/components/Channel/Tabs/index.vue'
-import { messagePopup } from '@/utils'
 
 const route = useRoute()
 

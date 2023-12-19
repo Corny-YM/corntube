@@ -30,7 +30,9 @@ html.dark {
   .ant-select {
     color: #ffffffd1 !important;
   }
-
+  .ant-select-selection-placeholder {
+    color: #aaaaaa !important;
+  }
   .ant-select-selection-item {
     color: #ffffffd1 !important;
   }
@@ -45,15 +47,27 @@ html.dark {
   .ant-select-dropdown .ant-select-item-option-selected {
     color: #303033 !important;
   }
+  .ant-select-dropdown
+    .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+    background-color: #303030 !important;
+    color: #ffffffd1 !important;
+  }
 
   .ant-tooltip-inner {
     @apply bg-lightTitle;
   }
 
+  .ant-modal .ant-modal-header {
+    @apply bg-sidebarDark;
+    .ant-modal-title {
+      color: #ffffffd1 !important;
+    }
+  }
   .ant-modal-content {
     @apply bg-sidebarDark;
     color: #ffffffd1 !important;
 
+    .ant-modal-close-x,
     .ant-modal-confirm-title {
       @apply text-lightText;
     }
@@ -66,5 +80,9 @@ html.dark {
         @apply text-lightText hover:text-blueAntd;
       }
     }
+  }
+
+  .ant-btn:disabled {
+    @apply text-darkTitle;
   }
 }

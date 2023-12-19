@@ -27,9 +27,6 @@ const handleChange = (value: SelectValue) => {
   if (!value) return
   app.setCountry(value.toString())
 }
-const filterOption = (input: string, option: any) => {
-  return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
-}
 </script>
 
 <template>
@@ -42,13 +39,11 @@ const filterOption = (input: string, option: any) => {
         </div>
         <a-select
           class="w-52"
-          show-search
           placeholder="Chọn một vị trí"
           v-model:value="country"
           :disabled="!options || !options.length"
           :loading="isLoading"
           :options="options"
-          :filter-option="filterOption"
           @change="handleChange"
         ></a-select>
       </div>
