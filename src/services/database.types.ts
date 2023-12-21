@@ -9,27 +9,105 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      PlaylistItem: {
+        Row: {
+          created_at: string
+          duration: number | null
+          id: number
+          isShort: boolean | null
+          playlist_id: number | null
+          shortDescription: string | null
+          thumbnail: string | null
+          title: string | null
+          type: string | null
+          uploaded: number | null
+          uploadedDate: string | null
+          uploaderAvatar: string | null
+          uploaderName: string | null
+          uploaderUrl: string | null
+          uploaderVerified: boolean | null
+          url: string | null
+          views: number | null
+        }
+        Insert: {
+          created_at?: string
+          duration?: number | null
+          id?: number
+          isShort?: boolean | null
+          playlist_id?: number | null
+          shortDescription?: string | null
+          thumbnail?: string | null
+          title?: string | null
+          type?: string | null
+          uploaded?: number | null
+          uploadedDate?: string | null
+          uploaderAvatar?: string | null
+          uploaderName?: string | null
+          uploaderUrl?: string | null
+          uploaderVerified?: boolean | null
+          url?: string | null
+          views?: number | null
+        }
+        Update: {
+          created_at?: string
+          duration?: number | null
+          id?: number
+          isShort?: boolean | null
+          playlist_id?: number | null
+          shortDescription?: string | null
+          thumbnail?: string | null
+          title?: string | null
+          type?: string | null
+          uploaded?: number | null
+          uploadedDate?: string | null
+          uploaderAvatar?: string | null
+          uploaderName?: string | null
+          uploaderUrl?: string | null
+          uploaderVerified?: boolean | null
+          url?: string | null
+          views?: number | null
+        }
+        Relationships: []
+      }
       Subscribeds: {
         Row: {
+          channel_id: string | null
           created_at: string
           id: number
           subscriber: Json | null
           user_id: string | null
-          channel_id: string | null
+        }
+        Insert: {
+          channel_id?: string | null
+          created_at?: string
+          id?: number
+          subscriber?: Json | null
+          user_id?: string | null
+        }
+        Update: {
+          channel_id?: string | null
+          created_at?: string
+          id?: number
+          subscriber?: Json | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      UserPlaylists: {
+        Row: {
+          created_at: string
+          id: number
+          user_id: string | null
         }
         Insert: {
           created_at?: string
           id?: number
-          subscriber?: Json | null
           user_id?: string | null
-          channel_id: string | null
         }
         Update: {
           created_at?: string
           id?: number
-          subscriber?: Json | null
           user_id?: string | null
-          channel_id: string | null
         }
         Relationships: []
       }

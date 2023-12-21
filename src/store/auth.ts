@@ -133,6 +133,13 @@ export const useAuth = defineStore('auth', () => {
     }
   }
 
+  const createPlaylist = async () => {
+    if (!user.value) {
+      await mutateLogin()
+      return
+    }
+  }
+
   watch([currentUser], () => {
     if (currentUser.value) getSubscribed()
   })

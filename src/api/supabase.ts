@@ -13,6 +13,7 @@ export const loginGoogle = () =>
 
 export const logout = async () => await supabase.auth.signOut()
 
+// Subscribed
 export const getSubscribedChannels = async (id: string) =>
   await supabase.from('Subscribeds').select().eq('user_id', id)
 
@@ -27,3 +28,7 @@ export const removeSubscribedChannels = async (
     .delete()
     .eq('user_id', data.user_id)
     .eq('channel_id', data.channel_id)
+
+// Playlist
+export const createUserPlaylist = async (data: any) =>
+  await supabase.from('Playlist').insert(data)

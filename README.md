@@ -1,3 +1,8 @@
+## Generate typescript
+
+- npx supabase gen types typescript --project-id <project-id> > database.types.ts
+- Then copy that file wherever you want in the project
+
 ## Setup OAuth 2.0 Google
 
 - Go in link: https://console.cloud.google.com/apis/credentials
