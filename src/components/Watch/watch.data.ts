@@ -12,6 +12,9 @@ export interface IDownloadModalProps {
 export interface IShareModalProps {
   open: boolean
 }
+export interface IPlaylistAddModalProps {
+  open: boolean
+}
 
 export enum RadioEnum {
   MP3 = 'mp3',

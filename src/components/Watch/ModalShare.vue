@@ -50,8 +50,4 @@ const handleCopyUrl = () => {
   </a-modal>
 </template>
 
-<style scoped lang="scss">
-.text {
-  @apply dark:text-lightText;
-}
-</style>
+<style scoped lang="scss"></style>

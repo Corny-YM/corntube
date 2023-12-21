@@ -24,6 +24,7 @@ const { user, subscribedChannel } = storeToRefs(auth)
 
 const openModalDownload = ref(false)
 const openModalShare = ref(false)
+const openModalAddPlaylist = ref(false)
 const isDesktopSize = ref(false)
 const playlistData = ref<IPlaylist | null>(null)
 
@@ -97,9 +98,6 @@ const handleClickSubscription = () => {
       channel_id: channelId.value.toString(),
     })
   } else handleSubscribed()
-}
-const handleAddToPlaylist = () => {
-
 }
 const handleCheckWindowWidth = () => {
   if (window.innerWidth <= 1024) isDesktopSize.value = false
@@ -206,7 +204,7 @@ onUnmounted(() => {
               <ActionButton
                 :icon="h(PlaylistAdd)"
                 shape="circle"
-                @click="handleAddToPlaylist"
+                @click="openModalAddPlaylist = true"
               />
             </a-tooltip>
           </div>
@@ -287,8 +285,9 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <DownloadShare v-model:open="openModalShare" />
-    <DownloadModal
+    <ModalAddPlaylist v-model:open="openModalAddPlaylist" />
+    <ModalShare v-model:open="openModalShare" />
+    <ModalDownload
       v-model:open="openModalDownload"
       :options="{
         mp3: mp3Options,
