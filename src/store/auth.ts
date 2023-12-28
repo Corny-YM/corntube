@@ -74,6 +74,7 @@ export const useAuth = defineStore('auth', () => {
       localStorage.removeItem('currentUser')
       messagePopup({
         content: {
+          duration: 2,
           content: 'Đăng xuất thành công',
           class: 'flex justify-end mr-2 mt-12 font-medium',
         },
