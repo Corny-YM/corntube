@@ -98,16 +98,19 @@ export interface Database {
           created_at: string
           id: number
           user_id: string | null
+          name: string | null
         }
         Insert: {
           created_at?: string
           id?: number
           user_id?: string | null
+          name?: string | null
         }
         Update: {
           created_at?: string
           id?: number
           user_id?: string | null
+          name?: string | null
         }
         Relationships: []
       }

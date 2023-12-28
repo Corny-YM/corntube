@@ -63,6 +63,19 @@ const mp4Options = computed(() => {
     label: video.quality,
   }))
 })
+const video = computed(() => ({
+  duration: props.data.duration,
+  shortDescription: props.data.description,
+  thumbnail: props.data.thumbnailUrl,
+  title: props.data.title,
+  uploadedDate: props.data.uploadDate,
+  uploaderAvatar: props.data.uploaderAvatar,
+  uploaderName: props.data.uploader,
+  uploaderUrl: props.data.uploaderUrl,
+  uploaderVerified: props.data.uploaderVerified,
+  url: route.fullPath,
+  views: props.data.views,
+}))
 
 const { isLoading } = useQuery({
   enabled: !!unref(listId),
@@ -200,7 +213,11 @@ onUnmounted(() => {
               :icon="h(DownloadOutlined)"
               @click="openModalDownload = true"
             />
-            <a-tooltip title="Thêm vào Playlist">
+            <a-tooltip
+              v-if="user"
+              title="Thêm vào Playlist"
+              :mouse-leave-delay="0"
+            >
               <ActionButton
                 :icon="h(PlaylistAdd)"
                 shape="circle"
@@ -285,7 +302,11 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <ModalAddPlaylist v-model:open="openModalAddPlaylist" />
+    <ModalAddPlaylist
+      v-if="user"
+      v-model:open="openModalAddPlaylist"
+      :video="video"
+    />
     <ModalShare v-model:open="openModalShare" />
     <ModalDownload
       v-model:open="openModalDownload"

@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import { h } from 'vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
+import { useAuth } from '@/store/auth'
 import { IPlaylistAddModalProps } from './watch.data'
+import { storeToRefs } from 'pinia'
 
 const props = defineProps<IPlaylistAddModalProps>()
 
 const emits = defineEmits<{
   (e: 'update:open', value: boolean): void
 }>()
+
+const auth = useAuth()
+const { userPlaylist } = storeToRefs(auth)
 
 const inputValue = ref('')
 
@@ -17,8 +22,26 @@ const open = computed({
 })
 const isLimited = computed(() => inputValue.value.trim().length > 20)
 
-const handleOk = () => {}
-const handleSearch = () => {}
+const handleOk = () => {
+  inputValue.value = ''
+}
+const handleSearch = () => {
+  auth.createPlaylist(unref(inputValue))
+  inputValue.value = ''
+}
+const handleClickAddItem = (e: MouseEvent) => {
+  const id = (e.currentTarget as HTMLDivElement).dataset.id
+  console.log(id)
+  auth.addPlaylistItem({
+    ...props.video,
+    playlist_id: +id!,
+  })
+}
+
+onMounted(() => {
+  if (userPlaylist.value && userPlaylist.value.length) return
+  auth.getPlaylist()
+})
 </script>
 
 <template>
@@ -33,53 +56,33 @@ const handleSearch = () => {}
       <!-- List Playlist -->
       <div class="w-full flex flex-col justify-center items-center">
         <!-- Item -->
-        <div class="playlist-item">
-          <div class="flex items-center">
-            <div class="center w-5 h-5 mr-2"><AddPlaylist /></div>
-            <div class="text-base font-bold">Xem sau</div>
+        <div class="w-full max-h-[384px] h-48 overflow-auto">
+          <div
+            v-if="!userPlaylist || !userPlaylist.length"
+            class="w-full h-full center"
+          >
+            <!-- <a-spin size="large"></a-spin> -->
+            <EmptyData class="!m-0" />
           </div>
-          <a-button
-            type="dashed"
-            shape="circle"
-            :icon="h(PlusOutlined)"
-            class="center font-medium"
-          ></a-button>
-        </div>
-        <div class="playlist-item">
-          <div class="flex items-center">
-            <div class="center w-5 h-5 mr-2"><AddPlaylist /></div>
-            <div class="text-base font-bold">Xem sau</div>
+          <div
+            v-else
+            v-for="playlist in userPlaylist"
+            :key="playlist.id"
+            :data-id="playlist.id"
+            class="playlist-item"
+            @click="handleClickAddItem"
+          >
+            <div class="flex items-center">
+              <div class="center w-5 h-5 mr-2"><AddPlaylist /></div>
+              <div class="text-base font-bold">{{ playlist.name }}</div>
+            </div>
+            <a-button
+              type="dashed"
+              shape="circle"
+              :icon="h(PlusOutlined)"
+              class="center font-medium"
+            ></a-button>
           </div>
-          <a-button
-            type="dashed"
-            shape="circle"
-            :icon="h(PlusOutlined)"
-            class="center font-medium"
-          ></a-button>
-        </div>
-        <div class="playlist-item">
-          <div class="flex items-center">
-            <div class="center w-5 h-5 mr-2"><AddPlaylist /></div>
-            <div class="text-base font-bold">Xem sau</div>
-          </div>
-          <a-button
-            type="dashed"
-            shape="circle"
-            :icon="h(PlusOutlined)"
-            class="center font-medium"
-          ></a-button>
-        </div>
-        <div class="playlist-item">
-          <div class="flex items-center">
-            <div class="center w-5 h-5 mr-2"><AddPlaylist /></div>
-            <div class="text-base font-bold">Xem sau</div>
-          </div>
-          <a-button
-            type="dashed"
-            shape="circle"
-            :icon="h(PlusOutlined)"
-            class="center font-medium"
-          ></a-button>
         </div>
 
         <div class="w-full mt-4">

@@ -1,3 +1,5 @@
+import { IAddUserPlaylistItem } from '@/api/model/supabase'
+
 interface IOption {
   label: string
   value: string
@@ -14,6 +16,7 @@ export interface IShareModalProps {
 }
 export interface IPlaylistAddModalProps {
   open: boolean
+  video: IAddUserPlaylistItem
 }
 
 export enum RadioEnum {

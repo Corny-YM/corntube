@@ -61,3 +61,35 @@ export interface ISubscribed {
   channel_id: string | null
   created_at: string
 }
+export interface ISubscribed {
+  id: number
+  subscriber: any
+  user_id: string | null
+  channel_id: string | null
+  created_at: string
+}
+
+export interface IUserPlaylist {
+  created_at: string
+  id: number
+  user_id: string | null
+  name: string | null
+}
+
+export interface IAddUserPlaylistItem {
+  duration?: number | null
+  isShort?: boolean | null
+  playlist_id?: number | null
+  shortDescription?: string | null
+  thumbnail?: string | null
+  title?: string | null
+  type?: string | null
+  uploaded?: number | null
+  uploadedDate?: string | null
+  uploaderAvatar?: string | null
+  uploaderName?: string | null
+  uploaderUrl?: string | null
+  uploaderVerified?: boolean | null
+  url?: string | null
+  views?: number | null
+}
