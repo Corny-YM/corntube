@@ -202,7 +202,10 @@ export const useAuth = defineStore('auth', () => {
     }
   }
 
-  const addPlaylistItem = async (value: IAddUserPlaylistItem) => {
+  const addPlaylistItem = async (
+    value: IAddUserPlaylistItem,
+    onRemove?: (id: number) => Promise<any>
+  ) => {
     if (!user.value) return
     if (!value?.url)
       return messagePopup({
@@ -216,22 +219,22 @@ export const useAuth = defineStore('auth', () => {
       if (error.code !== '23505') messagePopup({ type: 'error' })
     }
     if (data) {
-      app.notificationPopup({
+      console.log(value.playlist_id)
+      await app.notificationPopup({
         key: keyAddItem + value.playlist_id,
         message: 'Thêm vào danh sách thành công',
         description: 'Đã thêm video này vào danh sách',
         duration: 2,
-        btn: () => {
-          return h(
+        btn: () =>
+          h(
             Button,
             {
               type: 'dashed',
               danger: true,
-              onClick: () => removePlaylistItem(data.id),
+              onClick: async () => await onRemove?.(data.id),
             },
             () => 'Hủy'
-          )
-        },
+          ),
       })
     }
     return data
@@ -239,17 +242,21 @@ export const useAuth = defineStore('auth', () => {
 
   const removePlaylistItem = async (id: number) => {
     if (!user.value || !id) return
-    const { error } = await removeUserPlaylistItem(id)
+    const { data, error } = await removeUserPlaylistItem(id)
     if (error) {
-    } else {
-      app.notificationClose(keyAddItem + id)
+      console.log(error)
+      if (error.code !== '23505') messagePopup({ type: 'error' })
+    }
+    if (data) {
+      app.notificationClose(keyAddItem + data.playlist_id)
       app.notificationPopup({
-        key: keyAddItem + id,
+        key: keyAddItem + data.playlist_id,
         message: 'Loại bỏ thành công',
         description: 'Đã loại bỏ video này khỏi danh sách',
         duration: 1,
       })
     }
+    return data
   }
 
   watch([currentUser], () => {

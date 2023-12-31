@@ -33,20 +33,26 @@ const handleSearch = () => {
   auth.createPlaylist(unref(inputValue))
   inputValue.value = ''
 }
-const handleAddItem = async (id: number) => {
-  const data = await auth.addPlaylistItem({
-    ...props.video,
-    playlist_id: id,
-  })
-  if (data) {
-    userPlaylistId.value.set(id, data.id)
-  }
-}
 const handleRemoveItem = async (id: number) => {
   const itemId = userPlaylistId.value.get(id)
   if (!itemId) return
   await auth.removePlaylistItem(+itemId)
   userPlaylistId.value.delete(id)
+}
+const handleAddItem = async (id: number) => {
+  const data = await auth.addPlaylistItem(
+    {
+      ...props.video,
+      playlist_id: id,
+    },
+    async (value: number) => {
+      await auth.removePlaylistItem(+value)
+      userPlaylistId.value.delete(id)
+    }
+  )
+  if (data) {
+    userPlaylistId.value.set(id, data.id)
+  }
 }
 const handleClickItem = async (e: MouseEvent) => {
   const id = (e.currentTarget as HTMLDivElement).dataset.id

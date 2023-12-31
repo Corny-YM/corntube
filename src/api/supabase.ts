@@ -63,4 +63,4 @@ export const addUserPlaylistItem = async (data: IAddUserPlaylistItem) =>
   await supabase.from('PlaylistItem').insert(data).select('*').single()
 
 export const removeUserPlaylistItem = async (id: number) =>
-  await supabase.from('PlaylistItem').delete().eq('id', id)
+  await supabase.from('PlaylistItem').delete().eq('id', id).select('*').single()
