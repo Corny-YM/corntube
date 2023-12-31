@@ -74,6 +74,7 @@ export interface IUserPlaylist {
   id: number
   user_id: string | null
   name: string | null
+  PlaylistItem: IAddUserPlaylistItem[]
 }
 
 export interface IAddUserPlaylistItem {

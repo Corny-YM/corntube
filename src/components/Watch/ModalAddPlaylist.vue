@@ -12,6 +12,7 @@ const emits = defineEmits<{
   (e: 'update:open', value: boolean): void
 }>()
 
+const route = useRoute()
 const app = useApp()
 const auth = useAuth()
 const { userPlaylist } = storeToRefs(auth)
@@ -29,7 +30,7 @@ const checkExisted = (key: number) => !!userPlaylistId.value.get(key)
 const handleOk = () => {
   inputValue.value = ''
 }
-const handleSearch = () => {
+const handleAddPlaylist = () => {
   auth.createPlaylist(unref(inputValue))
   inputValue.value = ''
 }
@@ -60,6 +61,10 @@ const handleClickItem = async (e: MouseEvent) => {
   if (!checkExisted(+id)) return await handleAddItem(+id)
   return await handleRemoveItem(+id)
 }
+
+watch([route], () => {
+  userPlaylistId.value.clear()
+})
 
 onMounted(() => {
   if (userPlaylist.value && userPlaylist.value.length) return
@@ -118,7 +123,7 @@ onMounted(() => {
             title="Tên"
             size="large"
             class="header--search-bar"
-            @search="handleSearch"
+            @search="handleAddPlaylist"
           >
             <template #enterButton>
               <a-button

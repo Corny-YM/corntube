@@ -38,6 +38,11 @@ const router = createRouter({
           name: 'subscribed',
           path: 'subscribed',
         },
+        {
+          component: () => import('@/pages/Library.vue'),
+          name: 'library',
+          path: 'library',
+        },
       ],
     },
     {

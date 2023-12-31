@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useMutation, useQuery } from '@tanstack/vue-query'
+import { messagePopup } from '@/utils'
 import { getPlaylist, getTabsData } from '@/api/piped'
 import type { ITabPlaylist, IPlaylistContent } from '@/api/model/piped'
-import { messagePopup } from '@/utils'
+import PlaylistItem from './components/PlaylistItem.vue'
 
 const props = defineProps<{
   data: string

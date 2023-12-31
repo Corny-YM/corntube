@@ -67,7 +67,15 @@ export interface Database {
           url?: string | null
           views?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: 'PlaylistItem_playlist_id_fkey'
+            columns: ['playlist_id']
+            isOneToOne: false
+            referencedRelation: 'UserPlaylists'
+            referencedColumns: ['id']
+          }
+        ]
       }
       Subscribeds: {
         Row: {
@@ -97,20 +105,20 @@ export interface Database {
         Row: {
           created_at: string
           id: number
-          user_id: string | null
           name: string | null
+          user_id: string | null
         }
         Insert: {
           created_at?: string
           id?: number
-          user_id?: string | null
           name?: string | null
+          user_id?: string | null
         }
         Update: {
           created_at?: string
           id?: number
-          user_id?: string | null
           name?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }

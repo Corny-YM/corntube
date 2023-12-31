@@ -41,6 +41,10 @@ export const getUserPlaylist = async (id: string) =>
     .select(`*, PlaylistItem(*)`) // relation
     .eq('user_id', id)
     .order('created_at', { ascending: false })
+    .order('created_at', {
+      referencedTable: 'PlaylistItem',
+      ascending: false,
+    })
 
 export const createUserPlaylist = async ({
   user_id,
