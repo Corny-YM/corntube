@@ -49,7 +49,7 @@ watch(
 </script>
 
 <template>
-  <div v-if="!isLoading" class="w-full h-full center">
+  <div v-if="isLoading" class="w-full h-full center">
     <a-spin size="large" />
   </div>
   <div v-else-if="!streamsData" class="h-full center">

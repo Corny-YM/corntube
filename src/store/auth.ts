@@ -1,7 +1,8 @@
+import { h } from 'vue'
 import { defineStore } from 'pinia'
+import { Button } from 'ant-design-vue'
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import { RealtimePostgresChangesPayload, User } from '@supabase/supabase-js'
-import { messagePopup } from '@/utils'
 import {
   loginGoogle,
   logout,
@@ -12,6 +13,7 @@ import {
   createUserPlaylist,
   getUserPlaylist,
   addUserPlaylistItem,
+  removeUserPlaylistItem,
 } from '@/api/supabase'
 import {
   DestroySubscribedRequest,
@@ -20,6 +22,8 @@ import {
   IUserPlaylist,
   StoreSubscribedRequest,
 } from '@/api/model/supabase'
+import { messagePopup } from '@/utils'
+import { useApp } from './app'
 import supabase from '@/services/supabase'
 
 type IDatabaseName = 'UserPlaylists' | 'PlaylistItem' | 'Subscribeds'
@@ -30,8 +34,10 @@ interface ICallback {
     }>
   ): void
 }
+const keyAddItem = 'updatable'
 
 export const useAuth = defineStore('auth', () => {
+  const app = useApp()
   const currentUser = ref<User | null>(
     JSON.parse(localStorage.getItem('currentUser')!)
   )
@@ -112,7 +118,7 @@ export const useAuth = defineStore('auth', () => {
         const newSubscribed = data?.new as ISubscribed
         newSubscribed.subscriber = JSON.stringify(newSubscribed.subscriber)
         if (data.eventType === 'INSERT') {
-          currentSubscribedChannel.value.push(newSubscribed)
+          currentSubscribedChannel.value.unshift(newSubscribed)
         }
         if (data.eventType === 'DELETE') {
           const index = currentSubscribedChannel.value.findIndex(
@@ -137,7 +143,7 @@ export const useAuth = defineStore('auth', () => {
       subscribePostgresChanges('UserPlaylists', (data) => {
         const newSubscribed = data?.new as IUserPlaylist
         if (data.eventType === 'INSERT') {
-          currentPlaylist.value.push(newSubscribed)
+          currentPlaylist.value.unshift(newSubscribed)
         }
         if (data.eventType === 'DELETE') {
           const index = currentPlaylist.value.findIndex(
@@ -196,22 +202,52 @@ export const useAuth = defineStore('auth', () => {
     }
   }
 
-  const addPlaylistItem = async (data: IAddUserPlaylistItem) => {
+  const addPlaylistItem = async (value: IAddUserPlaylistItem) => {
     if (!user.value) return
-    if (!data?.url)
+    if (!value?.url)
       return messagePopup({
         type: 'error',
         content: 'Thêm thất bại. Vui lòng thử lại sau',
       })
 
-    const { error } = await addUserPlaylistItem(data)
+    const { data, error } = await addUserPlaylistItem(value)
     if (error) {
       console.log(error)
       if (error.code !== '23505') messagePopup({ type: 'error' })
+    }
+    if (data) {
+      app.notificationPopup({
+        key: keyAddItem + value.playlist_id,
+        message: 'Thêm vào danh sách thành công',
+        description: 'Đã thêm video này vào danh sách',
+        duration: 2,
+        btn: () => {
+          return h(
+            Button,
+            {
+              type: 'dashed',
+              danger: true,
+              onClick: () => removePlaylistItem(data.id),
+            },
+            () => 'Hủy'
+          )
+        },
+      })
+    }
+    return data
+  }
+
+  const removePlaylistItem = async (id: number) => {
+    if (!user.value || !id) return
+    const { error } = await removeUserPlaylistItem(id)
+    if (error) {
     } else {
-      messagePopup({
-        type: 'success',
-        content: 'Thêm vào danh sách thành công',
+      app.notificationClose(keyAddItem + id)
+      app.notificationPopup({
+        key: keyAddItem + id,
+        message: 'Loại bỏ thành công',
+        description: 'Đã loại bỏ video này khỏi danh sách',
+        duration: 1,
       })
     }
   }
@@ -237,5 +273,6 @@ export const useAuth = defineStore('auth', () => {
     getPlaylist,
     createPlaylist,
     addPlaylistItem,
+    removePlaylistItem,
   }
 })

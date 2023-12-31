@@ -82,6 +82,17 @@ html.dark {
     }
   }
 
+  .ant-notification-notice {
+    @apply bg-headerDark text-lightText;
+
+    .ant-notification-notice-message {
+      @apply text-lightText font-medium;
+    }
+    .ant-notification-notice-close {
+      @apply text-lightText;
+    }
+  }
+
   .ant-btn:disabled {
     @apply text-darkTitle;
   }

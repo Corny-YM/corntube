@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { h } from 'vue'
-import { PlusOutlined } from '@ant-design/icons-vue'
+import { storeToRefs } from 'pinia'
+import { CloseOutlined, PlusOutlined } from '@ant-design/icons-vue'
+import { useApp } from '@/store/app'
 import { useAuth } from '@/store/auth'
 import { IPlaylistAddModalProps } from './watch.data'
-import { storeToRefs } from 'pinia'
 
 const props = defineProps<IPlaylistAddModalProps>()
 
@@ -11,10 +12,12 @@ const emits = defineEmits<{
   (e: 'update:open', value: boolean): void
 }>()
 
+const app = useApp()
 const auth = useAuth()
 const { userPlaylist } = storeToRefs(auth)
 
 const inputValue = ref('')
+const userPlaylistId = ref(new Map())
 
 const open = computed({
   get: () => props.open,
@@ -22,6 +25,7 @@ const open = computed({
 })
 const isLimited = computed(() => inputValue.value.trim().length > 20)
 
+const checkExisted = (key: number) => !!userPlaylistId.value.get(key)
 const handleOk = () => {
   inputValue.value = ''
 }
@@ -29,13 +33,26 @@ const handleSearch = () => {
   auth.createPlaylist(unref(inputValue))
   inputValue.value = ''
 }
-const handleClickAddItem = (e: MouseEvent) => {
-  const id = (e.currentTarget as HTMLDivElement).dataset.id
-  console.log(id)
-  auth.addPlaylistItem({
+const handleAddItem = async (id: number) => {
+  const data = await auth.addPlaylistItem({
     ...props.video,
-    playlist_id: +id!,
+    playlist_id: id,
   })
+  if (data) {
+    userPlaylistId.value.set(id, data.id)
+  }
+}
+const handleRemoveItem = async (id: number) => {
+  const itemId = userPlaylistId.value.get(id)
+  if (!itemId) return
+  await auth.removePlaylistItem(+itemId)
+  userPlaylistId.value.delete(id)
+}
+const handleClickItem = async (e: MouseEvent) => {
+  const id = (e.currentTarget as HTMLDivElement).dataset.id
+  if (!id) return
+  if (!checkExisted(+id)) return await handleAddItem(+id)
+  return await handleRemoveItem(+id)
 }
 
 onMounted(() => {
@@ -47,12 +64,13 @@ onMounted(() => {
 <template>
   <a-modal
     v-model:open="open"
-    title="Thêm vào Playlist"
+    title="Thêm vào danh sách phát"
     :centered="true"
     :footer="null"
     @ok="handleOk"
   >
-    <div class="w-full flex items-center pt-4">
+    <component :is="app.contextHolder" />
+    <div class="w-full h-full flex items-center">
       <!-- List Playlist -->
       <div class="w-full flex flex-col justify-center items-center">
         <!-- Item -->
@@ -61,26 +79,27 @@ onMounted(() => {
             v-if="!userPlaylist || !userPlaylist.length"
             class="w-full h-full center"
           >
-            <!-- <a-spin size="large"></a-spin> -->
             <EmptyData class="!m-0" />
           </div>
           <div
             v-else
             v-for="playlist in userPlaylist"
             :key="playlist.id"
-            :data-id="playlist.id"
-            class="playlist-item"
-            @click="handleClickAddItem"
+            class="playlist-item px-2"
           >
             <div class="flex items-center">
               <div class="center w-5 h-5 mr-2"><AddPlaylist /></div>
               <div class="text-base font-bold">{{ playlist.name }}</div>
             </div>
             <a-button
+              class="center font-medium"
               type="dashed"
               shape="circle"
-              :icon="h(PlusOutlined)"
-              class="center font-medium"
+              :data-id="playlist.id"
+              :icon="
+                h(!checkExisted(playlist.id) ? PlusOutlined : CloseOutlined)
+              "
+              @click="handleClickItem"
             ></a-button>
           </div>
         </div>

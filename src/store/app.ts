@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import { ThemeEnum } from '@/enums/theme'
+import { notification } from 'ant-design-vue'
+import { ArgsProps } from 'ant-design-vue/es/notification/interface'
 
 enum ItemEnum {
   COUNTRY = 'country',
@@ -8,6 +10,11 @@ enum ItemEnum {
 const initCountry = 'VN'
 
 export const useApp = defineStore('app', () => {
+  const [api, contextHolder] = notification.useNotification({
+    placement: 'topRight',
+    maxCount: 3,
+  })
+
   const currentCountry = ref(
     localStorage.getItem(ItemEnum.COUNTRY) || initCountry
   )
@@ -26,6 +33,13 @@ export const useApp = defineStore('app', () => {
   const setCountry = (value: string) => {
     currentCountry.value = value
     localStorage.setItem(ItemEnum.COUNTRY, value)
+  }
+
+  const notificationPopup = (value: ArgsProps) => {
+    api.info(value)
+  }
+  const notificationClose = async (key: string) => {
+    await notification.close(key)
   }
 
   onMounted(() => {
@@ -52,5 +66,8 @@ export const useApp = defineStore('app', () => {
     currentCountry,
     toggleTheme,
     setCountry,
+    notificationPopup,
+    notificationClose,
+    contextHolder,
   }
 })

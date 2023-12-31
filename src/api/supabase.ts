@@ -23,7 +23,7 @@ export const getSubscribedChannels = async (id: string) =>
     .order('created_at', { ascending: false })
 
 export const createSubscribedChannels = async (data: StoreSubscribedRequest) =>
-  await supabase.from('Subscribeds').insert(data)
+  await supabase.from('Subscribeds').insert(data).select('*').single()
 
 export const removeSubscribedChannels = async (
   data: DestroySubscribedRequest
@@ -49,11 +49,18 @@ export const createUserPlaylist = async ({
   user_id: string
   name: string
 }) =>
-  await supabase.from('UserPlaylists').insert({
-    user_id: user_id,
-    name: name,
-  })
+  await supabase
+    .from('UserPlaylists')
+    .insert({
+      user_id: user_id,
+      name: name,
+    })
+    .select('*')
+    .single()
 
 // PlaylistItem
 export const addUserPlaylistItem = async (data: IAddUserPlaylistItem) =>
-  await supabase.from('PlaylistItem').insert(data)
+  await supabase.from('PlaylistItem').insert(data).select('*').single()
+
+export const removeUserPlaylistItem = async (id: number) =>
+  await supabase.from('PlaylistItem').delete().eq('id', id)
