@@ -1,0 +1,38 @@
+.plyr__control--overlaid,
+.plyr--video .plyr__control.plyr__tab-focus,
+.plyr--video .plyr__control:hover,
+.plyr--video .plyr__control[aria-expanded='true'] {
+  @apply bg-blueAntd;
+}
+.plyr__controls__item.plyr__volume input {
+  @apply text-blueAntd cursor-pointer;
+}
+
+.plyr__controls__item.plyr__control {
+  &[data-plyr='pip'],
+  &[data-plyr='download'],
+  &[data-plyr='captions'],
+  &[data-plyr='rewind'],
+  &[data-plyr='fast-forward'] {
+    @apply hidden sm:inline-block;
+  }
+}
+.plyr__controls__item.plyr__volume {
+  @apply w-fit min-w-0;
+  & input {
+    @apply hidden sm:inline-block lg:hidden xl:inline-block;
+  }
+}
+.plyr__controls__item.plyr__time--current.plyr__time,
+.plyr__controls__item.plyr__time--duration.plyr__time::before {
+  @apply hidden sm:inline-block lg:hidden xl:inline-block;
+}
+
+.plyr {
+  &.plyr--hide-controls ~ #subtitle {
+    bottom: 2%;
+  }
+  & ~ #subtitle {
+    bottom: 10%;
+  }
+}

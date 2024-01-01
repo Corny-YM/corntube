@@ -69,3 +69,17 @@ export function formatDate(date: Date, format: string) {
   const result = resultMonth.replace('DD', day.toString())
   return result
 }
+
+export function formatTime(seconds: number) {
+  const date = new Date(null!)
+  date.setSeconds(seconds)
+  const hh = date.getUTCHours().toString().padStart(2, '0')
+  const mm = date.getUTCMinutes().toString().padStart(2, '0')
+  const ss = date.getUTCSeconds().toString().padStart(2, '0')
+  return `${hh}:${mm}:${ss}`
+}
+
+export function formatTimeToNumber(timeString: string) {
+  const [hh, mm, ss, ms] = timeString.split(/[:.]/).map(Number)
+  return hh * 3600 + mm * 60 + ss + ms / 1000
+}

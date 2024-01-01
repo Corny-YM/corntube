@@ -32,12 +32,6 @@ const videoId = computed(() => route.query.v!)
 const listId = computed(() => route.query.list!)
 const channelUrl = computed(() => props.data.uploaderUrl)
 const channelId = computed(() => props.data.uploaderUrl.split('/')[2])
-const videoSrc = computed(() => {
-  const arrVideos = props.data?.videoStreams.filter((video) => !video.videoOnly)
-  const selectedVideo =
-    arrVideos?.sort((a, b) => parseInt(b.quality) - parseInt(a.quality)) || []
-  return selectedVideo[0]?.url
-})
 const isSubscribed = computed(() => {
   const item = subscribedChannel.value.find((channel) => {
     const curChannelId = channelId.value.toString()
@@ -129,37 +123,31 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="px-6 lg:px-9 flex w-full h-full pt-6 justify-center overflow-auto"
+    class="sm:px-6 lg:px-9 pt-2 sm:pt-6 flex w-full h-full justify-center overflow-auto"
   >
     <!-- Content Watch Stream -->
     <div class="w-full lg:w-3/5 lg:pr-6 mb-3">
-      <!-- Video -->
-      <div class="center overflow-hidden rounded-xl mb-3 aspect-video bg-black">
-        <video
-          class="w-full h-full"
-          ref="videoRef"
-          :src="videoSrc"
-          type="video/*"
-          controls
-        ></video>
-      </div>
+      <MainVideo
+        :avatar="data.uploaderAvatar"
+        :poster="data.thumbnailUrl"
+        :subtitles="data.subtitles"
+        :audioStreams="data.audioStreams"
+        :videoStreams="data.videoStreams"
+      />
 
       <!-- Detail -->
-      <div class="flex flex-col justify-center">
+      <div class="flex flex-col justify-center px-2 sm:px-0">
         <div class="title mb-2">{{ data.title }}</div>
 
         <div class="flex justify-between items-center flex-wrap">
           <div class="center mr-2 dark:text-lightText">
             <a :href="channelUrl" class="w-10 h-10 rounded-full">
-              <a-avatar
-                :src="data.uploaderAvatar + 123"
-                class="w-10 h-10 center object-cover aspect-square dark:bg-sidebarDark"
-              >
-                <NoAvatar />
+              <a-avatar :src="data.uploaderAvatar + 123" class="upload-avatar">
+                <NoAvatar class="" />
               </a-avatar>
             </a>
             <div class="ml-3">
-              <div class="flex items-center">
+              <div class="flex items-center text-sm sm:text-base">
                 <a :href="channelUrl" class="font-medium">
                   {{ data.uploader }}
                 </a>
@@ -167,7 +155,10 @@ onUnmounted(() => {
                   <check-circle />
                 </div>
               </div>
-              <div v-if="data.uploaderSubscriberCount > 0" class="text-sm mt-1">
+              <div
+                v-if="data.uploaderSubscriberCount > 0"
+                class="text-xs sm:text-sm mt-1"
+              >
                 {{ formatViews(data.uploaderSubscriberCount) }} người đăng ký
               </div>
             </div>
@@ -320,7 +311,7 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .title {
-  @apply text-lg;
+  @apply text-sm sm:text-lg;
   @apply font-medium;
   @apply dark:text-lightHover text-[#0F0F0F];
 }
@@ -329,5 +320,10 @@ onUnmounted(() => {
   @apply flex items-center pl-2 mt-7 mb-4;
   @apply h-8 text-lg font-semibold dark:text-lightText;
   border-left: 3px solid #1677ff;
+}
+
+.upload-avatar {
+  @apply flex justify-center items-center object-cover aspect-square dark:bg-sidebarDark;
+  @apply w-9 h-9 sm:w-10 sm:h-10 text-base;
 }
 </style>
