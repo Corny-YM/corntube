@@ -17,9 +17,11 @@ const props = defineProps<{
   subtitles: ISubtitle[]
 }>()
 
+const plyrRef = ref()
 const videoRef = ref<HTMLVideoElement | null>(null)
 const subs = ref<ISub[]>([])
 const sub = ref<ISub>()
+const hasSub = ref(false)
 
 const videoSources = computed(() => {
   return props.videoStreams.filter(
@@ -32,17 +34,35 @@ const handleTimeUpdate = (e: Event) => {
   const curTime = target.currentTime || 0
   if (!subs.value.length) return
   const tmpSub = subs.value.find(
-    (item) => curTime + 0.5 > item.begin && curTime < item.end - 2.5
+    (item) => curTime > item.begin && curTime < item.end
   )
   sub.value = tmpSub
 }
-
-onMounted(async () => {
-  const res = await fetch(props.subtitles?.[0]?.url)
+const handleListenEvent = () => {
+  plyrRef.value.player.on('captionsenabled', () => {
+    hasSub.value = true
+  })
+  plyrRef.value.player.on('captionsdisabled', () => {
+    hasSub.value = false
+  })
+  plyrRef.value.player.on('languagechange', (event: any) => {
+    const code = event?.detail?.plyr?.captions?.language
+    fetchSubtitles(code)
+  })
+}
+const fetchSubtitles = async (code?: string) => {
+  const url = props.subtitles.find((sub) => sub.code === code)?.url
+  if (!url) return
+  const res = await fetch(url)
   const data = await res.text()
   const result = stringToSubtitles(data) || []
   const objTime = result.map((item) => stringSubToTime(item))
   if (result) subs.value = objTime
+}
+
+onMounted(async () => {
+  await fetchSubtitles()
+  handleListenEvent()
 })
 </script>
 
@@ -50,8 +70,12 @@ onMounted(async () => {
   <!-- Video -->
   <div class="video-container">
     <vue-plyr
+      ref="plyrRef"
       :options="{
         quality: { default: '720p' },
+        captions: {
+          active: false,
+        },
         settings: ['captions', 'quality', 'speed', 'loop'],
         controls: controls,
       }"
@@ -82,7 +106,8 @@ onMounted(async () => {
       </video>
     </vue-plyr>
 
-    <span v-if="sub" id="subtitle" class="subtitle">{{ sub.text }}</span>
+    <span v-if="sub && hasSub" id="subtitle" class="subtitle" v-html="sub.text">
+    </span>
   </div>
 </template>
 
@@ -103,5 +128,9 @@ onMounted(async () => {
   @apply bg-lightHover text-primaryDark;
   @apply dark:bg-headerDark dark:text-lightHover;
   transition: all 250ms ease-in-out;
+
+  &::backdrop {
+    @apply w-full h-full bg-red-50;
+  }
 }
 </style>

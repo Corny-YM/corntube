@@ -36,3 +36,8 @@
     bottom: 10%;
   }
 }
+
+.plyr__menu__container div[role='menu'] {
+  max-height: 180px !important;
+  overflow: auto;
+}
