@@ -14,6 +14,7 @@ export const useApp = defineStore('app', () => {
     placement: 'topRight',
     maxCount: 3,
   })
+  const currentTime = ref(0)
 
   const currentCountry = ref(
     localStorage.getItem(ItemEnum.COUNTRY) || initCountry
@@ -62,6 +63,7 @@ export const useApp = defineStore('app', () => {
   )
 
   return {
+    currentTime,
     currentTheme,
     currentCountry,
     toggleTheme,

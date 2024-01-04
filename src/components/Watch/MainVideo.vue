@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { IOStream, ISubtitle, MIMEType } from '@/api/model/piped'
 import { stringSubToTime, stringToSubtitles } from '@/utils'
+import { useApp } from '@/store/app'
 import { controls } from './watch.data'
 
 export interface ISub {
@@ -17,6 +19,9 @@ const props = defineProps<{
   subtitles: ISubtitle[]
 }>()
 
+const app = useApp()
+const { currentTime } = storeToRefs(app)
+
 const plyrRef = ref()
 const videoRef = ref<HTMLVideoElement | null>(null)
 const subs = ref<ISub[]>([])
@@ -32,6 +37,8 @@ const videoSources = computed(() => {
 const handleTimeUpdate = (e: Event) => {
   const target = e.target as HTMLVideoElement
   const curTime = target.currentTime || 0
+  if (curTime) currentTime.value = curTime
+
   if (!subs.value.length) return
   const tmpSub = subs.value.find(
     (item) => curTime > item.begin && curTime < item.end
@@ -39,6 +46,9 @@ const handleTimeUpdate = (e: Event) => {
   sub.value = tmpSub
 }
 const handleListenEvent = () => {
+  plyrRef.value.player.on('enterfullscreen', () => {
+    // TODO fullscreen subtitles
+  })
   plyrRef.value.player.on('captionsenabled', () => {
     hasSub.value = true
   })
@@ -68,11 +78,11 @@ onMounted(async () => {
 
 <template>
   <!-- Video -->
-  <div class="video-container">
+  <div ref="mainVideoRef" class="video-container">
     <vue-plyr
       ref="plyrRef"
       :options="{
-        quality: { default: '720p' },
+        quality: { default: '320p' },
         captions: {
           active: false,
         },
@@ -105,9 +115,12 @@ onMounted(async () => {
         />
       </video>
     </vue-plyr>
-
-    <span v-if="sub && hasSub" id="subtitle" class="subtitle" v-html="sub.text">
-    </span>
+    <span
+      v-if="sub && hasSub"
+      id="subtitle"
+      class="subtitle"
+      v-html="sub.text"
+    ></span>
   </div>
 </template>
 
@@ -129,6 +142,7 @@ onMounted(async () => {
   @apply dark:bg-headerDark dark:text-lightHover;
   transition: all 250ms ease-in-out;
 
+  // TODO: fullscreen => show subtitle
   &::backdrop {
     @apply w-full h-full bg-red-50;
   }

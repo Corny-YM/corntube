@@ -1,11 +1,30 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { IChapter } from '@/api/model/piped'
+import { useApp } from '@/store/app'
 import { formatDuration } from '@/utils'
 import { CaretRightOutlined } from '@ant-design/icons-vue'
 
-defineProps<{
+const props = defineProps<{
   chapters: IChapter[]
 }>()
+
+const app = useApp()
+const { currentTime } = storeToRefs(app)
+
+const selectedIndex = computed(() => {
+  let index = 0
+  const chapters = props.chapters
+  const length = chapters.length
+  for (let i = length - 1; i >= 0; i--) {
+    const chapter = chapters[i]
+    if (chapter.start <= currentTime.value) {
+      index = i
+      break
+    }
+  }
+  return index
+})
 
 const activeChapters = ref(true)
 </script>
@@ -25,7 +44,16 @@ const activeChapters = ref(true)
     </div>
 
     <div class="list" :class="activeChapters ? 'active' : ''">
-      <div v-for="(chapter, index) in chapters" class="chapter-item">
+      <div
+        v-for="(chapter, index) in chapters"
+        :key="chapter.start"
+        class="chapter-item"
+        :class="{
+          // active: chapter.start <= currentTime,
+          active: index === selectedIndex,
+        }"
+      >
+        {{ console.log(selectedIndex) }}
         <div
           class="min-w-[24px] center text-xs text-lightTitle dark:text-lightText"
         >
@@ -74,7 +102,7 @@ const activeChapters = ref(true)
     transition: all 150ms linear;
 
     &.active {
-      transform: rotate(90deg);
+      @apply rotate-90;
     }
   }
 }
@@ -84,11 +112,11 @@ const activeChapters = ref(true)
   @apply py-1 cursor-pointer;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    @apply bg-[#0000000d] dark:bg-darkHover;
   }
 
   &.active {
-    background-color: rgba(17, 69, 141, 0.5);
+    @apply bg-[#11458d80];
   }
 
   &--img {
