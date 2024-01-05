@@ -75,7 +75,7 @@ export const useAuth = defineStore('auth', () => {
   const { mutate: mutateLogout, isPending: isPendingLogout } = useMutation({
     mutationKey: ['login'],
     mutationFn: logout,
-    onSuccess(data) {
+    onSuccess() {
       currentUser.value = null
       currentSubscribedChannel.value = []
       localStorage.removeItem('currentUser')
