@@ -7,9 +7,12 @@ import {
 
 export const getUser = async () => await supabase.auth.getUser()
 
-export const loginGoogle = () =>
+export const loginGoogle = (redirect?: string) =>
   supabase.auth.signInWithOAuth({
     provider: 'google',
+    options: {
+      redirectTo: redirect,
+    },
   })
 
 export const logout = async () => await supabase.auth.signOut()

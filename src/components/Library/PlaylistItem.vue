@@ -60,23 +60,12 @@ const handleError = () => {
 .playlist-item {
   @apply flex flex-col justify-start items-center;
   @apply w-auto mx-2 mb-7 rounded-xl cursor-pointer;
-
-  &:hover {
-    @apply dark:text-lightText;
-    color: initial;
-  }
+  @apply dark:text-lightText;
 }
 
 .overlay-playlist {
-  position: absolute;
-  width: 40%;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  @apply absolute w-[40%] top-0 right-0 bottom-0;
+  @apply flex flex-col justify-center items-center;
+  @apply bg-[#000000cc];
 }
 </style>

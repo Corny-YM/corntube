@@ -20,7 +20,7 @@ const props = defineProps<{
 }>()
 
 const app = useApp()
-const { currentTime } = storeToRefs(app)
+const { currentTime, time } = storeToRefs(app)
 
 const plyrRef = ref()
 const videoRef = ref<HTMLVideoElement | null>(null)
@@ -46,6 +46,7 @@ const handleTimeUpdate = (e: Event) => {
   sub.value = tmpSub
 }
 const handleListenEvent = () => {
+  plyrRef.value.player.volume = 0.5
   plyrRef.value.player.on('enterfullscreen', () => {
     // TODO fullscreen subtitles
   })
@@ -69,6 +70,10 @@ const fetchSubtitles = async (code?: string) => {
   const objTime = result.map((item) => stringSubToTime(item))
   if (result) subs.value = objTime
 }
+
+watch([time], () => {
+  plyrRef.value.player.currentTime = time.value
+})
 
 onMounted(async () => {
   await fetchSubtitles()
@@ -135,8 +140,8 @@ onMounted(async () => {
 }
 
 .subtitle {
-  @apply flex absolute bottom-[2%] left-1/2;
-  @apply w-fit max-w-full line-clamp-2 rounded font-medium;
+  @apply inline-block absolute bottom-[2%] left-1/2;
+  @apply w-fit max-w-full h-fit rounded font-medium;
   @apply px-2 py-1 -translate-x-1/2;
   @apply bg-lightHover text-primaryDark;
   @apply dark:bg-headerDark dark:text-lightHover;

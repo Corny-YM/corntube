@@ -32,7 +32,8 @@ const handleWindowClick = (e: Event) => {
   openDropdown.value = false
 }
 const handleLogin = () => {
-  auth.mutateLogin()
+  const redirect = window.location.href
+  auth.mutateLogin(redirect)
 }
 const handleLogout = () => {
   auth.mutateLogout()

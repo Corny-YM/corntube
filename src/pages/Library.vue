@@ -8,7 +8,7 @@ import ModalAddPlaylist from '@/components/Library/ModalAddPlaylist.vue'
 const router = useRouter()
 const route = useRoute()
 const auth = useAuth()
-const { userPlaylist } = storeToRefs(auth)
+const { user, userPlaylist } = storeToRefs(auth)
 
 const open = ref(false)
 
@@ -18,6 +18,10 @@ const videos = computed(
     userPlaylist.value.find((playlist) => playlist.id === unref(playlistId))
       ?.PlaylistItem
 )
+const description = computed(() => {
+  if(!user.value) return 'Vui lòng đăng nhập để có thể sử dụng tính năng này'
+  return 'Danh sách này chưa có video nào'
+})
 
 const handleClick = (id: number) => {
   router.push({
@@ -35,7 +39,7 @@ onMounted(() => {
 
 <template>
   <div class="w-full h-full overflow-auto mt-2 pr-4 dark:text-lightText">
-    <template v-if="!playlistId">
+    <template v-if="!playlistId && user">
       <div class="w-full flex justify-end items-center">
         <a-button
           type="dashed"
@@ -59,7 +63,7 @@ onMounted(() => {
         <EmptyData description="Chưa có danh sách nào" />
       </div>
     </template>
-    <div v-else-if="videos && videos.length" class="w-full h-full">
+    <div v-else-if="videos && videos.length && user" class="w-full h-full">
       <PlaylistVideoItem
         v-for="(video, index) in videos"
         :key="video.url?.toString()"
@@ -68,7 +72,7 @@ onMounted(() => {
       />
     </div>
     <div v-else class="w-full">
-      <EmptyData description="Danh sách này chưa có video nào" />
+      <EmptyData :description="description" />
     </div>
 
     <ModalAddPlaylist v-model:open="open" />

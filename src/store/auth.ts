@@ -35,6 +35,7 @@ interface ICallback {
   ): void
 }
 const keyAddItem = 'updatable'
+const redirect = window.location.href
 
 export const useAuth = defineStore('auth', () => {
   const app = useApp()
@@ -74,7 +75,7 @@ export const useAuth = defineStore('auth', () => {
   const { mutate: mutateLogout, isPending: isPendingLogout } = useMutation({
     mutationKey: ['login'],
     mutationFn: logout,
-    onSuccess() {
+    onSuccess(data) {
       currentUser.value = null
       currentSubscribedChannel.value = []
       localStorage.removeItem('currentUser')
@@ -157,7 +158,7 @@ export const useAuth = defineStore('auth', () => {
 
   const createSubscribed = async (value: StoreSubscribedRequest) => {
     if (!user.value) {
-      await mutateLogin()
+      await mutateLogin(redirect)
       return
     }
     const { error } = await createSubscribedChannels(value)
@@ -184,7 +185,7 @@ export const useAuth = defineStore('auth', () => {
 
   const createPlaylist = async (name: string) => {
     if (!user.value) {
-      await mutateLogin()
+      await mutateLogin(redirect)
       return
     }
     const { error } = await createUserPlaylist({
